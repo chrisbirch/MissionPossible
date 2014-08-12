@@ -107,8 +107,7 @@
  * Returns the image used for the ribotar.
  * A ribotar is an avatar for a team member.
  */
-@property (nonatomic,strong,readonly) UIImage* image;
-
+@property (nonatomic,strong) UIImage* image;
 
 
 

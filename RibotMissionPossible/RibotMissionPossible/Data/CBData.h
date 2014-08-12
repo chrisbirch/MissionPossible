@@ -20,12 +20,18 @@
 /**
  * Block define for callers to respond to download of a team members data
  */
-typedef void (^RibotTeamMemberDownloaded)(CBData* caller, CBRibot* ribot);
+typedef void (^RibotTeamMemberDownloaded)(CBRibot* ribot,NSError* error);
+
+/**
+ * Block define for callers to respond to download of all team members
+ */
+typedef void (^RibotTeamDownloaded)(NSError* error);
+
 
 /**
  * Block define for callers to respond to download completion
  */
-typedef void (^RibotDataDownloaded)(CBData* caller);
+typedef void (^RibotDataDownloaded)(id result,NSError* error);
 
 
 
@@ -39,22 +45,30 @@ typedef void (^RibotDataDownloaded)(CBData* caller);
 @interface CBData : NSObject
 
 /**
+ * Returns a shared instance
+ */
++ (instancetype)sharedInstance;
+
+
+@property (nonatomic,readonly) NSArray* teamMembers;
+
+/**
  * Begins download process of all team members
  */
--(void)downloadRibotTeamWithSuccessBlock:(RibotDataDownloaded) success;
+-(void)downloadRibotTeamWithCompletionBlock:(RibotTeamDownloaded) completionBlock;
 
 /**
  * Begins download of info about a specific team member
  */
--(void)downloadRibotTeamMember:(NSString*)ribotId withSuccessBlock:(RibotTeamMemberDownloaded) success;
-
-#pragma mark -
-#pragma mark Retrieval from downloaded items
+-(void)downloadRibotTeamMember:(NSString*)ribotId withCompletionBlock:(RibotTeamMemberDownloaded) completionBlock;
 
 /**
- * Returns the ribot with the specified id
+ * Begins download of info about ribot HQ
  */
--(CBRibot*)ribotWithId:(NSString*)ribotId;
+-(void)downloadRibotStudioWithCompletionBlock:(RibotDataDownloaded) completionBlock;
+
+
+
 
 
 
