@@ -7,8 +7,11 @@
 //
 
 #import "CBViewController.h"
+#import "CBRibotWheel.h"
+
 
 @interface CBViewController ()
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
 @end
 
@@ -18,6 +21,11 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    CBRibotWheel* wheel = [[CBRibotWheel alloc] init];
+    
+    UIImage* image = [wheel drawWheelImageOfSize: _imageView.bounds.size];
+    _imageView.image = image;
 }
 
 - (void)didReceiveMemoryWarning

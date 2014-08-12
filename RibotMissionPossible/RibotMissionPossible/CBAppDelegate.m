@@ -12,6 +12,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [DATA downloadRibotTeamWithCompletionBlock:^( NSError *error) {
+        
+    }];
+    
     // Override point for customization after application launch.
     return YES;
 }

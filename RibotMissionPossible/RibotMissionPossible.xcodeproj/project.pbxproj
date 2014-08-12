@@ -23,6 +23,9 @@
 		835C2F2E199A9B950012D2A7 /* RibotMissionPossibleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2F2D199A9B950012D2A7 /* RibotMissionPossibleTests.m */; };
 		835C2F3A199AAFE70012D2A7 /* CBRibot.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2F39199AAFE70012D2A7 /* CBRibot.m */; };
 		835C2F40199AB7370012D2A7 /* CBData.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2F3F199AB7370012D2A7 /* CBData.m */; };
+		835C2F47199AC3490012D2A7 /* NSArray+Ribot.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2F46199AC3490012D2A7 /* NSArray+Ribot.m */; };
+		835C2F4E199AD4B50012D2A7 /* CBRibotWheel.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2F4D199AD4B50012D2A7 /* CBRibotWheel.m */; };
+		835C2F50199AD71A0012D2A7 /* jerome.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 835C2F4F199AD71A0012D2A7 /* jerome.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +62,11 @@
 		835C2F39199AAFE70012D2A7 /* CBRibot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBRibot.m; path = Data/CBRibot.m; sourceTree = "<group>"; };
 		835C2F3E199AB7370012D2A7 /* CBData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBData.h; path = Data/CBData.h; sourceTree = "<group>"; };
 		835C2F3F199AB7370012D2A7 /* CBData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBData.m; path = Data/CBData.m; sourceTree = "<group>"; };
+		835C2F45199AC3490012D2A7 /* NSArray+Ribot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Ribot.h"; sourceTree = "<group>"; };
+		835C2F46199AC3490012D2A7 /* NSArray+Ribot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Ribot.m"; sourceTree = "<group>"; };
+		835C2F4C199AD4B50012D2A7 /* CBRibotWheel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBRibotWheel.h; sourceTree = "<group>"; };
+		835C2F4D199AD4B50012D2A7 /* CBRibotWheel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBRibotWheel.m; sourceTree = "<group>"; };
+		835C2F4F199AD71A0012D2A7 /* jerome.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = jerome.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +126,9 @@
 		835C2F08199A9B950012D2A7 /* RibotMissionPossible */ = {
 			isa = PBXGroup;
 			children = (
+				835C2F4F199AD71A0012D2A7 /* jerome.jpg */,
+				835C2F48199AD47E0012D2A7 /* Wheel */,
+				835C2F44199AC3360012D2A7 /* Helpers */,
 				835C2F37199AAFCB0012D2A7 /* Data */,
 				835C2F11199A9B950012D2A7 /* CBAppDelegate.h */,
 				835C2F12199A9B950012D2A7 /* CBAppDelegate.m */,
@@ -168,6 +179,24 @@
 				835C2F3F199AB7370012D2A7 /* CBData.m */,
 			);
 			name = Data;
+			sourceTree = "<group>";
+		};
+		835C2F44199AC3360012D2A7 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				835C2F45199AC3490012D2A7 /* NSArray+Ribot.h */,
+				835C2F46199AC3490012D2A7 /* NSArray+Ribot.m */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		835C2F48199AD47E0012D2A7 /* Wheel */ = {
+			isa = PBXGroup;
+			children = (
+				835C2F4C199AD4B50012D2A7 /* CBRibotWheel.h */,
+				835C2F4D199AD4B50012D2A7 /* CBRibotWheel.m */,
+			);
+			name = Wheel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,6 +279,7 @@
 				835C2F1B199A9B950012D2A7 /* Images.xcassets in Resources */,
 				835C2F0D199A9B950012D2A7 /* InfoPlist.strings in Resources */,
 				835C2F16199A9B950012D2A7 /* Main.storyboard in Resources */,
+				835C2F50199AD71A0012D2A7 /* jerome.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,9 +300,11 @@
 			files = (
 				835C2F0F199A9B950012D2A7 /* main.m in Sources */,
 				835C2F3A199AAFE70012D2A7 /* CBRibot.m in Sources */,
+				835C2F47199AC3490012D2A7 /* NSArray+Ribot.m in Sources */,
 				835C2F13199A9B950012D2A7 /* CBAppDelegate.m in Sources */,
 				835C2F40199AB7370012D2A7 /* CBData.m in Sources */,
 				835C2F19199A9B950012D2A7 /* CBViewController.m in Sources */,
+				835C2F4E199AD4B50012D2A7 /* CBRibotWheel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
