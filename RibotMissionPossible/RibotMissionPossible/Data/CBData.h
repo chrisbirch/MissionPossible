@@ -12,6 +12,10 @@
 #import "CBData.h"
 #import "CBRibot.h"
 
+@class CBData;
+
+#pragma mark -
+#pragma mark Block definitions
 
 /**
  * Block define for callers to respond to download of a team members data
@@ -22,6 +26,12 @@ typedef void (^RibotTeamMemberDownloaded)(CBData* caller, CBRibot* ribot);
  * Block define for callers to respond to download completion
  */
 typedef void (^RibotDataDownloaded)(CBData* caller);
+
+
+
+#pragma mark -
+#pragma mark CBData Interface
+
 
 /**
  * Responsible for all data retrieval
