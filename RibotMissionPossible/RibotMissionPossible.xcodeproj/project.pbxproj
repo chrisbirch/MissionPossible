@@ -21,6 +21,7 @@
 		835C2F24199A9B950012D2A7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 835C2F06199A9B950012D2A7 /* UIKit.framework */; };
 		835C2F2C199A9B950012D2A7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 835C2F2A199A9B950012D2A7 /* InfoPlist.strings */; };
 		835C2F2E199A9B950012D2A7 /* RibotMissionPossibleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2F2D199A9B950012D2A7 /* RibotMissionPossibleTests.m */; };
+		835C2F3A199AAFE70012D2A7 /* CBRibot.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2F39199AAFE70012D2A7 /* CBRibot.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,8 @@
 		835C2F29199A9B950012D2A7 /* RibotMissionPossibleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RibotMissionPossibleTests-Info.plist"; sourceTree = "<group>"; };
 		835C2F2B199A9B950012D2A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		835C2F2D199A9B950012D2A7 /* RibotMissionPossibleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RibotMissionPossibleTests.m; sourceTree = "<group>"; };
+		835C2F38199AAFE70012D2A7 /* CBRibot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBRibot.h; path = Data/CBRibot.h; sourceTree = "<group>"; };
+		835C2F39199AAFE70012D2A7 /* CBRibot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBRibot.m; path = Data/CBRibot.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +115,7 @@
 		835C2F08199A9B950012D2A7 /* RibotMissionPossible */ = {
 			isa = PBXGroup;
 			children = (
+				835C2F37199AAFCB0012D2A7 /* Data */,
 				835C2F11199A9B950012D2A7 /* CBAppDelegate.h */,
 				835C2F12199A9B950012D2A7 /* CBAppDelegate.m */,
 				835C2F14199A9B950012D2A7 /* Main.storyboard */,
@@ -150,6 +154,15 @@
 				835C2F2A199A9B950012D2A7 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		835C2F37199AAFCB0012D2A7 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				835C2F38199AAFE70012D2A7 /* CBRibot.h */,
+				835C2F39199AAFE70012D2A7 /* CBRibot.m */,
+			);
+			name = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,6 +264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				835C2F0F199A9B950012D2A7 /* main.m in Sources */,
+				835C2F3A199AAFE70012D2A7 /* CBRibot.m in Sources */,
 				835C2F13199A9B950012D2A7 /* CBAppDelegate.m in Sources */,
 				835C2F19199A9B950012D2A7 /* CBViewController.m in Sources */,
 			);
