@@ -1,0 +1,472 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		835C2F03199A9B950012D2A7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 835C2F02199A9B950012D2A7 /* Foundation.framework */; };
+		835C2F05199A9B950012D2A7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 835C2F04199A9B950012D2A7 /* CoreGraphics.framework */; };
+		835C2F07199A9B950012D2A7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 835C2F06199A9B950012D2A7 /* UIKit.framework */; };
+		835C2F0D199A9B950012D2A7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 835C2F0B199A9B950012D2A7 /* InfoPlist.strings */; };
+		835C2F0F199A9B950012D2A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2F0E199A9B950012D2A7 /* main.m */; };
+		835C2F13199A9B950012D2A7 /* CBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2F12199A9B950012D2A7 /* CBAppDelegate.m */; };
+		835C2F16199A9B950012D2A7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 835C2F14199A9B950012D2A7 /* Main.storyboard */; };
+		835C2F19199A9B950012D2A7 /* CBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2F18199A9B950012D2A7 /* CBViewController.m */; };
+		835C2F1B199A9B950012D2A7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 835C2F1A199A9B950012D2A7 /* Images.xcassets */; };
+		835C2F22199A9B950012D2A7 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 835C2F21199A9B950012D2A7 /* XCTest.framework */; };
+		835C2F23199A9B950012D2A7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 835C2F02199A9B950012D2A7 /* Foundation.framework */; };
+		835C2F24199A9B950012D2A7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 835C2F06199A9B950012D2A7 /* UIKit.framework */; };
+		835C2F2C199A9B950012D2A7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 835C2F2A199A9B950012D2A7 /* InfoPlist.strings */; };
+		835C2F2E199A9B950012D2A7 /* RibotMissionPossibleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2F2D199A9B950012D2A7 /* RibotMissionPossibleTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		835C2F25199A9B950012D2A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 835C2EF7199A9B950012D2A7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 835C2EFE199A9B950012D2A7;
+			remoteInfo = RibotMissionPossible;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		835C2EFF199A9B950012D2A7 /* RibotMissionPossible.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RibotMissionPossible.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		835C2F02199A9B950012D2A7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		835C2F04199A9B950012D2A7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		835C2F06199A9B950012D2A7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		835C2F0A199A9B950012D2A7 /* RibotMissionPossible-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RibotMissionPossible-Info.plist"; sourceTree = "<group>"; };
+		835C2F0C199A9B950012D2A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		835C2F0E199A9B950012D2A7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		835C2F10199A9B950012D2A7 /* RibotMissionPossible-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RibotMissionPossible-Prefix.pch"; sourceTree = "<group>"; };
+		835C2F11199A9B950012D2A7 /* CBAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBAppDelegate.h; sourceTree = "<group>"; };
+		835C2F12199A9B950012D2A7 /* CBAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CBAppDelegate.m; sourceTree = "<group>"; };
+		835C2F15199A9B950012D2A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		835C2F17199A9B950012D2A7 /* CBViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBViewController.h; sourceTree = "<group>"; };
+		835C2F18199A9B950012D2A7 /* CBViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CBViewController.m; sourceTree = "<group>"; };
+		835C2F1A199A9B950012D2A7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		835C2F20199A9B950012D2A7 /* RibotMissionPossibleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RibotMissionPossibleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		835C2F21199A9B950012D2A7 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		835C2F29199A9B950012D2A7 /* RibotMissionPossibleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RibotMissionPossibleTests-Info.plist"; sourceTree = "<group>"; };
+		835C2F2B199A9B950012D2A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		835C2F2D199A9B950012D2A7 /* RibotMissionPossibleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RibotMissionPossibleTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		835C2EFC199A9B950012D2A7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				835C2F05199A9B950012D2A7 /* CoreGraphics.framework in Frameworks */,
+				835C2F07199A9B950012D2A7 /* UIKit.framework in Frameworks */,
+				835C2F03199A9B950012D2A7 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		835C2F1D199A9B950012D2A7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				835C2F22199A9B950012D2A7 /* XCTest.framework in Frameworks */,
+				835C2F24199A9B950012D2A7 /* UIKit.framework in Frameworks */,
+				835C2F23199A9B950012D2A7 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		835C2EF6199A9B950012D2A7 = {
+			isa = PBXGroup;
+			children = (
+				835C2F08199A9B950012D2A7 /* RibotMissionPossible */,
+				835C2F27199A9B950012D2A7 /* RibotMissionPossibleTests */,
+				835C2F01199A9B950012D2A7 /* Frameworks */,
+				835C2F00199A9B950012D2A7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		835C2F00199A9B950012D2A7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				835C2EFF199A9B950012D2A7 /* RibotMissionPossible.app */,
+				835C2F20199A9B950012D2A7 /* RibotMissionPossibleTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		835C2F01199A9B950012D2A7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				835C2F02199A9B950012D2A7 /* Foundation.framework */,
+				835C2F04199A9B950012D2A7 /* CoreGraphics.framework */,
+				835C2F06199A9B950012D2A7 /* UIKit.framework */,
+				835C2F21199A9B950012D2A7 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		835C2F08199A9B950012D2A7 /* RibotMissionPossible */ = {
+			isa = PBXGroup;
+			children = (
+				835C2F11199A9B950012D2A7 /* CBAppDelegate.h */,
+				835C2F12199A9B950012D2A7 /* CBAppDelegate.m */,
+				835C2F14199A9B950012D2A7 /* Main.storyboard */,
+				835C2F17199A9B950012D2A7 /* CBViewController.h */,
+				835C2F18199A9B950012D2A7 /* CBViewController.m */,
+				835C2F1A199A9B950012D2A7 /* Images.xcassets */,
+				835C2F09199A9B950012D2A7 /* Supporting Files */,
+			);
+			path = RibotMissionPossible;
+			sourceTree = "<group>";
+		};
+		835C2F09199A9B950012D2A7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				835C2F0A199A9B950012D2A7 /* RibotMissionPossible-Info.plist */,
+				835C2F0B199A9B950012D2A7 /* InfoPlist.strings */,
+				835C2F0E199A9B950012D2A7 /* main.m */,
+				835C2F10199A9B950012D2A7 /* RibotMissionPossible-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		835C2F27199A9B950012D2A7 /* RibotMissionPossibleTests */ = {
+			isa = PBXGroup;
+			children = (
+				835C2F2D199A9B950012D2A7 /* RibotMissionPossibleTests.m */,
+				835C2F28199A9B950012D2A7 /* Supporting Files */,
+			);
+			path = RibotMissionPossibleTests;
+			sourceTree = "<group>";
+		};
+		835C2F28199A9B950012D2A7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				835C2F29199A9B950012D2A7 /* RibotMissionPossibleTests-Info.plist */,
+				835C2F2A199A9B950012D2A7 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		835C2EFE199A9B950012D2A7 /* RibotMissionPossible */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 835C2F31199A9B950012D2A7 /* Build configuration list for PBXNativeTarget "RibotMissionPossible" */;
+			buildPhases = (
+				835C2EFB199A9B950012D2A7 /* Sources */,
+				835C2EFC199A9B950012D2A7 /* Frameworks */,
+				835C2EFD199A9B950012D2A7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RibotMissionPossible;
+			productName = RibotMissionPossible;
+			productReference = 835C2EFF199A9B950012D2A7 /* RibotMissionPossible.app */;
+			productType = "com.apple.product-type.application";
+		};
+		835C2F1F199A9B950012D2A7 /* RibotMissionPossibleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 835C2F34199A9B950012D2A7 /* Build configuration list for PBXNativeTarget "RibotMissionPossibleTests" */;
+			buildPhases = (
+				835C2F1C199A9B950012D2A7 /* Sources */,
+				835C2F1D199A9B950012D2A7 /* Frameworks */,
+				835C2F1E199A9B950012D2A7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				835C2F26199A9B950012D2A7 /* PBXTargetDependency */,
+			);
+			name = RibotMissionPossibleTests;
+			productName = RibotMissionPossibleTests;
+			productReference = 835C2F20199A9B950012D2A7 /* RibotMissionPossibleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		835C2EF7199A9B950012D2A7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = CB;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "Chris Birch";
+				TargetAttributes = {
+					835C2F1F199A9B950012D2A7 = {
+						TestTargetID = 835C2EFE199A9B950012D2A7;
+					};
+				};
+			};
+			buildConfigurationList = 835C2EFA199A9B950012D2A7 /* Build configuration list for PBXProject "RibotMissionPossible" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 835C2EF6199A9B950012D2A7;
+			productRefGroup = 835C2F00199A9B950012D2A7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				835C2EFE199A9B950012D2A7 /* RibotMissionPossible */,
+				835C2F1F199A9B950012D2A7 /* RibotMissionPossibleTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		835C2EFD199A9B950012D2A7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				835C2F1B199A9B950012D2A7 /* Images.xcassets in Resources */,
+				835C2F0D199A9B950012D2A7 /* InfoPlist.strings in Resources */,
+				835C2F16199A9B950012D2A7 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		835C2F1E199A9B950012D2A7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				835C2F2C199A9B950012D2A7 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		835C2EFB199A9B950012D2A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				835C2F0F199A9B950012D2A7 /* main.m in Sources */,
+				835C2F13199A9B950012D2A7 /* CBAppDelegate.m in Sources */,
+				835C2F19199A9B950012D2A7 /* CBViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		835C2F1C199A9B950012D2A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				835C2F2E199A9B950012D2A7 /* RibotMissionPossibleTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		835C2F26199A9B950012D2A7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 835C2EFE199A9B950012D2A7 /* RibotMissionPossible */;
+			targetProxy = 835C2F25199A9B950012D2A7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		835C2F0B199A9B950012D2A7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				835C2F0C199A9B950012D2A7 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		835C2F14199A9B950012D2A7 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				835C2F15199A9B950012D2A7 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		835C2F2A199A9B950012D2A7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				835C2F2B199A9B950012D2A7 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		835C2F2F199A9B950012D2A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		835C2F30199A9B950012D2A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		835C2F32199A9B950012D2A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RibotMissionPossible/RibotMissionPossible-Prefix.pch";
+				INFOPLIST_FILE = "RibotMissionPossible/RibotMissionPossible-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		835C2F33199A9B950012D2A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RibotMissionPossible/RibotMissionPossible-Prefix.pch";
+				INFOPLIST_FILE = "RibotMissionPossible/RibotMissionPossible-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		835C2F35199A9B950012D2A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RibotMissionPossible.app/RibotMissionPossible";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RibotMissionPossible/RibotMissionPossible-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "RibotMissionPossibleTests/RibotMissionPossibleTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		835C2F36199A9B950012D2A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RibotMissionPossible.app/RibotMissionPossible";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RibotMissionPossible/RibotMissionPossible-Prefix.pch";
+				INFOPLIST_FILE = "RibotMissionPossibleTests/RibotMissionPossibleTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		835C2EFA199A9B950012D2A7 /* Build configuration list for PBXProject "RibotMissionPossible" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				835C2F2F199A9B950012D2A7 /* Debug */,
+				835C2F30199A9B950012D2A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		835C2F31199A9B950012D2A7 /* Build configuration list for PBXNativeTarget "RibotMissionPossible" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				835C2F32199A9B950012D2A7 /* Debug */,
+				835C2F33199A9B950012D2A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		835C2F34199A9B950012D2A7 /* Build configuration list for PBXNativeTarget "RibotMissionPossibleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				835C2F35199A9B950012D2A7 /* Debug */,
+				835C2F36199A9B950012D2A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 835C2EF7199A9B950012D2A7 /* Project object */;
+}
