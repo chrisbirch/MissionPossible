@@ -22,6 +22,7 @@
 		835C2F2C199A9B950012D2A7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 835C2F2A199A9B950012D2A7 /* InfoPlist.strings */; };
 		835C2F2E199A9B950012D2A7 /* RibotMissionPossibleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2F2D199A9B950012D2A7 /* RibotMissionPossibleTests.m */; };
 		835C2F3A199AAFE70012D2A7 /* CBRibot.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2F39199AAFE70012D2A7 /* CBRibot.m */; };
+		835C2F40199AB7370012D2A7 /* CBData.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2F3F199AB7370012D2A7 /* CBData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,8 @@
 		835C2F2D199A9B950012D2A7 /* RibotMissionPossibleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RibotMissionPossibleTests.m; sourceTree = "<group>"; };
 		835C2F38199AAFE70012D2A7 /* CBRibot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBRibot.h; path = Data/CBRibot.h; sourceTree = "<group>"; };
 		835C2F39199AAFE70012D2A7 /* CBRibot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBRibot.m; path = Data/CBRibot.m; sourceTree = "<group>"; };
+		835C2F3E199AB7370012D2A7 /* CBData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBData.h; path = Data/CBData.h; sourceTree = "<group>"; };
+		835C2F3F199AB7370012D2A7 /* CBData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBData.m; path = Data/CBData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +164,8 @@
 			children = (
 				835C2F38199AAFE70012D2A7 /* CBRibot.h */,
 				835C2F39199AAFE70012D2A7 /* CBRibot.m */,
+				835C2F3E199AB7370012D2A7 /* CBData.h */,
+				835C2F3F199AB7370012D2A7 /* CBData.m */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -266,6 +271,7 @@
 				835C2F0F199A9B950012D2A7 /* main.m in Sources */,
 				835C2F3A199AAFE70012D2A7 /* CBRibot.m in Sources */,
 				835C2F13199A9B950012D2A7 /* CBAppDelegate.m in Sources */,
+				835C2F40199AB7370012D2A7 /* CBData.m in Sources */,
 				835C2F19199A9B950012D2A7 /* CBViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
