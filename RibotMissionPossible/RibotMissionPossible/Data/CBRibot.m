@@ -26,6 +26,7 @@
 
 -(NSString *)ribotId
 {
+    
     return _ribotDictionary[KEY_RIBOT_ID];
 }
 
@@ -41,37 +42,66 @@
 
 -(NSString *)nickName
 {
-    return _ribotDictionary[KEY_RIBOT_NICK_NAME];
+    if ([_ribotDictionary.allKeys containsObject:KEY_RIBOT_NICK_NAME])
+        return _ribotDictionary[KEY_RIBOT_NICK_NAME];
+    else
+    {
+        return @"";
+    }
 }
 
 -(NSString *)hexColourString
 {
-    return _ribotDictionary[KEY_RIBOT_HEX_COLOUR];
+    if ([_ribotDictionary.allKeys containsObject:KEY_RIBOT_HEX_COLOUR])
+        return _ribotDictionary[KEY_RIBOT_HEX_COLOUR];
+    else
+    {
+        return @"#A0A0A0";
+    }
 }
 
 -(NSString *)role
 {
-    return _ribotDictionary[KEY_RIBOT_ROLE];
+    if ([_ribotDictionary.allKeys containsObject:KEY_RIBOT_ROLE])
+        return _ribotDictionary[KEY_RIBOT_ROLE];
+    else
+        return @"";
 }
 
 -(NSString *)ribotDescription
 {
-    return _ribotDictionary[KEY_RIBOT_DESCRIPTION];
+    if ([_ribotDictionary.allKeys containsObject:KEY_RIBOT_DESCRIPTION])
+        return _ribotDictionary[KEY_RIBOT_DESCRIPTION];
+    else
+        return @"";
 }
 
 -(NSString *)twitter
 {
-    return _ribotDictionary[KEY_RIBOT_TWITTER];
+    if ([_ribotDictionary.allKeys containsObject:KEY_RIBOT_TWITTER])
+        return _ribotDictionary[KEY_RIBOT_TWITTER];
+    else
+        return @"";
 }
 
 -(NSString *)favSweet
 {
-    return _ribotDictionary[KEY_RIBOT_FAV_SWEET];
+    if ([_ribotDictionary.allKeys containsObject:KEY_RIBOT_FAV_SWEET])
+        return _ribotDictionary[KEY_RIBOT_FAV_SWEET];
+    else
+        return @"";
 }
 
 -(NSString *)favSeason
 {
-    return _ribotDictionary[KEY_RIBOT_FAV_SEASON];
+    if ([_ribotDictionary.allKeys containsObject:KEY_RIBOT_FAV_SEASON])
+         return _ribotDictionary[KEY_RIBOT_FAV_SEASON];
+    else
+        return @"";
 }
 
+-(NSString *)description
+{
+    return [[NSString alloc] initWithFormat:@"%@",_ribotDictionary];
+}
 @end
