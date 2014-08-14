@@ -24,10 +24,12 @@
 		835C2F3A199AAFE70012D2A7 /* CBRibot.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2F39199AAFE70012D2A7 /* CBRibot.m */; };
 		835C2F40199AB7370012D2A7 /* CBData.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2F3F199AB7370012D2A7 /* CBData.m */; };
 		835C2F47199AC3490012D2A7 /* NSArray+Ribot.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2F46199AC3490012D2A7 /* NSArray+Ribot.m */; };
-		835C2F4E199AD4B50012D2A7 /* CBRibotWheel.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2F4D199AD4B50012D2A7 /* CBRibotWheel.m */; };
 		835C2F50199AD71A0012D2A7 /* jerome.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 835C2F4F199AD71A0012D2A7 /* jerome.jpg */; };
 		835C2F52199C5B120012D2A7 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 835C2F51199C5B120012D2A7 /* SpriteKit.framework */; };
 		835C2FA6199D56A60012D2A7 /* CBRoundedImageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2FA5199D56A60012D2A7 /* CBRoundedImageHelper.m */; };
+		83E2EE80199D677D00DA3F01 /* CBMyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E2EE7F199D677D00DA3F01 /* CBMyScene.m */; };
+		83E2EE84199D67A900DA3F01 /* RibotMiss.sks in Resources */ = {isa = PBXBuildFile; fileRef = 83E2EE82199D67A900DA3F01 /* RibotMiss.sks */; };
+		83E2EE85199D67A900DA3F01 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E2EE83199D67A900DA3F01 /* spark.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,12 +68,14 @@
 		835C2F3F199AB7370012D2A7 /* CBData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBData.m; path = Data/CBData.m; sourceTree = "<group>"; };
 		835C2F45199AC3490012D2A7 /* NSArray+Ribot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Ribot.h"; sourceTree = "<group>"; };
 		835C2F46199AC3490012D2A7 /* NSArray+Ribot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Ribot.m"; sourceTree = "<group>"; };
-		835C2F4C199AD4B50012D2A7 /* CBRibotWheel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBRibotWheel.h; sourceTree = "<group>"; };
-		835C2F4D199AD4B50012D2A7 /* CBRibotWheel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBRibotWheel.m; sourceTree = "<group>"; };
 		835C2F4F199AD71A0012D2A7 /* jerome.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = jerome.jpg; sourceTree = "<group>"; };
 		835C2F51199C5B120012D2A7 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
 		835C2FA4199D56A60012D2A7 /* CBRoundedImageHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBRoundedImageHelper.h; sourceTree = "<group>"; };
 		835C2FA5199D56A60012D2A7 /* CBRoundedImageHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBRoundedImageHelper.m; sourceTree = "<group>"; };
+		83E2EE7E199D677D00DA3F01 /* CBMyScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBMyScene.h; path = SpriteKit/CBMyScene.h; sourceTree = "<group>"; };
+		83E2EE7F199D677D00DA3F01 /* CBMyScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBMyScene.m; path = SpriteKit/CBMyScene.m; sourceTree = "<group>"; };
+		83E2EE82199D67A900DA3F01 /* RibotMiss.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = RibotMiss.sks; sourceTree = "<group>"; };
+		83E2EE83199D67A900DA3F01 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +137,7 @@
 		835C2F08199A9B950012D2A7 /* RibotMissionPossible */ = {
 			isa = PBXGroup;
 			children = (
+				83E2EE7D199D674500DA3F01 /* SpriteKit */,
 				835C2FA4199D56A60012D2A7 /* CBRoundedImageHelper.h */,
 				835C2FA5199D56A60012D2A7 /* CBRoundedImageHelper.m */,
 				835C2F4F199AD71A0012D2A7 /* jerome.jpg */,
@@ -202,10 +207,28 @@
 		835C2F48199AD47E0012D2A7 /* Wheel */ = {
 			isa = PBXGroup;
 			children = (
-				835C2F4C199AD4B50012D2A7 /* CBRibotWheel.h */,
-				835C2F4D199AD4B50012D2A7 /* CBRibotWheel.m */,
 			);
 			name = Wheel;
+			sourceTree = "<group>";
+		};
+		83E2EE7D199D674500DA3F01 /* SpriteKit */ = {
+			isa = PBXGroup;
+			children = (
+				83E2EE81199D67A900DA3F01 /* Particles */,
+				83E2EE7E199D677D00DA3F01 /* CBMyScene.h */,
+				83E2EE7F199D677D00DA3F01 /* CBMyScene.m */,
+			);
+			name = SpriteKit;
+			sourceTree = "<group>";
+		};
+		83E2EE81199D67A900DA3F01 /* Particles */ = {
+			isa = PBXGroup;
+			children = (
+				83E2EE82199D67A900DA3F01 /* RibotMiss.sks */,
+				83E2EE83199D67A900DA3F01 /* spark.png */,
+			);
+			name = Particles;
+			path = SpriteKit/Particles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -285,6 +308,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83E2EE84199D67A900DA3F01 /* RibotMiss.sks in Resources */,
+				83E2EE85199D67A900DA3F01 /* spark.png in Resources */,
 				835C2F1B199A9B950012D2A7 /* Images.xcassets in Resources */,
 				835C2F0D199A9B950012D2A7 /* InfoPlist.strings in Resources */,
 				835C2F16199A9B950012D2A7 /* Main.storyboard in Resources */,
@@ -307,6 +332,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83E2EE80199D677D00DA3F01 /* CBMyScene.m in Sources */,
 				835C2F0F199A9B950012D2A7 /* main.m in Sources */,
 				835C2F3A199AAFE70012D2A7 /* CBRibot.m in Sources */,
 				835C2FA6199D56A60012D2A7 /* CBRoundedImageHelper.m in Sources */,
@@ -314,7 +340,6 @@
 				835C2F13199A9B950012D2A7 /* CBAppDelegate.m in Sources */,
 				835C2F40199AB7370012D2A7 /* CBData.m in Sources */,
 				835C2F19199A9B950012D2A7 /* CBViewController.m in Sources */,
-				835C2F4E199AD4B50012D2A7 /* CBRibotWheel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,6 +544,7 @@
 				835C2F33199A9B950012D2A7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		835C2F34199A9B950012D2A7 /* Build configuration list for PBXNativeTarget "RibotMissionPossibleTests" */ = {
 			isa = XCConfigurationList;
@@ -527,6 +553,7 @@
 				835C2F36199A9B950012D2A7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
