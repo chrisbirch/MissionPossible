@@ -1,18 +1,18 @@
 //
 //  CBMyScene.m
-//  spritetest
+//  RibotMissionPossible
 //
 //  Created by chris on 14/08/2014.
 //  Copyright (c) 2014 Chris Birch. All rights reserved.
 //
 
-#import "CBMyScene.h"
+#import "CBGameScene.h"
 #import "CBRoundedImageHelper.h"
 
 const static int nodeBitMask = 0x1 << 0;
 const static int node1BitMask = 0x1 << 1;;
 
-@implementation CBMyScene
+@implementation CBGameScene
 {
     // Define instance variables
     SKShapeNode *circle;

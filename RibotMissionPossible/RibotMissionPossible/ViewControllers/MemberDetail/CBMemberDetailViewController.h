@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
 @interface CBMemberDetailViewController : UIViewController
+
+
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewBackground;
 
 @end

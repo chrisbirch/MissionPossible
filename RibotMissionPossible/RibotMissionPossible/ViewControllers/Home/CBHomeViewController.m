@@ -9,6 +9,9 @@
 #import "CBHomeViewController.h"
 
 @interface CBHomeViewController ()
+@property (weak, nonatomic) IBOutlet UILabel *lbAddress;
+@property (weak, nonatomic) IBOutlet UILabel *lbHeading;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinny;
 
 @end
 
@@ -27,6 +30,10 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    //Setup header
+    UIImage *image = [UIImage imageNamed:@"ribot"];
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:image];
+
 }
 
 - (void)didReceiveMemoryWarning

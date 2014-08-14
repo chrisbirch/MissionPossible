@@ -1,18 +1,18 @@
 //
-//  CBMembersViewController.m
+//  CBTeamMembersViewController.m
 //  RibotMissionPossible
 //
-//  Created by chris on 14/08/2014.
+//  Created by chris on 15/08/2014.
 //  Copyright (c) 2014 Chris Birch. All rights reserved.
 //
 
-#import "CBMembersViewController.h"
+#import "CBTeamMembersViewController.h"
 
-@interface CBMembersViewController ()
+@interface CBTeamMembersViewController ()
 
 @end
 
-@implementation CBMembersViewController
+@implementation CBTeamMembersViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

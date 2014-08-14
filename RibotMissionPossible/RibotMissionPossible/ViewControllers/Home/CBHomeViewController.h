@@ -10,4 +10,6 @@
 
 @interface CBHomeViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewBackground;
+
 @end

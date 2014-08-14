@@ -27,6 +27,10 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    //Setup header
+    UIImage *image = [UIImage imageNamed:@"ribot"];
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:image];
 }
 
 - (void)didReceiveMemoryWarning
