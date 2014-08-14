@@ -30,6 +30,9 @@
 		83E2EE80199D677D00DA3F01 /* CBMyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E2EE7F199D677D00DA3F01 /* CBMyScene.m */; };
 		83E2EE84199D67A900DA3F01 /* RibotMiss.sks in Resources */ = {isa = PBXBuildFile; fileRef = 83E2EE82199D67A900DA3F01 /* RibotMiss.sks */; };
 		83E2EE85199D67A900DA3F01 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E2EE83199D67A900DA3F01 /* spark.png */; };
+		83E2EE8D199D695100DA3F01 /* CBMemberDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E2EE8C199D695100DA3F01 /* CBMemberDetailViewController.m */; };
+		83E2EE90199D697700DA3F01 /* CBMembersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E2EE8F199D697700DA3F01 /* CBMembersViewController.m */; };
+		83E2EE93199D698B00DA3F01 /* CBHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E2EE92199D698B00DA3F01 /* CBHomeViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +79,12 @@
 		83E2EE7F199D677D00DA3F01 /* CBMyScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBMyScene.m; path = SpriteKit/CBMyScene.m; sourceTree = "<group>"; };
 		83E2EE82199D67A900DA3F01 /* RibotMiss.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = RibotMiss.sks; sourceTree = "<group>"; };
 		83E2EE83199D67A900DA3F01 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
+		83E2EE8B199D695100DA3F01 /* CBMemberDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBMemberDetailViewController.h; path = ViewControllers/MemberDetail/CBMemberDetailViewController.h; sourceTree = "<group>"; };
+		83E2EE8C199D695100DA3F01 /* CBMemberDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBMemberDetailViewController.m; path = ViewControllers/MemberDetail/CBMemberDetailViewController.m; sourceTree = "<group>"; };
+		83E2EE8E199D697700DA3F01 /* CBMembersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBMembersViewController.h; path = ViewControllers/Members/CBMembersViewController.h; sourceTree = "<group>"; };
+		83E2EE8F199D697700DA3F01 /* CBMembersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBMembersViewController.m; path = ViewControllers/Members/CBMembersViewController.m; sourceTree = "<group>"; };
+		83E2EE91199D698B00DA3F01 /* CBHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBHomeViewController.h; path = ViewControllers/Home/CBHomeViewController.h; sourceTree = "<group>"; };
+		83E2EE92199D698B00DA3F01 /* CBHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBHomeViewController.m; path = ViewControllers/Home/CBHomeViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +146,7 @@
 		835C2F08199A9B950012D2A7 /* RibotMissionPossible */ = {
 			isa = PBXGroup;
 			children = (
+				83E2EE87199D68FC00DA3F01 /* ViewControllers */,
 				83E2EE7D199D674500DA3F01 /* SpriteKit */,
 				835C2FA4199D56A60012D2A7 /* CBRoundedImageHelper.h */,
 				835C2FA5199D56A60012D2A7 /* CBRoundedImageHelper.m */,
@@ -229,6 +239,43 @@
 			);
 			name = Particles;
 			path = SpriteKit/Particles;
+			sourceTree = "<group>";
+		};
+		83E2EE87199D68FC00DA3F01 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				83E2EE8A199D692200DA3F01 /* MemberDetail */,
+				83E2EE89199D690E00DA3F01 /* TeamMembers */,
+				83E2EE88199D690600DA3F01 /* Home */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		83E2EE88199D690600DA3F01 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				83E2EE91199D698B00DA3F01 /* CBHomeViewController.h */,
+				83E2EE92199D698B00DA3F01 /* CBHomeViewController.m */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
+		83E2EE89199D690E00DA3F01 /* TeamMembers */ = {
+			isa = PBXGroup;
+			children = (
+				83E2EE8E199D697700DA3F01 /* CBMembersViewController.h */,
+				83E2EE8F199D697700DA3F01 /* CBMembersViewController.m */,
+			);
+			name = TeamMembers;
+			sourceTree = "<group>";
+		};
+		83E2EE8A199D692200DA3F01 /* MemberDetail */ = {
+			isa = PBXGroup;
+			children = (
+				83E2EE8B199D695100DA3F01 /* CBMemberDetailViewController.h */,
+				83E2EE8C199D695100DA3F01 /* CBMemberDetailViewController.m */,
+			);
+			name = MemberDetail;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -338,8 +385,11 @@
 				835C2FA6199D56A60012D2A7 /* CBRoundedImageHelper.m in Sources */,
 				835C2F47199AC3490012D2A7 /* NSArray+Ribot.m in Sources */,
 				835C2F13199A9B950012D2A7 /* CBAppDelegate.m in Sources */,
+				83E2EE8D199D695100DA3F01 /* CBMemberDetailViewController.m in Sources */,
 				835C2F40199AB7370012D2A7 /* CBData.m in Sources */,
+				83E2EE93199D698B00DA3F01 /* CBHomeViewController.m in Sources */,
 				835C2F19199A9B950012D2A7 /* CBViewController.m in Sources */,
+				83E2EE90199D697700DA3F01 /* CBMembersViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
