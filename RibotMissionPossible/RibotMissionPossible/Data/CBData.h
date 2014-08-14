@@ -12,6 +12,9 @@
 #import "CBData.h"
 #import "CBRibot.h"
 
+
+#define ERROR_CODE_IMAGE_DOWNLOAD_FAILED 101
+
 @class CBData;
 
 #pragma mark -
@@ -58,7 +61,9 @@ typedef void (^RibotDataDownloaded)(id result,NSError* error);
 -(void)downloadRibotTeamWithCompletionBlock:(RibotTeamDownloaded) completionBlock;
 
 /**
- * Begins download of info about a specific team member
+ * Begins download of info about a specific team member. 
+ * Also downloads the ribotar. If ribotar image fails to download the error code is equal to ERROR_CODE_IMAGE_DOWNLOAD_FAILED. iF this happens, we
+ * will assume that the ribot member has no ribotar. In a production app this sort of assumption probably would be too good.....
  */
 -(void)downloadRibotTeamMember:(NSString*)ribotId withCompletionBlock:(RibotTeamMemberDownloaded) completionBlock;
 

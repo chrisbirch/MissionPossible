@@ -26,6 +26,7 @@
 		835C2F47199AC3490012D2A7 /* NSArray+Ribot.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2F46199AC3490012D2A7 /* NSArray+Ribot.m */; };
 		835C2F4E199AD4B50012D2A7 /* CBRibotWheel.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2F4D199AD4B50012D2A7 /* CBRibotWheel.m */; };
 		835C2F50199AD71A0012D2A7 /* jerome.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 835C2F4F199AD71A0012D2A7 /* jerome.jpg */; };
+		835C2F52199C5B120012D2A7 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 835C2F51199C5B120012D2A7 /* SpriteKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		835C2F4C199AD4B50012D2A7 /* CBRibotWheel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBRibotWheel.h; sourceTree = "<group>"; };
 		835C2F4D199AD4B50012D2A7 /* CBRibotWheel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBRibotWheel.m; sourceTree = "<group>"; };
 		835C2F4F199AD71A0012D2A7 /* jerome.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = jerome.jpg; sourceTree = "<group>"; };
+		835C2F51199C5B120012D2A7 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				835C2F52199C5B120012D2A7 /* SpriteKit.framework in Frameworks */,
 				835C2F05199A9B950012D2A7 /* CoreGraphics.framework in Frameworks */,
 				835C2F07199A9B950012D2A7 /* UIKit.framework in Frameworks */,
 				835C2F03199A9B950012D2A7 /* Foundation.framework in Frameworks */,
@@ -115,6 +118,7 @@
 		835C2F01199A9B950012D2A7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				835C2F51199C5B120012D2A7 /* SpriteKit.framework */,
 				835C2F02199A9B950012D2A7 /* Foundation.framework */,
 				835C2F04199A9B950012D2A7 /* CoreGraphics.framework */,
 				835C2F06199A9B950012D2A7 /* UIKit.framework */,

@@ -12,6 +12,18 @@
 #define KEY_RESPONSE_ERROR @"error"
 
 
+
+/**
+ * Block define for callers to respond to file download completion
+ */
+typedef void (^RibotFileDownloaded)(NSString* localFilename,NSError* error);
+
+/**
+ * Block define for callers to respond to image download
+ */
+typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSError* error);
+
+
 @interface CBData ()
 {
     NSMutableArray* _teamMembers;
@@ -24,10 +36,17 @@
 @property(nonatomic,assign) NSUInteger ribotsToDownload;
 
 
+/**
+ * Helper method to download files. Pass in the url of resource and the filename. The file will be saved in the docs directory. Completion block is called in the event of
+ * success. Check error in case of failure
+ */
+-(void)downloadFileFromUrl:(NSString*)urlString toFilename:(NSString*)filename withCompletionBlock:(RibotFileDownloaded)completionBlock;
+
 
 @end
 
 @implementation CBData
+
 
 
 #pragma mark -
@@ -58,6 +77,56 @@
         return _teamMembers;
     }
 }
+
+-(void)downloadFileFromUrl:(NSString*)urlString toDestLocalUrl:(NSURL*)localUrl withCompletionBlock:(RibotFileDownloaded)completionBlock
+{
+    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+    
+    NSURLSession* session = [NSURLSession sharedSession];
+    
+    
+    NSURLSessionDownloadTask* task = [session downloadTaskWithRequest:request completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+        if (!error)
+        {
+            //File was downloaded
+            NSError* e = nil;
+            NSHTTPURLResponse* r = (NSHTTPURLResponse*)response;
+            
+            if (r.statusCode == 200)
+            {
+                if ([[NSFileManager defaultManager] moveItemAtURL:location toURL:localUrl error:&e])
+                {
+                    //Alert calling code that we've downloaded the file
+                    completionBlock(localUrl.absoluteString,nil);
+                }
+                else
+                {
+                    //Couldn't move file
+                    //Pass error back to caller
+                    completionBlock(nil,e);
+                }
+            }
+            else
+            {
+                //Error code returned
+                
+                //Pass error back to caller
+                completionBlock(nil,[NSError errorWithDomain:@"Invalid http status response" code:r.statusCode userInfo:nil]);
+            }
+        }
+        else
+        {
+            //Error occured.
+            //Pass error back to calling code
+            completionBlock(nil,error);
+        }
+    }];
+    
+    //start the task
+    [task resume];
+    
+}
+
 
 -(void)downloadDataFromUrl:(NSString*)urlString withCompletionBlock:(RibotDataDownloaded)completionBlock
 {
@@ -113,8 +182,85 @@
     
 }
 
+-(NSURL*)localUrlForRibotarForRibot:(CBRibot*)ribot
+{
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    NSURL *docsUrl = [NSURL fileURLWithPath:docPath];
+    NSString* ribotarFilename = [self filenameForCachedRibotarForRibot:ribot];
+    NSURL *fileUrl = [docsUrl URLByAppendingPathComponent:ribotarFilename];
+    
+    return fileUrl;
+}
+
+/**
+ * Returns the filename for the specified ribot members ribotar
+ */
+-(NSString*)filenameForCachedRibotarForRibot:(CBRibot*)ribot
+{
+    NSString* filename = [[NSString alloc] initWithFormat:@"%@.jpg",[ribot.ribotId stringByReplacingOccurrencesOfString:@" " withString:@""]];
+
+    return filename;
+}
+
+
+
 #pragma mark -
 #pragma mark Download
+
+
+
+
+/**
+ * Attempts to downloads the ribotar from the api, if fails: attempts to get it from the website. In production code probably wouldn't do this.
+ */
+-(void)downloadImageForRibot:(CBRibot*) ribot withLocalUrl:(NSURL*)ribotarLocalUrl withCompletionBlock:(RibotImageDownloaded)completionBlock
+{
+    NSMutableString* apiImageUrl = [[NSMutableString alloc] initWithFormat:@"%@/team/%@/ribotar", BASE_URL,ribot.ribotId];
+    NSString* websiteImageUrl = [[NSString alloc] initWithFormat:@"http://ribot.co.uk/ieias/wp-content/uploads/2014/02/%@@2x.jpg",ribot.ribotId];
+    
+    
+    //Attempt to download ribotar for this member from API
+    [self downloadFileFromUrl:apiImageUrl toDestLocalUrl:ribotarLocalUrl withCompletionBlock:^(NSString *localFilename, NSError *error) {
+        if (!error)
+        {
+            NSLog(@"Retrieved ribotar from API: %@",apiImageUrl);
+            //pass to calling code
+            //Success!
+            completionBlock(ribot,localFilename, nil);
+        }
+        else
+        {
+            NSLog(@"Failed to retrieve ribotar from API: %@",apiImageUrl);
+            
+            //Attempt to download ribotar for this member from website
+            [self downloadFileFromUrl:websiteImageUrl toDestLocalUrl:ribotarLocalUrl withCompletionBlock:^(NSString *localFilename, NSError *error) {
+                if (!error)
+                {
+                    NSLog(@"Retrieved ribotar from Website: %@",websiteImageUrl);
+                    
+                    //pass to calling code
+                    //Success!
+                    completionBlock(ribot,localFilename, nil);
+                }
+                else
+                {
+                    NSLog(@"Failed to retrieve ribotar from Website: %@",websiteImageUrl);
+                    
+                    NSError* e = [[NSError alloc] initWithDomain:@"Image download failed" code:ERROR_CODE_IMAGE_DOWNLOAD_FAILED userInfo:@{@"OriginalError": error}];
+                    //Problem downloading the ribotar but we got the ribot!
+                    completionBlock(ribot,nil,e);
+                    
+                }
+            }];
+            
+            
+        }
+    }];
+
+    
+
+    
+}
 
 
 -(void)downloadRibotTeamMember:(NSString *)ribotId withCompletionBlock:(RibotTeamMemberDownloaded)completionBlock
@@ -128,8 +274,19 @@
         if (!error)
         {
             CBRibot* ribot = [[CBRibot alloc] initWithRibotJsonDict:result];
-            //pass to calling code
-            completionBlock(ribot,nil);
+            
+            //Check if we have the image
+            NSURL* ribotarLocalUrl = [self localUrlForRibotarForRibot:ribot];
+            
+            if (![[NSFileManager defaultManager] fileExistsAtPath:ribotarLocalUrl.absoluteString isDirectory:NO])
+            {
+                [self downloadImageForRibot:ribot withLocalUrl:ribotarLocalUrl withCompletionBlock:^(CBRibot *ribot, NSString *localFilename, NSError *error) {
+                   
+                    //alert the calling code
+                    //if image failed to download we end up with an error here but we still pass the ribot
+                    completionBlock(ribot,error);
+                }];
+            }
         }
         else
         {
@@ -137,6 +294,8 @@
         }
     }];
 }
+
+
 
 -(void)downloadRibotTeamWithCompletionBlock:(RibotTeamDownloaded)completionBlock
 {
