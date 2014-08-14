@@ -27,6 +27,7 @@
 		835C2F4E199AD4B50012D2A7 /* CBRibotWheel.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2F4D199AD4B50012D2A7 /* CBRibotWheel.m */; };
 		835C2F50199AD71A0012D2A7 /* jerome.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 835C2F4F199AD71A0012D2A7 /* jerome.jpg */; };
 		835C2F52199C5B120012D2A7 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 835C2F51199C5B120012D2A7 /* SpriteKit.framework */; };
+		835C2FA6199D56A60012D2A7 /* CBRoundedImageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2FA5199D56A60012D2A7 /* CBRoundedImageHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,8 @@
 		835C2F4D199AD4B50012D2A7 /* CBRibotWheel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBRibotWheel.m; sourceTree = "<group>"; };
 		835C2F4F199AD71A0012D2A7 /* jerome.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = jerome.jpg; sourceTree = "<group>"; };
 		835C2F51199C5B120012D2A7 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
+		835C2FA4199D56A60012D2A7 /* CBRoundedImageHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBRoundedImageHelper.h; sourceTree = "<group>"; };
+		835C2FA5199D56A60012D2A7 /* CBRoundedImageHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBRoundedImageHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +133,8 @@
 		835C2F08199A9B950012D2A7 /* RibotMissionPossible */ = {
 			isa = PBXGroup;
 			children = (
+				835C2FA4199D56A60012D2A7 /* CBRoundedImageHelper.h */,
+				835C2FA5199D56A60012D2A7 /* CBRoundedImageHelper.m */,
 				835C2F4F199AD71A0012D2A7 /* jerome.jpg */,
 				835C2F48199AD47E0012D2A7 /* Wheel */,
 				835C2F44199AC3360012D2A7 /* Helpers */,
@@ -304,6 +309,7 @@
 			files = (
 				835C2F0F199A9B950012D2A7 /* main.m in Sources */,
 				835C2F3A199AAFE70012D2A7 /* CBRibot.m in Sources */,
+				835C2FA6199D56A60012D2A7 /* CBRoundedImageHelper.m in Sources */,
 				835C2F47199AC3490012D2A7 /* NSArray+Ribot.m in Sources */,
 				835C2F13199A9B950012D2A7 /* CBAppDelegate.m in Sources */,
 				835C2F40199AB7370012D2A7 /* CBData.m in Sources */,
