@@ -7,16 +7,14 @@
 //
 
 #import "CBAppDelegate.h"
+#import "CBRoundedImageHelper.h"
 
 @implementation CBAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [DATA downloadRibotTeamWithCompletionBlock:^( NSError *error) {
-        
-    }];
     
-    // Override point for customization after application launch.
+       // Override point for customization after application launch.
     return YES;
 }
 							
