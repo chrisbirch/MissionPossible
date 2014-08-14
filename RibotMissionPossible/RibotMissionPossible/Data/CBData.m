@@ -293,7 +293,7 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
             //Check if we have the image
             NSURL* ribotarLocalUrl = [self localUrlForRibotarForRibot:ribot];
             
-            if (![[NSFileManager defaultManager] fileExistsAtPath:ribotarLocalUrl.absoluteString isDirectory:NO])
+            if (![[NSFileManager defaultManager] fileExistsAtPath:ribotarLocalUrl.path isDirectory:NO])
             {
                 [self downloadImageForRibot:ribot withLocalUrl:ribotarLocalUrl withCompletionBlock:^(CBRibot *ribot, NSString *localFilename, NSError *error) {
                    
@@ -301,6 +301,11 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
                     //if image failed to download we end up with an error here but we still pass the ribot
                     completionBlock(ribot,error);
                 }];
+            }
+            else
+            {
+                NSLog(@"Ribotar exists for %@",ribot.ribotId);
+                completionBlock(ribot,nil);
             }
         }
         else
