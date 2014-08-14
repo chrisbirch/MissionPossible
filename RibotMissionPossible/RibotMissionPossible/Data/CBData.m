@@ -11,6 +11,13 @@
 
 #define KEY_RESPONSE_ERROR @"error"
 
+#define KEY_STUDIO_NUMBER @"addressNumber"
+#define KEY_STUDIO_STREET @"street"
+#define KEY_STUDIO_CITY @"city"
+#define KEY_STUDIO_COUNTY @"county"
+#define KEY_STUDIO_POSTCODE @"postcode"
+#define KEY_STUDIO_COUNTRY @"country"
+#define KEY_STUDIO_PHOTOS @"photos"
 
 
 /**
@@ -272,9 +279,40 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
         }
     }];
 
-    
+}
 
+
+
+-(void)downloadRibotStudioWithCompletionBlock:(RibotDataDownloaded)completionBlock
+{
+    NSString* urlString = [[NSString alloc] initWithFormat:@"%@/studio", BASE_URL];
     
+    [self downloadDataFromUrl:urlString withCompletionBlock:^(NSDictionary *result, NSError *error)
+     {
+         
+         if (!error)
+         {
+             //Get studio dic
+             
+             NSMutableDictionary* resultDict = [result mutableCopy];
+             //Make sure we have a key for photos
+             
+             
+             //Photos is optional so make sure we have an empty array if no photos
+             if (![resultDict.allKeys containsObject:KEY_STUDIO_PHOTOS])
+             {
+                 resultDict[KEY_STUDIO_PHOTOS] = [NSMutableArray new];
+             }
+             
+             completionBlock(resultDict,nil);
+             
+         }
+         else
+         {
+             completionBlock(nil,error);
+         }
+     }];
+
 }
 
 
