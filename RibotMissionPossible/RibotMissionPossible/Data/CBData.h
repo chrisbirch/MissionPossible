@@ -31,11 +31,11 @@ typedef void (^RibotTeamMemberDownloaded)(CBRibot* ribot,NSError* error);
 typedef void (^RibotTeamDownloaded)(NSError* error);
 
 
+
 /**
  * Block define for callers to respond to download completion
  */
 typedef void (^RibotDataDownloaded)(id result,NSError* error);
-
 
 
 #pragma mark -
@@ -53,7 +53,15 @@ typedef void (^RibotDataDownloaded)(id result,NSError* error);
 + (instancetype)sharedInstance;
 
 
+/**
+ * Once downloaded contains the team members of ribot
+ */
 @property (nonatomic,readonly) NSArray* teamMembers;
+
+/**
+ * Once downloaded contains the team member colours of ribot. Every member has one even if they dont have one in the API. Non existing hex codes will be automatically assigned a colour
+ */
+@property (nonatomic,readonly) NSArray* teamMemberColours;
 
 /**
  * Begins download process of all team members
@@ -72,7 +80,10 @@ typedef void (^RibotDataDownloaded)(id result,NSError* error);
  */
 -(void)downloadRibotStudioWithCompletionBlock:(RibotDataDownloaded) completionBlock;
 
-
+/**
+ * Returns the url to the ribotar for the specified ribot
+ */
+-(NSURL*)localUrlForRibotarForRibot:(CBRibot*)ribot;
 
 
 
