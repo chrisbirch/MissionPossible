@@ -516,6 +516,9 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
     // strip 0X if it appears
     if ([cString hasPrefix:@"0X"]) cString = [cString substringFromIndex:2];
     
+    // strip 0X if it appears
+    if ([cString hasPrefix:@"#"]) cString = [cString substringFromIndex:1];
+    
     if ([cString length] != 6) return  [UIColor grayColor];
     
     // Separate into r, g, b substrings
