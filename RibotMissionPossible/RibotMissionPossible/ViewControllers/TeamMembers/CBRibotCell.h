@@ -17,4 +17,8 @@
  */
 @property (nonatomic,strong) CBRibot* ribot;
 
+/**
+ * The index path within the collection view
+ */
+@property (nonatomic,weak) NSIndexPath* indexPath;
 @end

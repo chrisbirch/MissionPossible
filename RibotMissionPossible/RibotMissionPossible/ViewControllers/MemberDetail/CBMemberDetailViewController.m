@@ -9,6 +9,13 @@
 #import "CBMemberDetailViewController.h"
 
 @interface CBMemberDetailViewController ()
+@property (weak, nonatomic) IBOutlet UILabel *lbName;
+@property (weak, nonatomic) IBOutlet UILabel *lbNickname;
+@property (weak, nonatomic) IBOutlet UILabel *lbRole;
+@property (weak, nonatomic) IBOutlet UITextView *lbDesc;
+@property (weak, nonatomic) IBOutlet UILabel *lbTwitter;
+@property (weak, nonatomic) IBOutlet UILabel *lbFavSweet;
+@property (weak, nonatomic) IBOutlet UILabel *lbFavSeason;
 
 @end
 
@@ -31,6 +38,17 @@
     //Setup header
     UIImage *image = [UIImage imageNamed:@"ribot"];
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:image];
+    
+    
+    _lbName.text = [[NSString alloc] initWithFormat:@"%@ %@",_ribot.firstName,_ribot.lastName];
+    
+    _lbNickname.text = _ribot.nickName;
+    _lbRole.text =_ribot.role;
+    _lbDesc.text = _ribot.ribotDescription;
+    _lbTwitter.text = _ribot.twitter;
+    _lbFavSweet.text = _ribot.favSweet;
+    _lbFavSeason.text = _ribot.favSeason;
+    
 }
 
 - (void)didReceiveMemoryWarning

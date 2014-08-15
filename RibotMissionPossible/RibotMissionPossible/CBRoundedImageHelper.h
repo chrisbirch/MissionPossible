@@ -22,7 +22,7 @@ typedef void(^RoundedImageBatchDone)(NSDictionary* roundedImages);
 /**
  * Creates rounded stroked ribots on a seperate thread and returns the result in a completion block
  */
-+(void)roundedImagesOnDiskWithPaths:(NSArray *)images withOutputSize:(CGSize)size andStrokeColours:(NSArray *)colours andStrokeWidth:(CGFloat)strokeWidth andCompletionBlock:(RoundedImageBatchDone)completionBlock;
++(void)roundedImagesOnDiskWithPaths:(NSDictionary *)images withOutputSize:(CGSize)size andStrokeColours:(NSArray *)colours andStrokeWidth:(CGFloat)strokeWidth andCompletionBlock:(RoundedImageBatchDone)completionBlock;
 
 
 @end

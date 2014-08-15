@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CBRibot.h"
 @interface CBMemberDetailViewController : UIViewController
 
-
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewBackground;
+/**
+ * The staff member we are showing in detail
+ */
+@property (nonatomic,weak) CBRibot* ribot;
 
 @end
