@@ -27,7 +27,9 @@
     //Now draw the image in the clipping rect
     [image drawInRect:CGRectMake(cRect.origin.x, cRect.origin.y, cRect.size.width, cRect.size.height)];
     
-    CGContextSetLineWidth(context, 5);
+    CGContextSetStrokeColorWithColor(context, colour.CGColor);
+    
+    CGContextSetLineWidth(context, strokeWidth);
     CGContextStrokeEllipseInRect(context, cRect);
     
     UIImage* output = UIGraphicsGetImageFromCurrentImageContext();
