@@ -372,8 +372,7 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
 -(void)downloadRibotTeamMember:(NSString *)ribotId withCompletionBlock:(RibotTeamMemberDownloaded)completionBlock
 {
     NSString* urlString = [[NSString alloc] initWithFormat:@"%@/team/%@", BASE_URL, ribotId];
-    
-    __block CBData* this= self;
+
     
     [self downloadDataFromUrl:urlString withCompletionBlock:^(NSDictionary *result, NSError *error)
     {
