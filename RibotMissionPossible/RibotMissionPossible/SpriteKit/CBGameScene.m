@@ -9,11 +9,11 @@
 #import "CBGameScene.h"
 #import "CBRoundedImageHelper.h"
 
-const static uint32_t projectileCategory = 0x1 << 0;
-const static uint32_t invaderCategory = 0x1 << 1;
-const static uint32_t playerCategory = 0x1 << 2;;
-const static uint32_t gameRect = 0x1 << 3;
-const static uint32_t sideBumperCategory = 0x1 << 4;
+const static uint32_t categoryProjectile = 0x1 << 0;
+const static uint32_t categoryInvader = 0x1 << 1;
+const static uint32_t categoryPlayer = 0x1 << 2;;
+const static uint32_t categoryGameRect = 0x1 << 3;
+const static uint32_t categoryBumper = 0x1 << 4;
 
 
 #define RIBOT_SIZE CGSizeMake(100, 100)
@@ -23,10 +23,10 @@ const static uint32_t sideBumperCategory = 0x1 << 4;
 {
     // Define instance variables
     SKShapeNode *circle;
-//    SKShapeNode *ball;
-        SKSpriteNode *ball;
+    //    SKShapeNode *ball;
+    SKSpriteNode *ball;
     
-
+    
     NSTimeInterval lastUpdateTime;
     
     /**
@@ -55,10 +55,21 @@ const static uint32_t sideBumperCategory = 0x1 << 4;
      */
     CGFloat invaderGroupOffset;
     
+    /**
+     * Used to detect when the invaders have reached oneside of the arena
+     */
     SKShapeNode* bumper;
     
 }
 
+/**
+ * The number of invaders per row
+ */
+#define INVADERS_PER_ROW 5
+
+#define INVADERS_ROWS 4
+
+#define INVADER_COUNT INVADERS_PER_ROW * INVADERS_ROWS
 
 
 //The spacing between invaders
@@ -69,14 +80,14 @@ const static uint32_t sideBumperCategory = 0x1 << 4;
 #define INVADER_SPACING_VERT 10
 
 //How far away the invaders start from sides
-#define INVADER_MARGIN 80
+#define INVADER_MARGIN 40
 
 #define INVADER_MARGIN_Y 120
 
 /**
  * The maximum amount towards the size of the screen the invaders can move
  */
-#define MOVE_MARGIN 40
+#define MOVE_MARGIN 20
 
 
 #define SPEED 10
@@ -86,7 +97,11 @@ const static uint32_t sideBumperCategory = 0x1 << 4;
 #define MOVE_AMOUNT 50
 
 #define DATA_RIBOT_POINTER @"ribot"
-#define DATA_ORIG_X @"originalXPosition"
+
+
+#pragma mark -
+#pragma mark Game loop
+
 
 - (void)updateWithTimeSinceLastUpdate:(CFTimeInterval)timeSinceLast {
     
@@ -106,7 +121,7 @@ const static uint32_t sideBumperCategory = 0x1 << 4;
         {
             [self moveInvaderGroupByOffset:CGPointMake(moveAmount, 0)];
         }
-
+        
     }
 }
 
@@ -127,6 +142,9 @@ const static uint32_t sideBumperCategory = 0x1 << 4;
 }
 
 
+#pragma mark -
+#pragma mark Lifecycle
+
 
 -(void)didMoveToView:(SKView *)view
 {
@@ -141,48 +159,113 @@ const static uint32_t sideBumperCategory = 0x1 << 4;
     // 3 Set the friction of that physicsBody to 0
     self.physicsBody.friction = 0.0f;
     
-    self.physicsBody.categoryBitMask = gameRect;
-    self.physicsBody.contactTestBitMask = sideBumperCategory;
+    self.physicsBody.categoryBitMask = categoryGameRect;
+    self.physicsBody.contactTestBitMask = categoryBumper;
     
+    [self createInvadersInFrame:self.frame];
     
-   
-    
-    
-    [self createInvaders];
-
 }
+
+/**
+ * A CGRect that contains all nodes contained within the invaders array
+ */
+-(CGRect)rectContainingInvaders:(NSArray*)invaders
+{
+    CGRect container = CGRectZero;;
+    
+    for (SKSpriteNode* node in invaders)
+    {
+        CGRect frame = node.frame;
+        
+        if (CGRectIsEmpty(container))
+            container = frame;
+        else
+            container = CGRectUnion(container, frame);
+    }
+    
+    
+    return container;
+}
+
+/**
+ * Returns an array of CBRibot instances ready to be turned into ribot invaders
+ */
+-(NSArray*)getRibotsToUseForInvaders
+{
+    NSArray* members = [DATA.teamMembers copy];
+    
+    NSMutableArray* invaders = [members mutableCopy];
+    
+    NSInteger extraNeeded =  INVADER_COUNT - members.count;
+    
+    if (extraNeeded > 0)
+    {
+        int ribot = arc4random()%members.count;
+        
+        [invaders addObject:members[ribot]];
+    }
+    else
+    {
+        //TODO: In future version check that we dont have too many!
+    }
+    
+    return invaders;
+}
+
+
 /**
  * Lay out a grid of ribot invaders
  */
--(void)createInvaders
+-(void)createInvadersInFrame:(CGRect)frame
 {
     ribots = [NSMutableArray new];
     
-    float width = self.view.bounds.size.width - (INVADER_MARGIN * 2);
-    float numberOfInvadersPerRow=6;
+    CGRect layoutInRect = frame;
     
-    float invaderRadius = (width - INVADER_SPACING_HORZ) / (numberOfInvadersPerRow * 2);//(width / numberOfInvadersPerRow - INVADER_SPACING_HORZ) /2;
     
-    CGFloat startX =INVADER_MARGIN;
-    CGFloat startY = self.view.bounds.size.height - INVADER_MARGIN_Y;
-
+    //OpenGL origin is at the bottom left, we need to draw the invaders starting from the top
+    //and move down by decremented the Y value
+    layoutInRect.origin.y = CGRectGetMaxY(layoutInRect);
+    
+    //Move away from sides of screen
+    layoutInRect.size.width -= (INVADER_MARGIN *2);
+    layoutInRect.origin.x = INVADER_MARGIN;
+    
+    float width = layoutInRect.size.width;
+    
+    //Calculate the radius of an individual ribot invader
+    float invaderRadius = ((width  / INVADERS_PER_ROW)  - INVADER_SPACING_HORZ)/2.0f;
+    
+    //Position the invaders at the top but far enough away so we dont go off screen
+    layoutInRect.origin.y -= invaderRadius*2;
+    
+    CGFloat marginLeft = layoutInRect.origin.x;
+    CGFloat marginRight = CGRectGetMaxX(layoutInRect);
+    CGFloat marginTop = layoutInRect.origin.y;
+    
+    //The amount of units we move when we want to layout the next ribot
+    CGFloat incrementX = (invaderRadius *2) + INVADER_SPACING_HORZ;
+    CGFloat incrementY = (invaderRadius *2) + INVADER_SPACING_VERT;
+    
+    CGFloat startX =marginLeft;
+    CGFloat startY =marginTop;
+    
     
     float nextX= startX;
     float nextY=startY;
     
-    CGFloat rightHandSide = startX + INVADER_MARGIN;
     
     NSArray* ribotArray = [DATA.teamMembers copy];
-
+    ribotArray = @[@(1),@(1),@(1),@(1),@(1),@(1),@(1),@(1),@(1),@(1)];
+    
     for(CBRibot* ribot in ribotArray)
     {
-        CGPoint position =CGPointMake(nextX + invaderRadius, nextY + invaderRadius);
+        CGPoint position =CGPointMake(nextX , nextY);
         
         SKSpriteNode* sprite = [self createRibotSprite:ribot withRadius:invaderRadius atPosition:position];
         
-        sprite.userData = [@{
-                             DATA_RIBOT_POINTER : ribot,
-                             DATA_ORIG_X : [NSNumber numberWithFloat:position.x]
+        
+        sprite.userData = [@{DATA_RIBOT_POINTER : ribot
                              }
                            mutableCopy];
         //store pointer for later
@@ -190,69 +273,91 @@ const static uint32_t sideBumperCategory = 0x1 << 4;
         
         NSLog(@"Positioning ribot r:%.2f %@", invaderRadius, NSStringFromCGPoint(position));
         
-        nextX += (invaderRadius*2) + INVADER_SPACING_HORZ;
+        nextX += incrementX;
         
-        if (nextX >= rightHandSide)
+        if (nextX >= marginRight)
         {
-            nextX = INVADER_MARGIN ;
-            nextY -= (invaderRadius *2) + INVADER_SPACING_VERT;
+            nextX = startX ;
+            nextY -= incrementY;
         }
         
     }
     
+    CGRect rect = [self rectContainingInvaders:ribots];
+    
+    rect.origin.x -= MOVE_MARGIN;
+    rect.size.width += MOVE_MARGIN *2;
     
     
-    CGRect bumperRect = CGRectMake(startX-MOVE_MARGIN, startY, rightHandSide + (MOVE_MARGIN*2), nextY - (invaderRadius *2) + INVADER_SPACING_VERT);
-    
-    CGPoint middle = CGPointMake(CGRectGetMidX(bumperRect), self.view.bounds.size.height - CGRectGetMidY(bumperRect));
-//    bumperRect = CGRectMake(-15, -15, 30, 30);
-    bumperRect.origin = CGPointMake(-bumperRect.size.width/2.0f, -bumperRect.size.height/2.0f);
+    bumper = [self createRectNode:rect withCategoryBitMask:categoryBumper andCollisionBitMask:categoryGameRect andContactTestBitMask:categoryGameRect];
     
     
-    bumper = [[SKShapeNode alloc] init];
-    bumper.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:bumperRect.size];
     
-    //    bumperRect.origin.x = -bumperRect.size.width/2.0f;
-    //  bumperRect.origin.y = -bumperRect.size.height/2.0f;
-    UIBezierPath* path = [UIBezierPath bezierPathWithRect:bumperRect];
-    bumper.path = path.CGPath;
-    
-    bumper.position = middle;//CGPointMake(CGRectGetMidX(self.view.bounds),CGRectGetMidY(self.view.bounds));
-    
-    // 3 Set the friction of that physicsBody to 0
-    bumper.physicsBody.friction = 0.0f;
-    bumper.physicsBody.categoryBitMask = sideBumperCategory;
-    bumper.physicsBody.contactTestBitMask = gameRect;
-    
-    //dont bounce
-     bumper.physicsBody.collisionBitMask = gameRect;
-    
-    bumper.physicsBody.affectedByGravity = NO;
-    [self addChild:bumper];
-
     
 }
+
+#pragma mark -
+#pragma mark Node movement
 
 -(void)moveInvaderGroupByOffset:(CGPoint)offset
 {
     for (SKSpriteNode* node in ribots)
     {
-        [self moveSprite:node byOffset:offset];
+        [self moveNode:node byOffset:offset];
     }
     
-    [self moveSprite:bumper byOffset:offset];
+    [self moveNode:bumper byOffset:offset];
     
 }
--(void)moveSprite:(SKSpriteNode*)ribot byOffset:(CGPoint)offset
+-(void)moveNode:(SKNode*)ribot byOffset:(CGPoint)offset
 {
     ribot.position = CGPointMake(ribot.position.x + offset.x, ribot.position.y + offset.y);
 }
 
+#pragma mark -
+#pragma mark Create Nodes
+
+
+/**
+ * Helpers to create a rectanglular node at the specifed position
+ */
+-(SKShapeNode*)createRectNode:(CGRect)rect withCategoryBitMask: (uint32_t)category andCollisionBitMask:(uint32_t)collision andContactTestBitMask:(uint32_t)contact
+{
+    
+    //Work out the middle of the rect and adjust the rects origin
+    CGPoint middle = CGPointMake(CGRectGetMidX(rect),   CGRectGetMidY(rect));
+    rect.origin = CGPointMake(-rect.size.width/2.0f, -rect.size.height/2.0f);
+    
+    //Create the node and its graphics
+    SKShapeNode* node = [[SKShapeNode alloc] init];
+    UIBezierPath* path = [UIBezierPath bezierPathWithRect:rect];
+    node.path = path.CGPath;
+    
+    node.position = middle;
+    
+    //Physics body
+    node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:rect.size];
+    node.physicsBody.friction = 0.0f;
+    node.physicsBody.categoryBitMask = category;
+    node.physicsBody.contactTestBitMask =contact;
+    node.physicsBody.collisionBitMask = collision;
+    
+    node.physicsBody.affectedByGravity = NO;
+    
+    [self addChild:node];
+    
+    return node;
+}
+
+
+/**
+ * Creates a ribot invader sprite node
+ */
 -(SKSpriteNode*)createRibotSprite:(CBRibot*)ribot withRadius:(CGFloat)ribotRadius atPosition:(CGPoint)position
 {
     //get the image for the ribot
-    UIImage* image = DATA.teamImages[ribot.ribotId];
-                      
+    UIImage* image = [UIImage imageNamed:@"jerome.jpg"];// DATA.teamImages[ribot.ribotId];
+    
     SKTexture* texture = [SKTexture textureWithImage:image];
     
     SKSpriteNode* sprite = [SKSpriteNode spriteNodeWithTexture:texture];
@@ -260,14 +365,12 @@ const static uint32_t sideBumperCategory = 0x1 << 4;
     sprite.position = position;
     
     sprite.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:ribotRadius];
-    sprite.physicsBody.contactTestBitMask = invaderCategory;
-    sprite.physicsBody.categoryBitMask = invaderCategory;
+    sprite.physicsBody.contactTestBitMask = categoryInvader;
+    sprite.physicsBody.categoryBitMask = categoryInvader;
+    sprite.physicsBody.collisionBitMask = 0;
     sprite.physicsBody.affectedByGravity = NO;
     [self addChild:sprite];
     
-    
-    
-
     
     return sprite;
 }
@@ -279,17 +382,17 @@ const static uint32_t sideBumperCategory = 0x1 << 4;
         
         self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
         
-//        SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-//        
-//        myLabel.text = @"Hello, World!";
-//        myLabel.fontSize = 30;
-//        myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
-//                                       CGRectGetMidY(self.frame));
-//        
-//        [self addChild:myLabel];
+        //        SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+        //
+        //        myLabel.text = @"Hello, World!";
+        //        myLabel.fontSize = 30;
+        //        myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
+        //                                       CGRectGetMidY(self.frame));
+        //
+        //        [self addChild:myLabel];
         
         
-      
+        
         
     }
     return self;
@@ -299,46 +402,46 @@ const static uint32_t sideBumperCategory = 0x1 << 4;
 {
     static int count=0;
     
-//    if (!isFirst)
-//        return;
+    //    if (!isFirst)
+    //        return;
     
-
+    
     SKSpriteNode *firstNode, *secondNode;
     
     firstNode = (SKSpriteNode *)contact.bodyA.node;
     secondNode = (SKSpriteNode *) contact.bodyB.node;
     
-    //if ((contact.bodyA.categoryBitMask == nodeBitMask) && (contact.bodyB.categoryBitMask == node1BitMask))
+    //if ((contact.bodyA.categoryBitMask == categoryBumper) && (contact.bodyB.categoryBitMask == categoryGameRect))
     {
         invadersMovingLeft = !invadersMovingLeft;
         
         CGPoint contactPoint = contact.contactPoint;
-//        
-//        float contact_y = contactPoint.y;
-//        
-//        float target_x = secondNode.position.x;
-//        float target_y = secondNode.position.y;
-//        
-//        float margin = secondNode.frame.size.height/2 - 25;
-//        
-//        if ((contact_y > (target_y - margin)) &&
-//            (contact_y < (target_y + margin)))
-//        {
-            NSString *burstPath =
-            [[NSBundle mainBundle]
-             pathForResource:@"RibotMiss" ofType:@"sks"];
-            
-            SKEmitterNode *burstNode =
-            [NSKeyedUnarchiver unarchiveObjectWithFile:burstPath];
+        //
+        //        float contact_y = contactPoint.y;
+        //
+        //        float target_x = secondNode.position.x;
+        //        float target_y = secondNode.position.y;
+        //
+        //        float margin = secondNode.frame.size.height/2 - 25;
+        //
+        //        if ((contact_y > (target_y - margin)) &&
+        //            (contact_y < (target_y + margin)))
+        //        {
+        NSString *burstPath =
+        [[NSBundle mainBundle]
+         pathForResource:@"RibotMiss" ofType:@"sks"];
         
-       // burstNode.
+        SKEmitterNode *burstNode =
+        [NSKeyedUnarchiver unarchiveObjectWithFile:burstPath];
+        
+        // burstNode.
         burstNode.position =contactPoint;
         
         //    [secondNode removeFromParent];
-            [self addChild:burstNode];
-            
-            //self.score++;
-//        }
+        [self addChild:burstNode];
+        
+        //self.score++;
+        //        }
     }
     
 }
@@ -352,14 +455,14 @@ const static uint32_t sideBumperCategory = 0x1 << 4;
 //
 //-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 //    /* Called when a touch begins */
-//    
+//
 //    for (UITouch *touch in touches) {
 //        CGPoint location = [touch locationInNode:self];
-//        
+//
 //        SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
-//        
+//
 //        sprite.position = location;
-//        
+//
 //        SKAction *action = [SKAction rotateByAngle:M_PI duration:1];
 //        
 //        [sprite runAction:[SKAction repeatActionForever:action]];
