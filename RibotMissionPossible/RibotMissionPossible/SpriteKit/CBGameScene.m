@@ -196,8 +196,8 @@ const static uint32_t categoryBumper = 0x1 << 4;
     rect.size.width += MOVE_MARGIN *2;
     
     
-    bumper = [self createRectNode:rect withCategoryBitMask:categoryBumper andCollisionBitMask:categoryGameRect andContactTestBitMask:categoryGameRect];
-    bumper.physicsBody.contactTestBitMask |= categoryPlayer;
+    bumper = [self createRectNode:rect withCategoryBitMask:categoryBumper andCollisionBitMask:0 andContactTestBitMask:categoryPlayer];
+
 
     
     //Create player
@@ -407,6 +407,27 @@ const static uint32_t categoryBumper = 0x1 << 4;
 }
 
 
+-(SKSpriteNode*)createSpriteWithImage:(UIImage*) image withSize:(CGSize)size atPosition:(CGPoint)position  withCategoryBitMask: (uint32_t)category andCollisionBitMask:(uint32_t)collision andContactTestBitMask:(uint32_t)contact
+{
+    SKTexture* texture = [SKTexture textureWithImage:image];
+    
+    SKSpriteNode* sprite = [SKSpriteNode spriteNodeWithTexture:texture];
+    sprite.size = size;
+    sprite.position = position;
+    
+    sprite.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:size];
+    
+    sprite.physicsBody.categoryBitMask = category;
+    sprite.physicsBody.contactTestBitMask =contact;
+    sprite.physicsBody.collisionBitMask = collision;
+     sprite.physicsBody.affectedByGravity = NO;
+    [self addChild:sprite];
+    
+    
+    return sprite;
+    
+}
+
 /**
  * Creates a ribot invader sprite node
  */
@@ -422,7 +443,7 @@ const static uint32_t categoryBumper = 0x1 << 4;
     sprite.position = position;
     
     sprite.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:ribotRadius];
-    sprite.physicsBody.contactTestBitMask = categoryInvader;
+    sprite.physicsBody.contactTestBitMask = categoryProjectile;
     sprite.physicsBody.categoryBitMask = categoryInvader;
     sprite.physicsBody.collisionBitMask = 0;
     sprite.physicsBody.affectedByGravity = NO;
@@ -468,6 +489,7 @@ const static uint32_t categoryBumper = 0x1 << 4;
     firstNode = (SKSpriteNode *)contact.bodyA.node;
     secondNode = (SKSpriteNode *) contact.bodyB.node;
     
+    //Collisions between the bumper and the arena frame
     if ((contact.bodyA.categoryBitMask == categoryGameRect) && (contact.bodyB.categoryBitMask ==  categoryBumper))
     {
         invadersMovingLeft = !invadersMovingLeft;
@@ -489,11 +511,30 @@ const static uint32_t categoryBumper = 0x1 << 4;
         //self.score++;
         //        }
     }
+    //Collisions between the bumper and the player
     else if ((contact.bodyA.categoryBitMask == categoryBumper) && (contact.bodyB.categoryBitMask ==  categoryPlayer))
     {
         //Invaders have reached the player.
         //Game is over!
         [contact.bodyB.node removeFromParent];
+    }
+    //Collisions between the laser and invader
+    else if ((contact.bodyA.categoryBitMask == categoryProjectile) && (contact.bodyB.categoryBitMask ==  categoryInvader))
+    {
+        //Invaders have reached the player.
+        //Game is over!
+        [contact.bodyB.node removeFromParent];
+        [contact.bodyA.node removeFromParent];
+        
+        NSString *burstPath = [[NSBundle mainBundle] pathForResource:@"RibotMiss" ofType:@"sks"];
+        SKEmitterNode *burstNode = [NSKeyedUnarchiver unarchiveObjectWithFile:burstPath];
+        burstNode.position =contact.contactPoint;
+        
+        
+        
+        //    [secondNode removeFromParent];
+        [self addChild:burstNode];
+        
     }
     
 }
@@ -508,13 +549,35 @@ const static uint32_t categoryBumper = 0x1 << 4;
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInNode:self];
     
-    CGPoint pos = player.position;
+    CGPoint pos = location;
+    pos.y = player.position.y;
     
-    pos.x = location.x;
+    CGFloat distance = fabs(player.position.x - location.x);
     
-    player.position = pos;
+
+    NSTimeInterval moveTime =  distance / 100;
+    
+    SKAction* actionMove = [SKAction moveTo:pos duration:moveTime];
+
+    [player runAction:actionMove completion:^{
+        if (fabs(player.position.x - pos.x) < 0.1)
+        {
+            [self fireLaser];
+        }
+    }];
     
 }
+
+
+-(void)fireLaser
+{
+    SKSpriteNode* node = [self createSpriteWithImage:[UIImage imageNamed:@"Jerome.jpg"] withSize:CGSizeMake(30, 30) atPosition:player.position withCategoryBitMask:categoryProjectile andCollisionBitMask:0 andContactTestBitMask:categoryInvader];
+    
+    SKAction* action = [SKAction moveToY:600 duration:1];
+    [node runAction:action];
+
+}
+
 //
 //-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 //    /* Called when a touch begins */
