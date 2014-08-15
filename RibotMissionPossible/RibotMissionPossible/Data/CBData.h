@@ -13,6 +13,15 @@
 #import "CBRibot.h"
 
 
+#define KEY_STUDIO_NUMBER @"addressNumber"
+#define KEY_STUDIO_STREET @"street"
+#define KEY_STUDIO_CITY @"city"
+#define KEY_STUDIO_COUNTY @"county"
+#define KEY_STUDIO_POSTCODE @"postcode"
+#define KEY_STUDIO_COUNTRY @"country"
+#define KEY_STUDIO_PHOTOS @"photos"
+
+
 #define ERROR_CODE_IMAGE_DOWNLOAD_FAILED 101
 
 @class CBData;
@@ -62,6 +71,12 @@ typedef void (^RibotDataDownloaded)(id result,NSError* error);
  * Once downloaded contains the team member colours of ribot. Every member has one even if they dont have one in the API. Non existing hex codes will be automatically assigned a colour
  */
 @property (nonatomic,readonly) NSArray* teamMemberColours;
+
+/**
+ * Once downloaded contains the team member images
+ */
+@property (nonatomic,strong) NSArray* ribotars;
+
 
 /**
  * Begins download process of all team members

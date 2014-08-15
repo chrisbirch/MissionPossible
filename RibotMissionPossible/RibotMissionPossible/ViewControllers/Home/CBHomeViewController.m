@@ -12,10 +12,57 @@
 @property (weak, nonatomic) IBOutlet UILabel *lbAddress;
 @property (weak, nonatomic) IBOutlet UILabel *lbHeading;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinny;
+@property (weak, nonatomic) IBOutlet UIView *foregroundBox;
+
+@property (weak, nonatomic) IBOutlet UIButton *buttonMyRibots;
 
 @end
 
 @implementation CBHomeViewController
+
+-(NSString*)textFromStudioDictionary:(NSDictionary*)studioDict
+{
+    NSString* text = [[NSString alloc] initWithFormat:@"%@ %@\n%@\n%@\n",studioDict[KEY_STUDIO_NUMBER],studioDict[KEY_STUDIO_STREET],studioDict[KEY_STUDIO_CITY] ,studioDict[KEY_STUDIO_POSTCODE]];
+    
+    return text;
+}
+
+-(void)downloadRibotData
+{
+    
+    __block CBHomeViewController* this = self;
+    
+    [DATA downloadRibotStudioWithCompletionBlock:^(id result, NSError *error) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            NSString* address = [self textFromStudioDictionary:result];
+            this.lbAddress.text = address;
+            
+            [UIView animateWithDuration:0.5 animations:^{
+                this.foregroundBox.alpha =1;
+            } completion:^(BOOL finished) {
+                
+            }];
+            
+        });
+    }];
+
+
+    
+    [DATA downloadRibotTeamWithCompletionBlock:^(NSError *error) {
+       if (!error)
+       {
+           dispatch_async(dispatch_get_main_queue(), ^{
+               _buttonMyRibots.enabled = YES;
+               
+               this.spinny.hidden = YES;
+               
+           });
+       }
+    }];
+
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -25,7 +72,12 @@
     }
     return self;
 }
-
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -34,6 +86,12 @@
     UIImage *image = [UIImage imageNamed:@"ribot"];
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:image];
 
+    _foregroundBox.alpha = 0;
+    
+        [self downloadRibotData];
+    
+    
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -41,6 +99,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 /*
 #pragma mark - Navigation

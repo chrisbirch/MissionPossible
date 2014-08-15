@@ -7,9 +7,13 @@
 //
 
 #import "CBTeamMembersViewController.h"
+#import "CBRibotCell.h"
+
 
 @interface CBTeamMembersViewController ()
-
+{
+    NSArray* members;
+}
 @end
 
 @implementation CBTeamMembersViewController
@@ -27,6 +31,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    members = DATA.teamMembers;
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -46,4 +53,20 @@
 }
 */
 
+
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    CBRibot* ribot = members[indexPath.row];
+    
+    CBRibotCell* cell = (CBRibotCell*)[collectionView dequeueReusableCellWithReuseIdentifier:REUSE_RIBOT_CELL forIndexPath:indexPath];
+    
+    cell.ribot = ribot;
+    
+    return cell;
+}
+
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return members.count;
+}
 @end
