@@ -43,7 +43,7 @@
                                 <rect key="frame" x="70" y="462" width="180" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <state key="normal" title="My Ribots">
+                                <state key="normal" title="Meet The Ribots">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -51,13 +51,13 @@
                                     <color key="titleColor" white="0.80623109879032262" alpha="0.90000000000000002" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="dwF-uy-HCc" kind="push" id="PoZ-0n-HGx"/>
+                                    <action selector="cmMeetTheRibots:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="i6N-lV-lVT"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gvJ-RP-54q">
                                 <rect key="frame" x="70" y="510" width="180" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="0.64984990070842463" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="38" id="RdN-JR-oeb"/>
                                     <constraint firstAttribute="width" constant="180" id="Wh1-Z2-qkH"/>
@@ -134,12 +134,14 @@ country: "UK",</string>
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
+                        <outlet property="buttonGetMore" destination="gvJ-RP-54q" id="3cP-Wn-V4H"/>
                         <outlet property="buttonMyRibots" destination="nJB-QH-L11" id="AOT-Gf-hyL"/>
                         <outlet property="foregroundBox" destination="V5q-sw-YDE" id="uny-hN-PLZ"/>
                         <outlet property="imageViewBackground" destination="SEs-MZ-U6y" id="nlz-bh-xxm"/>
                         <outlet property="lbAddress" destination="70M-Gp-Kn8" id="CnQ-23-WOY"/>
                         <outlet property="lbHeading" destination="Kcr-7z-gRp" id="gjQ-Kd-JRD"/>
                         <outlet property="spinny" destination="sNU-FB-3Sv" id="ker-hF-bMh"/>
+                        <segue destination="dwF-uy-HCc" kind="push" identifier="ShowRibots" id="mK3-xj-mCv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>

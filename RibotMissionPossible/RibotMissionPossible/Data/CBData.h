@@ -61,7 +61,10 @@ typedef void (^RibotDataDownloaded)(id result,NSError* error);
  */
 + (instancetype)sharedInstance;
 
-
+/**
+ * YES if this is the first run
+ */
+@property (nonatomic,readonly) BOOL isFirstRun;
 
 /**
  * Once downloaded contains the team members of ribot

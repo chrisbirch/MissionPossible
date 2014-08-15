@@ -34,6 +34,7 @@
 		83E2EEA3199D77A000DA3F01 /* CBGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E2EEA2199D77A000DA3F01 /* CBGameViewController.m */; };
 		83E2EEA6199D784800DA3F01 /* CBTeamMembersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E2EEA5199D784800DA3F01 /* CBTeamMembersViewController.m */; };
 		83E2EEAE199D831000DA3F01 /* CBRibotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E2EEAD199D831000DA3F01 /* CBRibotCell.m */; };
+		83E2EEB1199D90D500DA3F01 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83E2EEAF199D90D500DA3F01 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,7 @@
 		83E2EEA5199D784800DA3F01 /* CBTeamMembersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBTeamMembersViewController.m; path = ViewControllers/TeamMembers/CBTeamMembersViewController.m; sourceTree = "<group>"; };
 		83E2EEAC199D831000DA3F01 /* CBRibotCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBRibotCell.h; path = ViewControllers/TeamMembers/CBRibotCell.h; sourceTree = "<group>"; };
 		83E2EEAD199D831000DA3F01 /* CBRibotCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBRibotCell.m; path = ViewControllers/TeamMembers/CBRibotCell.m; sourceTree = "<group>"; };
+		83E2EEB0199D90D500DA3F01 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				835C2F0A199A9B950012D2A7 /* RibotMissionPossible-Info.plist */,
+				83E2EEAF199D90D500DA3F01 /* Localizable.strings */,
 				835C2F0B199A9B950012D2A7 /* InfoPlist.strings */,
 				835C2F0E199A9B950012D2A7 /* main.m */,
 				835C2F10199A9B950012D2A7 /* RibotMissionPossible-Prefix.pch */,
@@ -387,6 +390,7 @@
 				83E2EE84199D67A900DA3F01 /* RibotMiss.sks in Resources */,
 				83E2EE85199D67A900DA3F01 /* spark.png in Resources */,
 				835C2F1B199A9B950012D2A7 /* Images.xcassets in Resources */,
+				83E2EEB1199D90D500DA3F01 /* Localizable.strings in Resources */,
 				835C2F0D199A9B950012D2A7 /* InfoPlist.strings in Resources */,
 				835C2F16199A9B950012D2A7 /* Main.storyboard in Resources */,
 				835C2F50199AD71A0012D2A7 /* jerome.jpg in Resources */,
@@ -464,6 +468,14 @@
 				835C2F2B199A9B950012D2A7 /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		83E2EEAF199D90D500DA3F01 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				83E2EEB0199D90D500DA3F01 /* Base */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

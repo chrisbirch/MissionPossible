@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CBHomeViewController : UIViewController
+@interface CBHomeViewController : UIViewController<UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewBackground;
 

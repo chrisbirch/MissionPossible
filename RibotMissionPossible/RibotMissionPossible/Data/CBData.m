@@ -79,16 +79,25 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
         NSArray* temp = [defaults arrayForKey:USER_DEFAULTS_UNLOCKED_RIBOTS];;
     
         
-        if (!unlockedRibots)
+        if (!temp)
         {
             //no unlocked ribots yet
             unlockedRibots = [NSMutableArray new];
+            
+            _isFirstRun = YES;
+            
+            //save in defaults so we know that this isn't the first run
+            [defaults setObject:unlockedRibots forKey:USER_DEFAULTS_UNLOCKED_RIBOTS];
+            
+            [defaults synchronize];
             
         }
         else
         {
             //load the ones we've unlocked
             unlockedRibots = [temp mutableCopy];
+            
+            _isFirstRun = NO;
         }
     }
     
