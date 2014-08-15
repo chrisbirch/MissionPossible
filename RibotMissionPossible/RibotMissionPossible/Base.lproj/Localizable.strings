@@ -16,5 +16,5 @@
 
 //Alert telling the user that tapped ribot member is locked
 "ALERT_RIBOT_LOCKED_TITLE"="Whoops";
-"ALERT_RIBOT_LOCKED_MSG"="This ribot member is locked. You must play the game!";
+"ALERT_RIBOT_LOCKED_MSG"="This ribot member is locked. You must 'Get More Ribots!'";
 "ALERT_RIBOT_LOCKED_OK"="Ok";

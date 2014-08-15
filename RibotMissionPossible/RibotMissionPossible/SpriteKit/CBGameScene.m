@@ -9,8 +9,15 @@
 #import "CBGameScene.h"
 #import "CBRoundedImageHelper.h"
 
-const static int nodeBitMask = 0x1 << 0;
-const static int node1BitMask = 0x1 << 1;;
+const static uint32_t projectileCategory = 0x1 << 0;
+const static uint32_t invaderCategory = 0x1 << 1;
+const static uint32_t playerCategory = 0x1 << 2;;
+const static uint32_t gameRect = 0x1 << 3;
+const static uint32_t sideBumperCategory = 0x1 << 4;
+
+
+#define RIBOT_SIZE CGSizeMake(100, 100)
+
 
 @implementation CBGameScene
 {
@@ -18,7 +25,108 @@ const static int node1BitMask = 0x1 << 1;;
     SKShapeNode *circle;
 //    SKShapeNode *ball;
         SKSpriteNode *ball;
+    
+
+    NSTimeInterval lastUpdateTime;
+    
+    /**
+     * Represents the player
+     */
+    SKSpriteNode* player;
+    
+    
+    /**
+     * An array of ribot sprites
+     */
+    NSMutableArray* ribots;
+    
+    /**
+     * Controls which was the invaders move next
+     */
+    BOOL invadersMovingLeft;
+    
+    /**
+     * Stores the time that we last moved the invaders
+     */
+    NSTimeInterval timeSinceLastMove;
+    
+    /**
+     * The amount of offset
+     */
+    CGFloat invaderGroupOffset;
+    
+    SKShapeNode* bumper;
+    
 }
+
+
+
+//The spacing between invaders
+#define INVADER_SPACING_HORZ 10
+
+
+//The spacing between invaders
+#define INVADER_SPACING_VERT 10
+
+//How far away the invaders start from sides
+#define INVADER_MARGIN 80
+
+#define INVADER_MARGIN_Y 120
+
+/**
+ * The maximum amount towards the size of the screen the invaders can move
+ */
+#define MOVE_MARGIN 40
+
+
+#define SPEED 10
+
+#define DELAY 0.2f /// SPEED
+
+#define MOVE_AMOUNT 50
+
+#define DATA_RIBOT_POINTER @"ribot"
+#define DATA_ORIG_X @"originalXPosition"
+
+- (void)updateWithTimeSinceLastUpdate:(CFTimeInterval)timeSinceLast {
+    
+    timeSinceLastMove += timeSinceLast;
+    
+    
+    if (timeSinceLastMove > DELAY)
+    {
+        timeSinceLastMove = 0;
+        CGFloat moveAmount = 10;
+        
+        if (invadersMovingLeft)
+        {
+            [self moveInvaderGroupByOffset:CGPointMake(-moveAmount, 0)];
+        }
+        else
+        {
+            [self moveInvaderGroupByOffset:CGPointMake(moveAmount, 0)];
+        }
+
+    }
+}
+
+-(void)update:(CFTimeInterval)currentTime
+{
+    
+    // Handle time delta.
+    // If we drop below 60fps, we still want everything to move the same distance.
+    CFTimeInterval timeSinceLast = currentTime - lastUpdateTime;
+    lastUpdateTime = currentTime;
+    
+    if (timeSinceLast > 1) { // more than a second since last update
+        timeSinceLast = 1.0 / 60.0;
+        lastUpdateTime = currentTime;
+    }
+    
+    [self updateWithTimeSinceLastUpdate:timeSinceLast];
+}
+
+
 
 -(void)didMoveToView:(SKView *)view
 {
@@ -27,60 +135,144 @@ const static int node1BitMask = 0x1 << 1;;
     
     world.contactDelegate = self;
     
-    // Insert this code in the init method of your scene
-    CGMutablePathRef circlePath = CGPathCreateMutable();
-    CGPathAddArc(circlePath, NULL, 0, 0, 100, 0, M_PI * 2, YES);
+    SKPhysicsBody* borderBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
+    // 2 Set physicsBody of scene to borderBody
+    self.physicsBody = borderBody;
+    // 3 Set the friction of that physicsBody to 0
+    self.physicsBody.friction = 0.0f;
     
-    circle = [[SKShapeNode alloc] init];
-    circle.path = circlePath;
-    circle.position = CGPointMake(150, 150);
-    circle.lineWidth = 1.0;
+    self.physicsBody.categoryBitMask = gameRect;
+    self.physicsBody.contactTestBitMask = sideBumperCategory;
     
     
-    circle.fillColor = [SKColor blueColor];
-    circle.strokeColor = [SKColor whiteColor];
+   
+    
+    
+    [self createInvaders];
 
-    circle.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromPath:circlePath];
+}
+/**
+ * Lay out a grid of ribot invaders
+ */
+-(void)createInvaders
+{
+    ribots = [NSMutableArray new];
+    
+    float width = self.view.bounds.size.width - (INVADER_MARGIN * 2);
+    float numberOfInvadersPerRow=6;
+    
+    float invaderRadius = (width - INVADER_SPACING_HORZ) / (numberOfInvadersPerRow * 2);//(width / numberOfInvadersPerRow - INVADER_SPACING_HORZ) /2;
+    
+    CGFloat startX =INVADER_MARGIN;
+    CGFloat startY = self.view.bounds.size.height - INVADER_MARGIN_Y;
 
-    circle.physicsBody.contactTestBitMask = node1BitMask;
-    circle.physicsBody.categoryBitMask = nodeBitMask;
-//    circle.physicsBody.collisionBitMask = nodeBitMask;
     
+    float nextX= startX;
+    float nextY=startY;
     
-    [self addChild:circle];
+    CGFloat rightHandSide = startX + INVADER_MARGIN;
     
-    CGSize size = CGSizeMake(100, 100);
-    
-    UIImage* image = [UIImage imageNamed:@"jerome.jpg"];
-    image = [CBRoundedImageHelper roundedImageFromImage:image withOutputSize:size andStrokeColour:[UIColor redColor] andStrokeWidth:4];
-    SKTexture* texture = [SKTexture textureWithImage:image];
-    
-    
-    ball = [SKSpriteNode spriteNodeWithTexture:texture];
-    ball.size = size;
-    ball.position = CGPointMake(100, 100);
+    NSArray* ribotArray = [DATA.teamMembers copy];
 
-    ball.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:50];
-    ball.physicsBody.contactTestBitMask = nodeBitMask;
-    ball.physicsBody.categoryBitMask = node1BitMask;
-  //  ball.physicsBody.collisionBitMask = nodeBitMask;
+    for(CBRibot* ribot in ribotArray)
+    {
+        CGPoint position =CGPointMake(nextX + invaderRadius, nextY + invaderRadius);
+        
+        SKSpriteNode* sprite = [self createRibotSprite:ribot withRadius:invaderRadius atPosition:position];
+        
+        sprite.userData = [@{
+                             DATA_RIBOT_POINTER : ribot,
+                             DATA_ORIG_X : [NSNumber numberWithFloat:position.x]
+                             }
+                           mutableCopy];
+        //store pointer for later
+        [ribots addObject: sprite];
+        
+        NSLog(@"Positioning ribot r:%.2f %@", invaderRadius, NSStringFromCGPoint(position));
+        
+        nextX += (invaderRadius*2) + INVADER_SPACING_HORZ;
+        
+        if (nextX >= rightHandSide)
+        {
+            nextX = INVADER_MARGIN ;
+            nextY -= (invaderRadius *2) + INVADER_SPACING_VERT;
+        }
+        
+    }
     
     
-    //CGMutablePathRef ballPath = CGPathCreateMutable();
-    //CGPathAddArc(ballPath, NULL, 0, 0, 15, 0, M_PI * 2, YES);
-    //
-    //        ball = [[SKSpriteNode alloc] init];
-    //        ball.path = ballPath;
-    //        ball.position = CGPointMake(200, 200);
-    //        ball.lineWidth = 1.0;
-    //        ball.fillColor = [SKColor redColor];
-    //        ball.strokeColor = [SKColor greenColor];
-    //        ball.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:15];
     
-    [self addChild:ball];
+    CGRect bumperRect = CGRectMake(startX-MOVE_MARGIN, startY, rightHandSide + (MOVE_MARGIN*2), nextY - (invaderRadius *2) + INVADER_SPACING_VERT);
+    
+    CGPoint middle = CGPointMake(CGRectGetMidX(bumperRect), self.view.bounds.size.height - CGRectGetMidY(bumperRect));
+//    bumperRect = CGRectMake(-15, -15, 30, 30);
+    bumperRect.origin = CGPointMake(-bumperRect.size.width/2.0f, -bumperRect.size.height/2.0f);
+    
+    
+    bumper = [[SKShapeNode alloc] init];
+    bumper.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:bumperRect.size];
+    
+    //    bumperRect.origin.x = -bumperRect.size.width/2.0f;
+    //  bumperRect.origin.y = -bumperRect.size.height/2.0f;
+    UIBezierPath* path = [UIBezierPath bezierPathWithRect:bumperRect];
+    bumper.path = path.CGPath;
+    
+    bumper.position = middle;//CGPointMake(CGRectGetMidX(self.view.bounds),CGRectGetMidY(self.view.bounds));
+    
+    // 3 Set the friction of that physicsBody to 0
+    bumper.physicsBody.friction = 0.0f;
+    bumper.physicsBody.categoryBitMask = sideBumperCategory;
+    bumper.physicsBody.contactTestBitMask = gameRect;
+    
+    //dont bounce
+     bumper.physicsBody.collisionBitMask = gameRect;
+    
+    bumper.physicsBody.affectedByGravity = NO;
+    [self addChild:bumper];
 
     
 }
+
+-(void)moveInvaderGroupByOffset:(CGPoint)offset
+{
+    for (SKSpriteNode* node in ribots)
+    {
+        [self moveSprite:node byOffset:offset];
+    }
+    
+    [self moveSprite:bumper byOffset:offset];
+    
+}
+-(void)moveSprite:(SKSpriteNode*)ribot byOffset:(CGPoint)offset
+{
+    ribot.position = CGPointMake(ribot.position.x + offset.x, ribot.position.y + offset.y);
+}
+
+-(SKSpriteNode*)createRibotSprite:(CBRibot*)ribot withRadius:(CGFloat)ribotRadius atPosition:(CGPoint)position
+{
+    //get the image for the ribot
+    UIImage* image = DATA.teamImages[ribot.ribotId];
+                      
+    SKTexture* texture = [SKTexture textureWithImage:image];
+    
+    SKSpriteNode* sprite = [SKSpriteNode spriteNodeWithTexture:texture];
+    sprite.size = CGSizeMake(ribotRadius*2, ribotRadius*2);
+    sprite.position = position;
+    
+    sprite.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:ribotRadius];
+    sprite.physicsBody.contactTestBitMask = invaderCategory;
+    sprite.physicsBody.categoryBitMask = invaderCategory;
+    sprite.physicsBody.affectedByGravity = NO;
+    [self addChild:sprite];
+    
+    
+    
+
+    
+    return sprite;
+}
+
+
 -(id)initWithSize:(CGSize)size {
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
@@ -116,12 +308,10 @@ const static int node1BitMask = 0x1 << 1;;
     firstNode = (SKSpriteNode *)contact.bodyA.node;
     secondNode = (SKSpriteNode *) contact.bodyB.node;
     
-    count++;
-    
-    if (count % 10)
+    //if ((contact.bodyA.categoryBitMask == nodeBitMask) && (contact.bodyB.categoryBitMask == node1BitMask))
     {
-    if ((contact.bodyA.categoryBitMask == nodeBitMask) && (contact.bodyB.categoryBitMask == node1BitMask))
-    {
+        invadersMovingLeft = !invadersMovingLeft;
+        
         CGPoint contactPoint = contact.contactPoint;
 //        
 //        float contact_y = contactPoint.y;
@@ -150,13 +340,14 @@ const static int node1BitMask = 0x1 << 1;;
             //self.score++;
 //        }
     }
-    }
+    
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInNode:self];
     ball.position = location;
+    
 }
 //
 //-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -177,8 +368,5 @@ const static int node1BitMask = 0x1 << 1;;
 //    }
 //}
 
--(void)update:(CFTimeInterval)currentTime {
-    /* Called before each frame is rendered */
-}
 
 @end

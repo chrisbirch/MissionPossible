@@ -23,6 +23,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonMyRibots;
 @property (weak, nonatomic) IBOutlet UIButton *buttonGetMore;
 
+
+//@property(nonatomic,strong) NSArray* backgroundPictures;
+
 @end
 
 @implementation CBHomeViewController
@@ -114,7 +117,7 @@
            
            NSArray* colours = DATA.teamMemberColours;
            
-           [CBRoundedImageHelper roundedImagesOnDiskWithPaths:paths withOutputSize:CGSizeMake(100, 100) andStrokeColours:colours andStrokeWidth:5 andCompletionBlock:^(NSDictionary *roundedImages) {
+           [CBRoundedImageHelper roundedImagesOnDiskWithPaths:paths withOutputSize:RIBOT_IMAGE_CIRCLE_SIZE andStrokeColours:colours andStrokeWidth:RIBOT_IMAGE_CIRCLE_STOKE_WIDTH andCompletionBlock:^(NSDictionary *roundedImages) {
             
                DATA.teamImages = roundedImages;
                
@@ -132,6 +135,8 @@
            
        }
     }];
+    
+    
 
 }
 

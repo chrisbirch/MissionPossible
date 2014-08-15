@@ -24,6 +24,22 @@
 
 #define ERROR_CODE_IMAGE_DOWNLOAD_FAILED 101
 
+/**
+ * The size of the ribot circle
+ */
+#define RIBOT_IMAGE_CIRCLE_RADIUS 50
+
+/**
+ * This is the size of the rectangle that contains the rendered circular ribot images
+ */
+#define RIBOT_IMAGE_CIRCLE_SIZE CGSizeMake(RIBOT_IMAGE_CIRCLE_RADIUS*2,RIBOT_IMAGE_CIRCLE_RADIUS*2)
+
+
+/**
+ * The width of the hex colour border around the circle
+ */
+#define RIBOT_IMAGE_CIRCLE_STOKE_WIDTH 10
+
 @class CBData;
 
 #pragma mark -

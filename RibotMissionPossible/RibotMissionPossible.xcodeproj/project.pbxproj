@@ -90,6 +90,7 @@
 		83E2EEAC199D831000DA3F01 /* CBRibotCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBRibotCell.h; path = ViewControllers/TeamMembers/CBRibotCell.h; sourceTree = "<group>"; };
 		83E2EEAD199D831000DA3F01 /* CBRibotCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBRibotCell.m; path = ViewControllers/TeamMembers/CBRibotCell.m; sourceTree = "<group>"; };
 		83E2EEB0199D90D500DA3F01 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		83E2EEB3199E11E200DA3F01 /* laser.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = laser.caf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +170,7 @@
 		835C2F09199A9B950012D2A7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83E2EEB2199E11DB00DA3F01 /* Sounds */,
 				835C2F0A199A9B950012D2A7 /* RibotMissionPossible-Info.plist */,
 				83E2EEAF199D90D500DA3F01 /* Localizable.strings */,
 				835C2F0B199A9B950012D2A7 /* InfoPlist.strings */,
@@ -308,6 +310,14 @@
 				83E2EEAD199D831000DA3F01 /* CBRibotCell.m */,
 			);
 			name = Cell;
+			sourceTree = "<group>";
+		};
+		83E2EEB2199E11DB00DA3F01 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				83E2EEB3199E11E200DA3F01 /* laser.caf */,
+			);
+			name = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
