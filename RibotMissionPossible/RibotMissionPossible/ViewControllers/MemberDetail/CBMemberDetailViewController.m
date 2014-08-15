@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *lbTwitter;
 @property (weak, nonatomic) IBOutlet UILabel *lbFavSweet;
 @property (weak, nonatomic) IBOutlet UILabel *lbFavSeason;
+@property (weak, nonatomic) IBOutlet UIImageView *imgView;
 
 @end
 
@@ -39,15 +40,16 @@
     UIImage *image = [UIImage imageNamed:@"ribot"];
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:image];
     
-    
-    _lbName.text = [[NSString alloc] initWithFormat:@"%@ %@",_ribot.firstName,_ribot.lastName];
-    
+
+
+    self.navigationItem.title = _lbName.text;
     _lbNickname.text = _ribot.nickName;
     _lbRole.text =_ribot.role;
     _lbDesc.text = _ribot.ribotDescription;
     _lbTwitter.text = _ribot.twitter;
     _lbFavSweet.text = _ribot.favSweet;
     _lbFavSeason.text = _ribot.favSeason;
+    _imgView.image = [DATA imageForRibot:_ribot];
     
 }
 
