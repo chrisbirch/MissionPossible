@@ -11,3 +11,10 @@
 "ALERT_FIRST_RUN_VIEW_RIBOTS_MSG"="You need to do a discover them";
 "ALERT_FIRST_RUN_VIEW_RIBOTS_YES"="Discover!";
 "ALERT_FIRST_RUN_VIEW_RIBOTS_NO"="Show Me My Ribots!";
+
+
+
+//Alert telling the user that tapped ribot member is locked
+"ALERT_RIBOT_LOCKED_TITLE"="Whoops";
+"ALERT_RIBOT_LOCKED_MSG"="This ribot member is locked. You must play the game!";
+"ALERT_RIBOT_LOCKED_OK"="Ok";

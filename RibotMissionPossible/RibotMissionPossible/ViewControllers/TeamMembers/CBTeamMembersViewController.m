@@ -38,6 +38,11 @@
     
     members = DATA.teamMembers;
     
+    //Setup header
+    UIImage *image = [UIImage imageNamed:@"ribot"];
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:image];
+
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -58,7 +63,7 @@
     {
         CBMemberDetailViewController* vc = segue.destinationViewController;
         
-        vc.ribot = ((CBRibotCell*) sender).ribot;
+        vc.ribot = (CBRibot*) sender;
         
         
     }
@@ -89,7 +94,23 @@
     {
         if (cell.indexPath == indexPath)
         {
-            [self performSegueWithIdentifier:SEGUE_RIBOT_DETAIL sender:cell];
+            CBRibot* ribot = members[indexPath.row];
+            
+            //Only allow user to see detail if they have unlocked this member
+            if (ribot.isUnlocked)
+            {
+                [self performSegueWithIdentifier:SEGUE_RIBOT_DETAIL sender:ribot];
+            }
+            else
+            {
+                //Show message saying you must unlock
+                
+                NSString* title = NSLocalizedString(@"ALERT_RIBOT_LOCKED_TITLE", @"");
+                NSString* msg = NSLocalizedString(@"ALERT_RIBOT_LOCKED_MSG", @"");
+                NSString* ok = NSLocalizedString(@"ALERT_RIBOT_LOCKED_OK", @"");
+                
+                [[[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:ok otherButtonTitles: nil] show];
+            }
         }
     }
     

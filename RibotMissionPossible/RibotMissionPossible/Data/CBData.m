@@ -143,7 +143,7 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
 
 -(UIImage*)imageForRibot:(CBRibot*)ribot
 {
-    if ([_teamImages.allKeys containsObject:ribot.ribotId])
+    if ([self.teamImages.allKeys containsObject:ribot.ribotId])
     {
         return _teamImages[ribot.ribotId];
     }

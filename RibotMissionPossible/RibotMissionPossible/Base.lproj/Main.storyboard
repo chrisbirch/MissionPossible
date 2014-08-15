@@ -402,6 +402,7 @@ country: "UK",</string>
                     </view>
                     <navigationItem key="navigationItem" id="c9c-Xi-Wk6"/>
                     <connections>
+                        <outlet property="imgView" destination="wkB-q3-ffM" id="RBl-Nn-Bf0"/>
                         <outlet property="lbDesc" destination="5cC-5L-bdD" id="viA-Zv-hbo"/>
                         <outlet property="lbFavSeason" destination="gat-lB-qSO" id="Cwo-JO-6mg"/>
                         <outlet property="lbFavSweet" destination="OgC-j1-Y4Z" id="K2k-ct-kUs"/>

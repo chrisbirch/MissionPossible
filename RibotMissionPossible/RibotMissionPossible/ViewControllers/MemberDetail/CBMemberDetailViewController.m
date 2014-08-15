@@ -41,8 +41,9 @@
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:image];
     
 
+    
+    _lbName.text = [[NSString alloc] initWithFormat:@"%@ %@",_ribot.firstName,_ribot.lastName];
 
-    self.navigationItem.title = _lbName.text;
     _lbNickname.text = _ribot.nickName;
     _lbRole.text =_ribot.role;
     _lbDesc.text = _ribot.ribotDescription;
