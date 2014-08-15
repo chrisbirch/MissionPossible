@@ -34,6 +34,12 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
      * Holds the ribot id's of those team members we have "unlocked" through playing the game
      */
     NSMutableArray* unlockedRibots;
+    
+    /**
+     * Key is the ribotid value is a UIIMage of the team member
+     */
+    NSMutableDictionary* _teamImages;
+    
 }
 
 
@@ -47,8 +53,7 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
  * Helper method to download files. Pass in the url of resource and the filename. The file will be saved in the docs directory. Completion block is called in the event of
  * success. Check error in case of failure
  */
--(void)downloadFileFromUrl:(NSString*)urlString toFilename:(NSString*)filename withCompletionBlock:(RibotFileDownloaded)completionBlock;
-
+-(void)downloadFileFromUrl:(NSString*)urlString toDestLocalUrl:(NSURL*)localUrl withCompletionBlock:(RibotFileDownloaded)completionBlock;
 
 @end
 
@@ -112,6 +117,15 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
     }
 }
 
+
+-(NSDictionary *)teamImages
+{
+    @synchronized(_teamImages)
+    {
+        return _teamImages;
+    }
+}
+
 -(NSArray *)teamMemberColours
 {
     NSMutableArray* colours = [NSMutableArray new];
@@ -126,6 +140,18 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
     return colours;
 }
 
+
+-(UIImage*)imageForRibot:(CBRibot*)ribot
+{
+    if ([_teamImages.allKeys containsObject:ribot.ribotId])
+    {
+        return _teamImages[ribot.ribotId];
+    }
+    else
+    {
+        return IMAGE_NO_USER;
+    }
+}
 
 -(void)downloadFileFromUrl:(NSString*)urlString toDestLocalUrl:(NSURL*)localUrl withCompletionBlock:(RibotFileDownloaded)completionBlock
 {
@@ -347,6 +373,8 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
 {
     NSString* urlString = [[NSString alloc] initWithFormat:@"%@/team/%@", BASE_URL, ribotId];
     
+    __block CBData* this= self;
+    
     [self downloadDataFromUrl:urlString withCompletionBlock:^(NSDictionary *result, NSError *error)
     {
         //Create Ribot from this dictionary
@@ -370,6 +398,7 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
             
             if (![[NSFileManager defaultManager] fileExistsAtPath:ribotarLocalUrl.path isDirectory:NO])
             {
+                //Dont have the image so need to download it
                 [self downloadImageForRibot:ribot withLocalUrl:ribotarLocalUrl withCompletionBlock:^(CBRibot *ribot, NSString *localFilename, NSError *error) {
                    
                     //alert the calling code
@@ -379,6 +408,8 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
             }
             else
             {
+                //we already have the image
+                
                 NSLog(@"Ribotar exists for %@",ribot.ribotId);
                 completionBlock(ribot,nil);
             }
@@ -390,6 +421,22 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
     }];
 }
 
+/**
+ * Adds the persons image to the team images array
+ */
+-(void)setTeamImage:(UIImage*)image forRibotId:(NSString*)ribotId
+{
+    @synchronized(_teamImages)
+    {
+        //if no image then use the no user pic
+        if (!image)
+            image = IMAGE_NO_USER;
+            
+        [_teamImages setObject:image forKey:ribotId];
+    }
+}
+
+
 
 
 -(void)downloadRibotTeamWithCompletionBlock:(RibotTeamDownloaded)completionBlock
@@ -398,6 +445,7 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
 
     //create a new array to hold our team
     _teamMembers = [NSMutableArray new];
+    _teamImages = [NSMutableDictionary new];
     
     __block CBData* this = self;
     __block NSMutableArray* teamMembers = _teamMembers;

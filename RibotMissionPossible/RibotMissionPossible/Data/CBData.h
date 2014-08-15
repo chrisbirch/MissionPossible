@@ -72,6 +72,13 @@ typedef void (^RibotDataDownloaded)(id result,NSError* error);
 @property (nonatomic,readonly) NSArray* teamMembers;
 
 /**
+ * Once downloaded contains the team member images.  Key is the ribotid value is a UIIMage of the team member
+ */
+@property (nonatomic,strong) NSDictionary* teamImages;
+
+
+
+/**
  * Once downloaded contains the team member colours of ribot. Every member has one even if they dont have one in the API. Non existing hex codes will be automatically assigned a colour
  */
 @property (nonatomic,readonly) NSArray* teamMemberColours;
@@ -103,6 +110,11 @@ typedef void (^RibotDataDownloaded)(id result,NSError* error);
  * Returns the url to the ribotar for the specified ribot
  */
 -(NSURL*)localUrlForRibotarForRibot:(CBRibot*)ribot;
+
+/**
+ * Returns a UIImage for the specified ribot
+ */
+-(UIImage*)imageForRibot:(CBRibot*)ribot;
 
 
 

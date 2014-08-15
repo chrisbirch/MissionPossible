@@ -46,6 +46,9 @@
     
     _lbRibotName.text = ribot.firstName;
     
+    //set the correct image
+    _imgRibot.image = [DATA imageForRibot:ribot];
+    
     if(ribot.isUnlocked)
     {
         //hide the view and show the ribot member

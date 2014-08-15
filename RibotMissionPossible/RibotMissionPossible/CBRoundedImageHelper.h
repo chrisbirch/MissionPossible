@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void(^RoundedImageBatchDone)(NSArray* roundedImages);
+typedef void(^RoundedImageBatchDone)(NSDictionary* roundedImages);
 
 @interface CBRoundedImageHelper : NSObject
 

@@ -13,6 +13,7 @@
 @interface CBTeamMembersViewController ()
 {
     NSArray* members;
+
 }
 @end
 

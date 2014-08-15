@@ -6,9 +6,13 @@
 //  Copyright (c) 2014 Chris Birch. All rights reserved.
 //
 
+#import "CBHomeViewController.h"
+#import "CBRoundedImageHelper.h"
+
+
 #define SEGUE_SHOW_RIBOTS @"ShowRibots"
 #define SEGUE_GET_MORE_RIBOTS @"MoreRibots"
-#import "CBHomeViewController.h"
+
 
 @interface CBHomeViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *lbAddress;
@@ -97,14 +101,35 @@
     [DATA downloadRibotTeamWithCompletionBlock:^(NSError *error) {
        if (!error)
        {
-           dispatch_async(dispatch_get_main_queue(), ^{
+           //Round the images
+        
+           NSMutableDictionary* paths = [NSMutableDictionary new];
+           
+           for (CBRibot* ribot in DATA.teamMembers)
+           {
+               NSString* urlString =[DATA localUrlForRibotarForRibot:ribot].path;
+               //
+               [paths setValue:urlString forKey:ribot.ribotId];
+           }
+           
+           NSArray* colours = DATA.teamMemberColours;
+           
+           [CBRoundedImageHelper roundedImagesOnDiskWithPaths:paths withOutputSize:CGSizeMake(100, 100) andStrokeColours:colours andStrokeWidth:5 andCompletionBlock:^(NSDictionary *roundedImages) {
+            
+               DATA.teamImages = roundedImages;
                
-               
-               _buttonMyRibots.enabled = YES;
-               
-               this.spinny.hidden = YES;
-               
-           });
+               dispatch_async(dispatch_get_main_queue(), ^{
+                   
+                   
+                   _buttonMyRibots.enabled = YES;
+                   
+                   this.spinny.hidden = YES;
+                   
+               });
+           
+           }];
+            
+           
        }
     }];
 

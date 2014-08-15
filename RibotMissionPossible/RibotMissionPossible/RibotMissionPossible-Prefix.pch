@@ -16,4 +16,5 @@
     #import "CBData.h"
 
     #define DATA [CBData sharedInstance]
+#define IMAGE_NO_USER [UIImage imageNamed:@"NoUser"]
 #endif
