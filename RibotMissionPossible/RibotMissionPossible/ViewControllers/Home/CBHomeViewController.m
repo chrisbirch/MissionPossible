@@ -74,6 +74,8 @@
     
     __block CBHomeViewController* this = self;
     
+    //Download the studio data
+    
     [DATA downloadRibotStudioWithCompletionBlock:^(id result, NSError *error) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -90,7 +92,7 @@
         });
     }];
 
-
+    //and download the team info including images
     
     [DATA downloadRibotTeamWithCompletionBlock:^(NSError *error) {
        if (!error)
