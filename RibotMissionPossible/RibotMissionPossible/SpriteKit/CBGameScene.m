@@ -46,6 +46,11 @@ const static uint32_t categoryBumper = 0x1 << 4;
     BOOL invadersMovingLeft;
     
     /**
+     * COntrols whether or not invaders are moving down a row
+     */
+    BOOL isMovingDown;
+    
+    /**
      * Stores the time that we last moved the invaders
      */
     NSTimeInterval timeSinceLastMove;
@@ -59,6 +64,8 @@ const static uint32_t categoryBumper = 0x1 << 4;
      * Used to detect when the invaders have reached oneside of the arena
      */
     SKShapeNode* bumper;
+    
+    NSTimeInterval speed;
     
 }
 
@@ -90,9 +97,9 @@ const static uint32_t categoryBumper = 0x1 << 4;
 #define MOVE_MARGIN 20
 
 
-#define SPEED 10
+#define SPEED_START 5.0f
+#define SPEED_INCREMENT
 
-#define DELAY 0.2f /// SPEED
 
 #define MOVE_AMOUNT 50
 
@@ -107,20 +114,34 @@ const static uint32_t categoryBumper = 0x1 << 4;
     
     timeSinceLastMove += timeSinceLast;
     
+    NSTimeInterval delay = 1.0 / speed;
+
     
-    if (timeSinceLastMove > DELAY)
+    if (timeSinceLastMove > delay)
     {
         timeSinceLastMove = 0;
-        CGFloat moveAmount = 10;
+        CGFloat moveAmount = 20;
+        
+        CGPoint offset = CGPointZero;
         
         if (invadersMovingLeft)
         {
-            [self moveInvaderGroupByOffset:CGPointMake(-moveAmount, 0)];
+            offset.x = -moveAmount;
         }
         else
         {
-            [self moveInvaderGroupByOffset:CGPointMake(moveAmount, 0)];
+            offset.x = moveAmount;
         }
+        
+        if (isMovingDown)
+        {
+            isMovingDown=NO;
+            
+            offset.y -= moveAmount;
+        }
+        
+        [self moveInvaderGroupByOffset:offset];
+        
         
     }
 }
@@ -162,7 +183,25 @@ const static uint32_t categoryBumper = 0x1 << 4;
     self.physicsBody.categoryBitMask = categoryGameRect;
     self.physicsBody.contactTestBitMask = categoryBumper;
     
+    //Create the invaders
     [self createInvadersInFrame:self.frame];
+    
+    speed = SPEED_START;
+    
+    
+    //Create the "bumper" bounding rect we use to detect when to make the invaders change direction and move down
+    CGRect rect = [self rectContainingInvaders:ribots];
+    
+    rect.origin.x -= MOVE_MARGIN;
+    rect.size.width += MOVE_MARGIN *2;
+    
+    
+    bumper = [self createRectNode:rect withCategoryBitMask:categoryBumper andCollisionBitMask:categoryGameRect andContactTestBitMask:categoryGameRect];
+    bumper.physicsBody.contactTestBitMask |= categoryPlayer;
+
+    
+    //Create player
+    player = [self createPlayerWithRadius:30 atPosition:CGPointMake(self.view.bounds.size.width / 2.0f, 20)];
     
 }
 
@@ -283,14 +322,6 @@ const static uint32_t categoryBumper = 0x1 << 4;
         
     }
     
-    CGRect rect = [self rectContainingInvaders:ribots];
-    
-    rect.origin.x -= MOVE_MARGIN;
-    rect.size.width += MOVE_MARGIN *2;
-    
-    
-    bumper = [self createRectNode:rect withCategoryBitMask:categoryBumper andCollisionBitMask:categoryGameRect andContactTestBitMask:categoryGameRect];
-    
     
     
     
@@ -347,6 +378,32 @@ const static uint32_t categoryBumper = 0x1 << 4;
     [self addChild:node];
     
     return node;
+}
+
+
+/**
+ * Creates a ribot invader sprite node
+ */
+-(SKSpriteNode*)createPlayerWithRadius:(CGFloat)radius atPosition:(CGPoint)position
+{
+    //get the image for the ribot
+    UIImage* image = [UIImage imageNamed:@"jerome.jpg"];
+    
+    SKTexture* texture = [SKTexture textureWithImage:image];
+    
+    SKSpriteNode* sprite = [SKSpriteNode spriteNodeWithTexture:texture];
+    sprite.size = CGSizeMake(radius*2, radius*2);
+    sprite.position = position;
+    
+    sprite.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:radius];
+    sprite.physicsBody.contactTestBitMask = categoryBumper;
+    sprite.physicsBody.categoryBitMask = categoryPlayer;
+    sprite.physicsBody.collisionBitMask = 0;
+    sprite.physicsBody.affectedByGravity = NO;
+    [self addChild:sprite];
+    
+    
+    return sprite;
 }
 
 
@@ -411,31 +468,20 @@ const static uint32_t categoryBumper = 0x1 << 4;
     firstNode = (SKSpriteNode *)contact.bodyA.node;
     secondNode = (SKSpriteNode *) contact.bodyB.node;
     
-    //if ((contact.bodyA.categoryBitMask == categoryBumper) && (contact.bodyB.categoryBitMask == categoryGameRect))
+    if ((contact.bodyA.categoryBitMask == categoryGameRect) && (contact.bodyB.categoryBitMask ==  categoryBumper))
     {
         invadersMovingLeft = !invadersMovingLeft;
+        static int i=0;
         
+        if (++i % 2)
+            isMovingDown = YES;
         CGPoint contactPoint = contact.contactPoint;
-        //
-        //        float contact_y = contactPoint.y;
-        //
-        //        float target_x = secondNode.position.x;
-        //        float target_y = secondNode.position.y;
-        //
-        //        float margin = secondNode.frame.size.height/2 - 25;
-        //
-        //        if ((contact_y > (target_y - margin)) &&
-        //            (contact_y < (target_y + margin)))
-        //        {
-        NSString *burstPath =
-        [[NSBundle mainBundle]
-         pathForResource:@"RibotMiss" ofType:@"sks"];
-        
-        SKEmitterNode *burstNode =
-        [NSKeyedUnarchiver unarchiveObjectWithFile:burstPath];
-        
-        // burstNode.
+
+        NSString *burstPath = [[NSBundle mainBundle] pathForResource:@"RibotMiss" ofType:@"sks"];
+        SKEmitterNode *burstNode = [NSKeyedUnarchiver unarchiveObjectWithFile:burstPath];
         burstNode.position =contactPoint;
+
+
         
         //    [secondNode removeFromParent];
         [self addChild:burstNode];
@@ -443,13 +489,30 @@ const static uint32_t categoryBumper = 0x1 << 4;
         //self.score++;
         //        }
     }
+    else if ((contact.bodyA.categoryBitMask == categoryBumper) && (contact.bodyB.categoryBitMask ==  categoryPlayer))
+    {
+        //Invaders have reached the player.
+        //Game is over!
+        [contact.bodyB.node removeFromParent];
+    }
+    
+}
+
+
+-(void)gameOver
+{
     
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInNode:self];
-    ball.position = location;
+    
+    CGPoint pos = player.position;
+    
+    pos.x = location.x;
+    
+    player.position = pos;
     
 }
 //
