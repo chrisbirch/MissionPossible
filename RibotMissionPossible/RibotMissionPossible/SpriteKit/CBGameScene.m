@@ -67,6 +67,7 @@ const static uint32_t categoryBumper = 0x1 << 4;
     
     NSTimeInterval speed;
     
+    NSTimeInterval timeSinceLastFire;
 }
 
 /**
@@ -90,6 +91,11 @@ const static uint32_t categoryBumper = 0x1 << 4;
 #define INVADER_MARGIN 40
 
 #define INVADER_MARGIN_Y 120
+
+/**
+ * Time between player allowed to fire gun
+ */
+#define FIRE_DELAY 0.8
 
 /**
  * The maximum amount towards the size of the screen the invaders can move
@@ -142,8 +148,10 @@ const static uint32_t categoryBumper = 0x1 << 4;
         
         [self moveInvaderGroupByOffset:offset];
         
-        
     }
+    
+    
+    timeSinceLastFire+= timeSinceLast;
 }
 
 -(void)update:(CFTimeInterval)currentTime
@@ -197,7 +205,8 @@ const static uint32_t categoryBumper = 0x1 << 4;
     
     
     bumper = [self createRectNode:rect withCategoryBitMask:categoryBumper andCollisionBitMask:0 andContactTestBitMask:categoryPlayer];
-
+    if(YES)
+        bumper.path = nil;
 
     
     //Create player
@@ -460,16 +469,6 @@ const static uint32_t categoryBumper = 0x1 << 4;
         
         self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
         
-        //        SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-        //
-        //        myLabel.text = @"Hello, World!";
-        //        myLabel.fontSize = 30;
-        //        myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
-        //                                       CGRectGetMidY(self.frame));
-        //
-        //        [self addChild:myLabel];
-        
-        
         
         
     }
@@ -478,12 +477,6 @@ const static uint32_t categoryBumper = 0x1 << 4;
 
 - (void) didBeginContact:(SKPhysicsContact *)contact
 {
-    static int count=0;
-    
-    //    if (!isFirst)
-    //        return;
-    
-    
     SKSpriteNode *firstNode, *secondNode;
     
     firstNode = (SKSpriteNode *)contact.bodyA.node;
@@ -495,21 +488,9 @@ const static uint32_t categoryBumper = 0x1 << 4;
         invadersMovingLeft = !invadersMovingLeft;
         static int i=0;
         
+        //Move down when invaders have moved left and right once
         if (++i % 2)
             isMovingDown = YES;
-        CGPoint contactPoint = contact.contactPoint;
-
-        NSString *burstPath = [[NSBundle mainBundle] pathForResource:@"RibotMiss" ofType:@"sks"];
-        SKEmitterNode *burstNode = [NSKeyedUnarchiver unarchiveObjectWithFile:burstPath];
-        burstNode.position =contactPoint;
-
-
-        
-        //    [secondNode removeFromParent];
-        [self addChild:burstNode];
-        
-        //self.score++;
-        //        }
     }
     //Collisions between the bumper and the player
     else if ((contact.bodyA.categoryBitMask == categoryBumper) && (contact.bodyB.categoryBitMask ==  categoryPlayer))
@@ -526,6 +507,10 @@ const static uint32_t categoryBumper = 0x1 << 4;
         [contact.bodyB.node removeFromParent];
         [contact.bodyA.node removeFromParent];
         
+        [ribots removeObject:contact.bodyB.node];
+        
+        
+        
         NSString *burstPath = [[NSBundle mainBundle] pathForResource:@"RibotMiss" ofType:@"sks"];
         SKEmitterNode *burstNode = [NSKeyedUnarchiver unarchiveObjectWithFile:burstPath];
         burstNode.position =contact.contactPoint;
@@ -535,14 +520,42 @@ const static uint32_t categoryBumper = 0x1 << 4;
         //    [secondNode removeFromParent];
         [self addChild:burstNode];
         
+        
+        if (ribots.count==0)
+        {
+            //Game has been won!
+            [self gameWon];
+        }
+        
     }
     
 }
 
+-(void)gameWon
+{
+    
+        SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+
+        myLabel.text = @"You have won!";
+        myLabel.fontSize = 30;
+        myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
+                                       CGRectGetMidY(self.frame));
+
+        [self addChild:myLabel];
+    
+
+}
 
 -(void)gameOver
 {
+    SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     
+    myLabel.text = @"You have lost!";
+    myLabel.fontSize = 30;
+    myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
+                                   CGRectGetMidY(self.frame));
+    
+    [self addChild:myLabel];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -571,10 +584,15 @@ const static uint32_t categoryBumper = 0x1 << 4;
 
 -(void)fireLaser
 {
-    SKSpriteNode* node = [self createSpriteWithImage:[UIImage imageNamed:@"Jerome.jpg"] withSize:CGSizeMake(30, 30) atPosition:player.position withCategoryBitMask:categoryProjectile andCollisionBitMask:0 andContactTestBitMask:categoryInvader];
-    
-    SKAction* action = [SKAction moveToY:600 duration:1];
-    [node runAction:action];
+    if (timeSinceLastFire > FIRE_DELAY)
+    {
+        timeSinceLastFire = 0;
+        
+        SKSpriteNode* node = [self createSpriteWithImage:[UIImage imageNamed:@"Jerome.jpg"] withSize:CGSizeMake(30, 30) atPosition:player.position withCategoryBitMask:categoryProjectile andCollisionBitMask:0 andContactTestBitMask:categoryInvader];
+        
+        SKAction* action = [SKAction moveToY:600 duration:1];
+        [node runAction:action];
+    }
 
 }
 
