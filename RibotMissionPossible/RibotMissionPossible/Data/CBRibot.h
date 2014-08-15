@@ -104,11 +104,9 @@
 @property (nonatomic,strong,readonly) NSString* favSeason;
 
 /**
- * Returns the image used for the ribotar.
- * A ribotar is an avatar for a team member.
+ * Has this ribot been unlocked by the game
  */
-@property (nonatomic,strong) UIImage* image;
-
+@property (nonatomic,assign) BOOL isUnlocked;
 
 
 

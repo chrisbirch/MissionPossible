@@ -54,6 +54,8 @@
        if (!error)
        {
            dispatch_async(dispatch_get_main_queue(), ^{
+               
+               
                _buttonMyRibots.enabled = YES;
                
                this.spinny.hidden = YES;

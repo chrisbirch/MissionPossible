@@ -16,6 +16,7 @@
 }
 @property (weak, nonatomic) IBOutlet UIImageView *imgRibot;
 @property (weak, nonatomic) IBOutlet UILabel *lbRibotName;
+@property (weak, nonatomic) IBOutlet UIView *viewLocked;
 
 @end
 
@@ -44,6 +45,20 @@
     _ribot = ribot;
     
     _lbRibotName.text = ribot.firstName;
+    
+    if(ribot.isUnlocked)
+    {
+        //hide the view and show the ribot member
+        _viewLocked.hidden = YES;
+        _lbRibotName.hidden = NO;
+    }
+    else
+    {
+        //obscure the view with the unlocked view
+        _viewLocked.hidden = NO;
+        _lbRibotName.hidden = YES;
+    }
+    
 
 }
 

@@ -197,21 +197,44 @@ country: "UK",</string>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OWo-oc-3qY" userLabel="LockedView">
+                                            <rect key="frame" x="0.0" y="0.0" width="76" height="75"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ok0-ER-y4q">
+                                                    <rect key="frame" x="23" y="11" width="30" height="53"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="ZapfDingbatsITC" family="Zapf Dingbats" pointSize="53"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.481413810483871" alpha="0.94000000000000006" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="centerY" secondItem="Ok0-ER-y4q" secondAttribute="centerY" id="2e3-tI-42i"/>
+                                                <constraint firstAttribute="centerX" secondItem="Ok0-ER-y4q" secondAttribute="centerX" id="RNT-L1-wuk"/>
+                                            </constraints>
+                                        </view>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="OWo-oc-3qY" secondAttribute="trailing" id="0E9-bY-1yA"/>
                                     <constraint firstAttribute="bottom" secondItem="7DD-qu-iU2" secondAttribute="bottom" id="6Ed-l5-Fec"/>
                                     <constraint firstItem="XN5-NU-Lj5" firstAttribute="leading" secondItem="017-T8-pNl" secondAttribute="leading" id="I8B-In-amo"/>
                                     <constraint firstItem="7DD-qu-iU2" firstAttribute="leading" secondItem="017-T8-pNl" secondAttribute="leading" id="REM-PY-XyL"/>
+                                    <constraint firstItem="OWo-oc-3qY" firstAttribute="leading" secondItem="017-T8-pNl" secondAttribute="leading" id="TCx-pU-D44"/>
                                     <constraint firstItem="7DD-qu-iU2" firstAttribute="top" secondItem="017-T8-pNl" secondAttribute="top" id="XJm-7E-qoc"/>
+                                    <constraint firstItem="OWo-oc-3qY" firstAttribute="top" secondItem="017-T8-pNl" secondAttribute="top" id="YJA-zK-2i5"/>
                                     <constraint firstAttribute="trailing" secondItem="7DD-qu-iU2" secondAttribute="trailing" id="uV7-Ku-cIg"/>
                                     <constraint firstAttribute="trailing" secondItem="XN5-NU-Lj5" secondAttribute="trailing" id="wd0-ef-tfa"/>
+                                    <constraint firstAttribute="bottom" secondItem="OWo-oc-3qY" secondAttribute="bottom" id="xGp-9y-YV3"/>
                                     <constraint firstAttribute="bottom" secondItem="XN5-NU-Lj5" secondAttribute="bottom" id="xW2-2R-frt"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="imgRibot" destination="7DD-qu-iU2" id="A1l-0e-5lY"/>
                                     <outlet property="lbRibotName" destination="XN5-NU-Lj5" id="n8o-KI-7Al"/>
+                                    <outlet property="viewLocked" destination="OWo-oc-3qY" id="yzP-AX-YME"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>

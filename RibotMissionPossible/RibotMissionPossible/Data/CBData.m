@@ -11,7 +11,10 @@
 
 #define KEY_RESPONSE_ERROR @"error"
 
-
+/**
+ * The key in the ns user defaults that holds the ribots that have been unlocked through the game
+ */
+#define USER_DEFAULTS_UNLOCKED_RIBOTS @"Unlocked"
 
 /**
  * Block define for callers to respond to file download completion
@@ -27,6 +30,10 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
 @interface CBData ()
 {
     NSMutableArray* _teamMembers;
+    /**
+     * Holds the ribot id's of those team members we have "unlocked" through playing the game
+     */
+    NSMutableArray* unlockedRibots;
 }
 
 
@@ -44,6 +51,9 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
 
 
 @end
+
+
+
 
 @implementation CBData
 
@@ -64,7 +74,22 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
 {
     if (self = [super init])
     {
-     
+        NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+        
+        NSArray* temp = [defaults arrayForKey:USER_DEFAULTS_UNLOCKED_RIBOTS];;
+    
+        
+        if (!unlockedRibots)
+        {
+            //no unlocked ribots yet
+            unlockedRibots = [NSMutableArray new];
+            
+        }
+        else
+        {
+            //load the ones we've unlocked
+            unlockedRibots = [temp mutableCopy];
+        }
     }
     
     return self;
@@ -320,6 +345,16 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
         if (!error)
         {
             CBRibot* ribot = [[CBRibot alloc] initWithRibotJsonDict:result];
+            
+            //check if this ribot has been unlocked through the game yet
+            for (NSString* ribotId in unlockedRibots)
+            {
+                
+                if ([ribot.ribotId isEqualToString:ribotId])
+                    ribot.isUnlocked = YES;
+            }
+            
+            
             
             //Check if we have the image
             NSURL* ribotarLocalUrl = [self localUrlForRibotarForRibot:ribot];
