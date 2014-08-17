@@ -60,34 +60,11 @@
     
     //listen to child scene wanting to exit
     [[NSNotificationCenter defaultCenter] addObserverForName:POP_GAME_VIEW_CONTROLLER object:nil queue:nil usingBlock:^(NSNotification *note) {
+
+        this.navigationController.navigationBarHidden = NO;
         [this.navigationController popViewControllerAnimated:YES];
         [[NSNotificationCenter defaultCenter] removeObserver:self name:POP_GAME_VIEW_CONTROLLER object:nil];
     }];
-
-//    
-//    [DATA downloadRibotTeamWithCompletionBlock:^( NSError *error) {
-//        
-//        NSArray* teamMembers =DATA.teamMembers;
-//        NSMutableArray* diskPaths = [NSMutableArray new];
-//        
-//        for (CBRibot* ribot in teamMembers)
-//        {
-//            //
-//            [diskPaths addObject: [DATA localUrlForRibotarForRibot: ribot].path];
-//            
-//            //
-//        }
-//        
-//        NSArray* teamColours = DATA.teamMemberColours;
-//        
-//        [CBRoundedImageHelper roundedImagesOnDiskWithPaths:diskPaths withOutputSize:CGSizeMake(100, 100) andStrokeColours:teamColours andStrokeWidth:5 andCompletionBlock:^(NSArray *roundedImages) {
-//            
-//        }];
-//        
-//        
-//    }];
-//    
-
 }
 
 - (void)didReceiveMemoryWarning
