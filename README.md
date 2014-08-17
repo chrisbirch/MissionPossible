@@ -34,4 +34,5 @@ Limitations and Future Improvements:
 - Improve graphics
 - Improve sounds
 - Fix bugs - there are several known bugs such as one that causes particles and projectile to be spawned at the side of the screen.
+- Fix major bug that causes crash when resuming from background.
 - Find a better way of getting images that aren’t returned by the API. At the moment if the image can’t be downloaded from the API then we attempt to find it on the website at a hardcoded path.
