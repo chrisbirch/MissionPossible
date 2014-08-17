@@ -132,7 +132,9 @@ typedef void (^RibotDataDownloaded)(id result,NSError* error);
  */
 -(UIImage*)imageForRibot:(CBRibot*)ribot;
 
-
-
+/**
+ * Allows an individual ribot to be viewed on the team screen
+ */
+-(void)unlockRibot:(CBRibot*)ribot;
 
 @end

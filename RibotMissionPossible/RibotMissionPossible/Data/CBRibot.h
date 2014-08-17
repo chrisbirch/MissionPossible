@@ -55,6 +55,10 @@
  */
 -(id)initWithRibotJsonDict:(NSDictionary*)teamMemberDictionary;
 
+/**
+ * Inits a blank ribot for testing purposes
+ */
+-(id)initTestRibot;
 
 /**
  * Unique team member id

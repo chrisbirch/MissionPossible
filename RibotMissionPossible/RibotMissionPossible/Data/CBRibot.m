@@ -24,6 +24,16 @@
     return self;
 }
 
+- (id)initTestRibot
+{
+    if (self = [super init])
+    {
+        _ribotDictionary = nil;
+    }
+    return self;
+}
+
+
 -(NSString *)ribotId
 {
     

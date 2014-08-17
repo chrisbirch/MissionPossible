@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		832AA283199E89EE00BE96AF /* pop.caf in Resources */ = {isa = PBXBuildFile; fileRef = 832AA282199E859B00BE96AF /* pop.caf */; };
+		833F696B19A113F400AC3F9B /* InvaderHit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 833F696A19A113F400AC3F9B /* InvaderHit.wav */; };
+		833F696D19A115FE00AC3F9B /* blast.caf in Resources */ = {isa = PBXBuildFile; fileRef = 833F696C19A115FE00AC3F9B /* blast.caf */; };
 		835C2F03199A9B950012D2A7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 835C2F02199A9B950012D2A7 /* Foundation.framework */; };
 		835C2F05199A9B950012D2A7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 835C2F04199A9B950012D2A7 /* CoreGraphics.framework */; };
 		835C2F07199A9B950012D2A7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 835C2F06199A9B950012D2A7 /* UIKit.framework */; };
@@ -26,8 +29,17 @@
 		835C2F50199AD71A0012D2A7 /* jerome.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 835C2F4F199AD71A0012D2A7 /* jerome.jpg */; };
 		835C2F52199C5B120012D2A7 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 835C2F51199C5B120012D2A7 /* SpriteKit.framework */; };
 		835C2FA6199D56A60012D2A7 /* CBRoundedImageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 835C2FA5199D56A60012D2A7 /* CBRoundedImageHelper.m */; };
+		83D3C0B119A12AAC00C5A46C /* GameWon.sks in Resources */ = {isa = PBXBuildFile; fileRef = 83D3C0B019A12AAC00C5A46C /* GameWon.sks */; };
+		83D8997419A12FF200A612EF /* ProjectileExplode2.sks in Resources */ = {isa = PBXBuildFile; fileRef = 83D8997319A12FF200A612EF /* ProjectileExplode2.sks */; };
+		83D8997719A13E1100A612EF /* Flare.png in Resources */ = {isa = PBXBuildFile; fileRef = 83D8997519A13E1100A612EF /* Flare.png */; };
+		83D8997819A13E1100A612EF /* Star.png in Resources */ = {isa = PBXBuildFile; fileRef = 83D8997619A13E1100A612EF /* Star.png */; };
+		83D8997A19A13E9100A612EF /* ProjectileExplode3.sks in Resources */ = {isa = PBXBuildFile; fileRef = 83D8997919A13E9100A612EF /* ProjectileExplode3.sks */; };
+		83D8997C19A140A900A612EF /* Flare2.png in Resources */ = {isa = PBXBuildFile; fileRef = 83D8997B19A140A900A612EF /* Flare2.png */; };
+		83E005C819A0C6A300622E4C /* particle02.sks in Resources */ = {isa = PBXBuildFile; fileRef = 83E005C719A0C6A300622E4C /* particle02.sks */; };
+		83E005CA19A0C83400622E4C /* particle01.sks in Resources */ = {isa = PBXBuildFile; fileRef = 83E005C919A0C83400622E4C /* particle01.sks */; };
+		83E005CC19A0C90400622E4C /* ExplosionSupplement.sks in Resources */ = {isa = PBXBuildFile; fileRef = 83E005CB19A0C90400622E4C /* ExplosionSupplement.sks */; };
 		83E2EE80199D677D00DA3F01 /* CBGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E2EE7F199D677D00DA3F01 /* CBGameScene.m */; };
-		83E2EE84199D67A900DA3F01 /* RibotMiss.sks in Resources */ = {isa = PBXBuildFile; fileRef = 83E2EE82199D67A900DA3F01 /* RibotMiss.sks */; };
+		83E2EE84199D67A900DA3F01 /* ProjectileExplode.sks in Resources */ = {isa = PBXBuildFile; fileRef = 83E2EE82199D67A900DA3F01 /* ProjectileExplode.sks */; };
 		83E2EE85199D67A900DA3F01 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E2EE83199D67A900DA3F01 /* spark.png */; };
 		83E2EE8D199D695100DA3F01 /* CBMemberDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E2EE8C199D695100DA3F01 /* CBMemberDetailViewController.m */; };
 		83E2EE93199D698B00DA3F01 /* CBHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E2EE92199D698B00DA3F01 /* CBHomeViewController.m */; };
@@ -35,6 +47,8 @@
 		83E2EEA6199D784800DA3F01 /* CBTeamMembersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E2EEA5199D784800DA3F01 /* CBTeamMembersViewController.m */; };
 		83E2EEAE199D831000DA3F01 /* CBRibotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E2EEAD199D831000DA3F01 /* CBRibotCell.m */; };
 		83E2EEB1199D90D500DA3F01 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83E2EEAF199D90D500DA3F01 /* Localizable.strings */; };
+		83E2EEB4199E671B00DA3F01 /* laser.caf in Resources */ = {isa = PBXBuildFile; fileRef = 83E2EEB3199E11E200DA3F01 /* laser.caf */; };
+		83E2EEB7199E82C900DA3F01 /* tick.caf in Resources */ = {isa = PBXBuildFile; fileRef = 83E2EEB6199E82C900DA3F01 /* tick.caf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +62,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		832AA282199E859B00BE96AF /* pop.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = pop.caf; sourceTree = "<group>"; };
+		833F696A19A113F400AC3F9B /* InvaderHit.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = InvaderHit.wav; sourceTree = "<group>"; };
+		833F696C19A115FE00AC3F9B /* blast.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = blast.caf; sourceTree = "<group>"; };
 		835C2EFF199A9B950012D2A7 /* RibotMissionPossible.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RibotMissionPossible.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		835C2F02199A9B950012D2A7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		835C2F04199A9B950012D2A7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -75,9 +92,18 @@
 		835C2F51199C5B120012D2A7 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
 		835C2FA4199D56A60012D2A7 /* CBRoundedImageHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBRoundedImageHelper.h; sourceTree = "<group>"; };
 		835C2FA5199D56A60012D2A7 /* CBRoundedImageHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBRoundedImageHelper.m; sourceTree = "<group>"; };
+		83D3C0B019A12AAC00C5A46C /* GameWon.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameWon.sks; sourceTree = "<group>"; };
+		83D8997319A12FF200A612EF /* ProjectileExplode2.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ProjectileExplode2.sks; sourceTree = "<group>"; };
+		83D8997519A13E1100A612EF /* Flare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Flare.png; sourceTree = "<group>"; };
+		83D8997619A13E1100A612EF /* Star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Star.png; sourceTree = "<group>"; };
+		83D8997919A13E9100A612EF /* ProjectileExplode3.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ProjectileExplode3.sks; sourceTree = "<group>"; };
+		83D8997B19A140A900A612EF /* Flare2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Flare2.png; sourceTree = "<group>"; };
+		83E005C719A0C6A300622E4C /* particle02.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = particle02.sks; sourceTree = "<group>"; };
+		83E005C919A0C83400622E4C /* particle01.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = particle01.sks; sourceTree = "<group>"; };
+		83E005CB19A0C90400622E4C /* ExplosionSupplement.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ExplosionSupplement.sks; sourceTree = "<group>"; };
 		83E2EE7E199D677D00DA3F01 /* CBGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBGameScene.h; path = SpriteKit/CBGameScene.h; sourceTree = "<group>"; };
 		83E2EE7F199D677D00DA3F01 /* CBGameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBGameScene.m; path = SpriteKit/CBGameScene.m; sourceTree = "<group>"; };
-		83E2EE82199D67A900DA3F01 /* RibotMiss.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = RibotMiss.sks; sourceTree = "<group>"; };
+		83E2EE82199D67A900DA3F01 /* ProjectileExplode.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ProjectileExplode.sks; sourceTree = "<group>"; };
 		83E2EE83199D67A900DA3F01 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		83E2EE8B199D695100DA3F01 /* CBMemberDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBMemberDetailViewController.h; path = ViewControllers/MemberDetail/CBMemberDetailViewController.h; sourceTree = "<group>"; };
 		83E2EE8C199D695100DA3F01 /* CBMemberDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBMemberDetailViewController.m; path = ViewControllers/MemberDetail/CBMemberDetailViewController.m; sourceTree = "<group>"; };
@@ -91,6 +117,7 @@
 		83E2EEAD199D831000DA3F01 /* CBRibotCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBRibotCell.m; path = ViewControllers/TeamMembers/CBRibotCell.m; sourceTree = "<group>"; };
 		83E2EEB0199D90D500DA3F01 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		83E2EEB3199E11E200DA3F01 /* laser.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = laser.caf; sourceTree = "<group>"; };
+		83E2EEB6199E82C900DA3F01 /* tick.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = tick.caf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,7 +182,6 @@
 				83E2EE87199D68FC00DA3F01 /* ViewControllers */,
 				83E2EE7D199D674500DA3F01 /* SpriteKit */,
 				835C2F4F199AD71A0012D2A7 /* jerome.jpg */,
-				835C2F48199AD47E0012D2A7 /* Wheel */,
 				835C2F44199AC3360012D2A7 /* Helpers */,
 				835C2F37199AAFCB0012D2A7 /* Data */,
 				835C2F11199A9B950012D2A7 /* CBAppDelegate.h */,
@@ -170,6 +196,9 @@
 		835C2F09199A9B950012D2A7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83D8997B19A140A900A612EF /* Flare2.png */,
+				83D8997519A13E1100A612EF /* Flare.png */,
+				83D8997619A13E1100A612EF /* Star.png */,
 				83E2EEB2199E11DB00DA3F01 /* Sounds */,
 				835C2F0A199A9B950012D2A7 /* RibotMissionPossible-Info.plist */,
 				83E2EEAF199D90D500DA3F01 /* Localizable.strings */,
@@ -220,13 +249,6 @@
 			name = Helpers;
 			sourceTree = "<group>";
 		};
-		835C2F48199AD47E0012D2A7 /* Wheel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Wheel;
-			sourceTree = "<group>";
-		};
 		83E2EE7D199D674500DA3F01 /* SpriteKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,8 +262,14 @@
 		83E2EE81199D67A900DA3F01 /* Particles */ = {
 			isa = PBXGroup;
 			children = (
-				83E2EE82199D67A900DA3F01 /* RibotMiss.sks */,
+				83D3C0B019A12AAC00C5A46C /* GameWon.sks */,
+				83E2EE82199D67A900DA3F01 /* ProjectileExplode.sks */,
+				83D8997319A12FF200A612EF /* ProjectileExplode2.sks */,
+				83D8997919A13E9100A612EF /* ProjectileExplode3.sks */,
 				83E2EE83199D67A900DA3F01 /* spark.png */,
+				83E005C719A0C6A300622E4C /* particle02.sks */,
+				83E005C919A0C83400622E4C /* particle01.sks */,
+				83E005CB19A0C90400622E4C /* ExplosionSupplement.sks */,
 			);
 			name = Particles;
 			path = SpriteKit/Particles;
@@ -315,6 +343,10 @@
 		83E2EEB2199E11DB00DA3F01 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				833F696A19A113F400AC3F9B /* InvaderHit.wav */,
+				833F696C19A115FE00AC3F9B /* blast.caf */,
+				832AA282199E859B00BE96AF /* pop.caf */,
+				83E2EEB6199E82C900DA3F01 /* tick.caf */,
 				83E2EEB3199E11E200DA3F01 /* laser.caf */,
 			);
 			name = Sounds;
@@ -368,6 +400,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Chris Birch";
 				TargetAttributes = {
+					835C2EFE199A9B950012D2A7 = {
+						DevelopmentTeam = WX8D95ZP9R;
+					};
 					835C2F1F199A9B950012D2A7 = {
 						TestTargetID = 835C2EFE199A9B950012D2A7;
 					};
@@ -397,12 +432,26 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				83E2EE84199D67A900DA3F01 /* RibotMiss.sks in Resources */,
+				83E2EEB7199E82C900DA3F01 /* tick.caf in Resources */,
+				833F696B19A113F400AC3F9B /* InvaderHit.wav in Resources */,
+				83D8997C19A140A900A612EF /* Flare2.png in Resources */,
+				83E2EEB4199E671B00DA3F01 /* laser.caf in Resources */,
+				83E005CA19A0C83400622E4C /* particle01.sks in Resources */,
+				83E005C819A0C6A300622E4C /* particle02.sks in Resources */,
+				83D8997419A12FF200A612EF /* ProjectileExplode2.sks in Resources */,
+				83D8997719A13E1100A612EF /* Flare.png in Resources */,
+				83D3C0B119A12AAC00C5A46C /* GameWon.sks in Resources */,
+				83E2EE84199D67A900DA3F01 /* ProjectileExplode.sks in Resources */,
 				83E2EE85199D67A900DA3F01 /* spark.png in Resources */,
+				83D8997A19A13E9100A612EF /* ProjectileExplode3.sks in Resources */,
 				835C2F1B199A9B950012D2A7 /* Images.xcassets in Resources */,
+				833F696D19A115FE00AC3F9B /* blast.caf in Resources */,
 				83E2EEB1199D90D500DA3F01 /* Localizable.strings in Resources */,
 				835C2F0D199A9B950012D2A7 /* InfoPlist.strings in Resources */,
+				83D8997819A13E1100A612EF /* Star.png in Resources */,
 				835C2F16199A9B950012D2A7 /* Main.storyboard in Resources */,
+				83E005CC19A0C90400622E4C /* ExplosionSupplement.sks in Resources */,
+				832AA283199E89EE00BE96AF /* pop.caf in Resources */,
 				835C2F50199AD71A0012D2A7 /* jerome.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -566,10 +615,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RibotMissionPossible/RibotMissionPossible-Prefix.pch";
 				INFOPLIST_FILE = "RibotMissionPossible/RibotMissionPossible-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -579,10 +631,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RibotMissionPossible/RibotMissionPossible-Prefix.pch";
 				INFOPLIST_FILE = "RibotMissionPossible/RibotMissionPossible-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

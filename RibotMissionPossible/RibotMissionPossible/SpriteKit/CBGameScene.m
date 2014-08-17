@@ -6,14 +6,83 @@
 //  Copyright (c) 2014 Chris Birch. All rights reserved.
 //
 
+/**
+ * A little bit of fun to demonstrate the ribot api.
+ * Bare with me, first time I've used sprite kit!
+ */
 #import "CBGameScene.h"
 #import "CBRoundedImageHelper.h"
+
+
+#define fequal(a,b) (fabs((a) - (b)) < FLT_EPSILON)
+
+#define AUDIO_FILENAME_BOMB @"InvaderHit.wav"
+#define AUDIO_FILENAME_TICK @"laser.caf"
+#define AUDIO_FILENAME_LASER @"laser.caf"
 
 const static uint32_t categoryProjectile = 0x1 << 0;
 const static uint32_t categoryInvader = 0x1 << 1;
 const static uint32_t categoryPlayer = 0x1 << 2;;
 const static uint32_t categoryGameRect = 0x1 << 3;
 const static uint32_t categoryBumper = 0x1 << 4;
+
+
+
+#define MID_FRAME CGPointMake(CGRectGetMidX(self.frame),CGRectGetMidY(self.frame))
+
+
+/**
+ * The number of invaders per row
+ */
+#define INVADERS_PER_ROW 5
+
+#define INVADERS_ROWS 4
+
+#define INVADER_COUNT INVADERS_PER_ROW * INVADERS_ROWS
+
+
+//The spacing between invaders
+#define INVADER_SPACING_HORZ 10
+
+
+//The spacing between invaders
+#define INVADER_SPACING_VERT 10
+
+//How far away the invaders start from sides
+#define INVADER_MARGIN 40
+
+#define INVADER_MARGIN_Y 120
+
+/**
+ * Time between player allowed to fire gun
+ */
+#define FIRE_DELAY 0.4
+
+/**
+ * The maximum amount towards the size of the screen the invaders can move
+ */
+#define MOVE_MARGIN 20
+
+
+#define SPEED_START 2.5f
+#define SPEED_INCREMENT
+
+
+#define MOVE_AMOUNT 20
+#define PLAYER_MOVE_SPEED 10
+
+/**
+ * The key that a pointer to the ribot is stored in the sknode user dict
+ */
+#define DATA_RIBOT_POINTER @"ribot"
+
+/**
+ * The amount of damage inflicted on the player by falling invaders
+ */
+#define INVADER_FALLING_DAMAGE 0.2
+
+
+//#define DEBUG_MODE
 
 
 #define RIBOT_SIZE CGSizeMake(100, 100)
@@ -38,7 +107,7 @@ const static uint32_t categoryBumper = 0x1 << 4;
     /**
      * An array of ribot sprites
      */
-    NSMutableArray* ribots;
+    NSMutableArray* invaderSprites;
     
     /**
      * Controls which was the invaders move next
@@ -68,48 +137,102 @@ const static uint32_t categoryBumper = 0x1 << 4;
     NSTimeInterval speed;
     
     NSTimeInterval timeSinceLastFire;
+    
+    /**
+     * When this drops to 0 the game is over.
+     */
+    CGFloat playerHealth;
+    
+    SKLabelNode* lbPlayerHealth;
+    
+    /**
+     * Set to YES when game is won or lost
+     */
+    BOOL gameOver;
 }
 
-/**
- * The number of invaders per row
- */
-#define INVADERS_PER_ROW 5
-
-#define INVADERS_ROWS 4
-
-#define INVADER_COUNT INVADERS_PER_ROW * INVADERS_ROWS
 
 
-//The spacing between invaders
-#define INVADER_SPACING_HORZ 10
+
+-(id)initWithSize:(CGSize)size {
+    if (self = [super initWithSize:size]) {
+        /* Setup your scene here */
+        
+        self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
+        
+        
+        
+    }
+    return self;
+}
 
 
-//The spacing between invaders
-#define INVADER_SPACING_VERT 10
+-(void)didMoveToView:(SKView *)view
+{
+    
+    SKPhysicsWorld* world = self.physicsWorld;
+    
+    world.contactDelegate = self;
+    
+    SKPhysicsBody* borderBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
+    // 2 Set physicsBody of scene to borderBody
+    self.physicsBody = borderBody;
+    // 3 Set the friction of that physicsBody to 0
+    self.physicsBody.friction = 0.0f;
+    
+    self.physicsBody.categoryBitMask = categoryGameRect;
+    self.physicsBody.contactTestBitMask = categoryBumper;
+    
+    NSArray* ribotMembers;
+    
+#ifdef DEBUG_MODE
+    NSMutableArray* temp = [NSMutableArray new];
+    
+    for (NSUInteger i = 0;i<INVADER_COUNT;i++)
+    {
+        CBRibot* ribot = [[CBRibot alloc] initTestRibot];
+        [temp addObject: ribot];
+        
+    }
+    
+    ribotMembers = temp;
+#else
+    
+    ribotMembers = [self getRibotsToUseForInvaders];
+#endif
+    
+    
+    speed = SPEED_START;
+    
+    playerHealth = 1;
+    
+    [self createUI];
+    //Create the invaders
+    [self createInvadersFromRibots:ribotMembers inFrame:self.frame];
+    
+    
+    //Create the "bumper" bounding rect we use to detect when to make the invaders change direction and move down
+    CGRect rect = [self rectContainingInvaders:invaderSprites];
+    
+    rect.origin.x -= MOVE_MARGIN;
+    rect.size.width += MOVE_MARGIN *2;
+    
+    
+    bumper = [self createRectNode:rect withCategoryBitMask:categoryBumper andCollisionBitMask:0 andContactTestBitMask:categoryPlayer];
+    
+    //Hide the bumper rect unless we need for debugging purposes
+#ifndef DEBUG_MODE
+    
+    bumper.path = nil;
+    
+#endif
+    
+    
+    //Create player
+    player = [self createPlayerWithRadius:30 atPosition:CGPointMake(self.view.bounds.size.width / 2.0f, 20)];
+    
+}
 
-//How far away the invaders start from sides
-#define INVADER_MARGIN 40
-
-#define INVADER_MARGIN_Y 120
-
-/**
- * Time between player allowed to fire gun
- */
-#define FIRE_DELAY 0.8
-
-/**
- * The maximum amount towards the size of the screen the invaders can move
- */
-#define MOVE_MARGIN 20
-
-
-#define SPEED_START 5.0f
-#define SPEED_INCREMENT
-
-
-#define MOVE_AMOUNT 50
-
-#define DATA_RIBOT_POINTER @"ribot"
 
 
 #pragma mark -
@@ -125,8 +248,11 @@ const static uint32_t categoryBumper = 0x1 << 4;
     
     if (timeSinceLastMove > delay)
     {
+      //  playSoundFilename(AUDIO_FILENAME_BOMB, player);
+        
+    
         timeSinceLastMove = 0;
-        CGFloat moveAmount = 20;
+        CGFloat moveAmount = MOVE_AMOUNT;
         
         CGPoint offset = CGPointZero;
         
@@ -150,7 +276,6 @@ const static uint32_t categoryBumper = 0x1 << 4;
         
     }
     
-    
     timeSinceLastFire+= timeSinceLast;
 }
 
@@ -167,52 +292,62 @@ const static uint32_t categoryBumper = 0x1 << 4;
         lastUpdateTime = currentTime;
     }
     
-    [self updateWithTimeSinceLastUpdate:timeSinceLast];
+    if (!gameOver)
+    {
+        [self updateWithTimeSinceLastUpdate:timeSinceLast];
+    
+        //check players health is ok
+        if (playerHealth < 0 || fequal(playerHealth, 0))
+        {
+            [self gameOver];
+        }
+    }
+    
 }
 
 
 #pragma mark -
-#pragma mark Lifecycle
+#pragma mark UI
 
-
--(void)didMoveToView:(SKView *)view
+-(void)createUI
 {
-    
-    SKPhysicsWorld* world = self.physicsWorld;
-    
-    world.contactDelegate = self;
-    
-    SKPhysicsBody* borderBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
-    // 2 Set physicsBody of scene to borderBody
-    self.physicsBody = borderBody;
-    // 3 Set the friction of that physicsBody to 0
-    self.physicsBody.friction = 0.0f;
-    
-    self.physicsBody.categoryBitMask = categoryGameRect;
-    self.physicsBody.contactTestBitMask = categoryBumper;
-    
-    //Create the invaders
-    [self createInvadersInFrame:self.frame];
-    
-    speed = SPEED_START;
+//    SKLabelNode* label = [SKLabelNode labelNodeWithFontNamed:@"Courier"];
+//
+//    
+//    label.name = kScoreHudName;
+//    label.fontSize = 15;
+//    //2
+//    label.fontColor = [SKColor greenColor];
+//    label.text = [NSString stringWithFormat:@"Score: %04u", 0];
+//    //3
+//    label.position = CGPointMake(20 + scoreLabel.frame.size.width/2, self.size.height - (20 + scoreLabel.frame.size.height/2));
+//    [self addChild:label];
+//    
+    SKLabelNode* healthLabel = [SKLabelNode labelNodeWithFontNamed:@"Courier"];
+    healthLabel.fontSize = 15;
+    lbPlayerHealth = healthLabel;
     
     
-    //Create the "bumper" bounding rect we use to detect when to make the invaders change direction and move down
-    CGRect rect = [self rectContainingInvaders:ribots];
+    [self updatePlayerHealth];
     
-    rect.origin.x -= MOVE_MARGIN;
-    rect.size.width += MOVE_MARGIN *2;
+    healthLabel.fontColor = [SKColor redColor];
+    //6
+    healthLabel.position = CGPointMake(self.size.width - healthLabel.frame.size.width/2 - 20, self.size.height - (20 + healthLabel.frame.size.height/2));
+    [self addChild:healthLabel];
     
     
-    bumper = [self createRectNode:rect withCategoryBitMask:categoryBumper andCollisionBitMask:0 andContactTestBitMask:categoryPlayer];
-    if(YES)
-        bumper.path = nil;
-
-    
-    //Create player
-    player = [self createPlayerWithRadius:30 atPosition:CGPointMake(self.view.bounds.size.width / 2.0f, 20)];
     
 }
+
+-(void)updatePlayerHealth
+{
+    lbPlayerHealth.text = [NSString stringWithFormat:@"Health: %.1f", playerHealth * 100.0f];
+    
+}
+
+#pragma mark -
+#pragma mark Helpers
+
 
 /**
  * A CGRect that contains all nodes contained within the invaders array
@@ -248,9 +383,13 @@ const static uint32_t categoryBumper = 0x1 << 4;
     
     if (extraNeeded > 0)
     {
-        int ribot = arc4random()%members.count;
-        
-        [invaders addObject:members[ribot]];
+        //add copies of existing invaders
+        for(NSUInteger i=0;i<extraNeeded;i++)
+        {
+            int ribot = arc4random()%members.count;
+            
+            [invaders addObject:members[ribot]];
+        }
     }
     else
     {
@@ -264,9 +403,9 @@ const static uint32_t categoryBumper = 0x1 << 4;
 /**
  * Lay out a grid of ribot invaders
  */
--(void)createInvadersInFrame:(CGRect)frame
+-(void)createInvadersFromRibots:(NSArray*)ribots inFrame:(CGRect)frame
 {
-    ribots = [NSMutableArray new];
+    invaderSprites = [NSMutableArray new];
     
     CGRect layoutInRect = frame;
     
@@ -295,7 +434,7 @@ const static uint32_t categoryBumper = 0x1 << 4;
     CGFloat incrementX = (invaderRadius *2) + INVADER_SPACING_HORZ;
     CGFloat incrementY = (invaderRadius *2) + INVADER_SPACING_VERT;
     
-    CGFloat startX =marginLeft;
+    CGFloat startX =marginLeft + INVADER_SPACING_HORZ / 2.0f;
     CGFloat startY =marginTop;
     
     
@@ -303,12 +442,9 @@ const static uint32_t categoryBumper = 0x1 << 4;
     float nextY=startY;
     
     
-    NSArray* ribotArray = [DATA.teamMembers copy];
-    ribotArray = @[@(1),@(1),@(1),@(1),@(1),@(1),@(1),@(1),@(1),@(1)];
-    
-    for(CBRibot* ribot in ribotArray)
+    for(CBRibot* ribot in ribots)
     {
-        CGPoint position =CGPointMake(nextX , nextY);
+        CGPoint position =CGPointMake(nextX + invaderRadius, nextY + invaderRadius);
         
         SKSpriteNode* sprite = [self createRibotSprite:ribot withRadius:invaderRadius atPosition:position];
         
@@ -317,7 +453,7 @@ const static uint32_t categoryBumper = 0x1 << 4;
                              }
                            mutableCopy];
         //store pointer for later
-        [ribots addObject: sprite];
+        [invaderSprites addObject: sprite];
         
         NSLog(@"Positioning ribot r:%.2f %@", invaderRadius, NSStringFromCGPoint(position));
         
@@ -341,7 +477,7 @@ const static uint32_t categoryBumper = 0x1 << 4;
 
 -(void)moveInvaderGroupByOffset:(CGPoint)offset
 {
-    for (SKSpriteNode* node in ribots)
+    for (SKSpriteNode* node in invaderSprites)
     {
         [self moveNode:node byOffset:offset];
     }
@@ -405,7 +541,7 @@ const static uint32_t categoryBumper = 0x1 << 4;
     sprite.position = position;
     
     sprite.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:radius];
-    sprite.physicsBody.contactTestBitMask = categoryBumper;
+    sprite.physicsBody.contactTestBitMask = categoryBumper | categoryInvader;
     sprite.physicsBody.categoryBitMask = categoryPlayer;
     sprite.physicsBody.collisionBitMask = 0;
     sprite.physicsBody.affectedByGravity = NO;
@@ -417,6 +553,11 @@ const static uint32_t categoryBumper = 0x1 << 4;
 
 
 -(SKSpriteNode*)createSpriteWithImage:(UIImage*) image withSize:(CGSize)size atPosition:(CGPoint)position  withCategoryBitMask: (uint32_t)category andCollisionBitMask:(uint32_t)collision andContactTestBitMask:(uint32_t)contact
+{
+    return [self createSpriteWithImage:image withSize:size atPosition:position withCategoryBitMask:category andCollisionBitMask:collision andContactTestBitMask:contact addToNode: self];
+}
+
+-(SKSpriteNode*)createSpriteWithImage:(UIImage*) image withSize:(CGSize)size atPosition:(CGPoint)position  withCategoryBitMask: (uint32_t)category andCollisionBitMask:(uint32_t)collision andContactTestBitMask:(uint32_t)contact addToNode:(SKNode*)node
 {
     SKTexture* texture = [SKTexture textureWithImage:image];
     
@@ -430,8 +571,9 @@ const static uint32_t categoryBumper = 0x1 << 4;
     sprite.physicsBody.contactTestBitMask =contact;
     sprite.physicsBody.collisionBitMask = collision;
      sprite.physicsBody.affectedByGravity = NO;
-    [self addChild:sprite];
+    [node addChild:sprite];
     
+
     
     return sprite;
     
@@ -443,7 +585,14 @@ const static uint32_t categoryBumper = 0x1 << 4;
 -(SKSpriteNode*)createRibotSprite:(CBRibot*)ribot withRadius:(CGFloat)ribotRadius atPosition:(CGPoint)position
 {
     //get the image for the ribot
-    UIImage* image = [UIImage imageNamed:@"jerome.jpg"];// DATA.teamImages[ribot.ribotId];
+    UIImage* image = nil;
+    
+#ifdef DEBUG_MODE
+    image =[UIImage imageNamed:@"jerome.jpg"];
+#else
+    
+    image = DATA.teamImages[ribot.ribotId];////
+#endif
     
     SKTexture* texture = [SKTexture textureWithImage:image];
     
@@ -452,10 +601,11 @@ const static uint32_t categoryBumper = 0x1 << 4;
     sprite.position = position;
     
     sprite.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:ribotRadius];
-    sprite.physicsBody.contactTestBitMask = categoryProjectile;
+    sprite.physicsBody.contactTestBitMask = categoryProjectile | categoryPlayer;
     sprite.physicsBody.categoryBitMask = categoryInvader;
     sprite.physicsBody.collisionBitMask = 0;
     sprite.physicsBody.affectedByGravity = NO;
+    sprite.physicsBody.mass = 0.2f;
     [self addChild:sprite];
     
     
@@ -463,24 +613,90 @@ const static uint32_t categoryBumper = 0x1 << 4;
 }
 
 
--(id)initWithSize:(CGSize)size {
-    if (self = [super initWithSize:size]) {
-        /* Setup your scene here */
-        
-        self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
-        
-        
-        
-    }
-    return self;
+
+-(SKEmitterNode*)createParticlesWithName:(NSString*)particleName atPosition:(CGPoint)position
+{
+    return [self createParticlesWithName:particleName atPosition:position toNode:self];
+}
+-(SKEmitterNode*)createParticlesWithName:(NSString*)particleName atPosition:(CGPoint)position toNode:(SKNode*)node
+{
+    
+    NSString *burstPath = [[NSBundle mainBundle] pathForResource:particleName ofType:@"sks"];
+    SKEmitterNode *emitter = [NSKeyedUnarchiver unarchiveObjectWithFile:burstPath];
+    emitter.position =position;
+    
+    [node addChild:emitter];
+    
+    //Remove the emitter after 4 seconds
+    [emitter runAction:[SKAction sequence:@[[SKAction waitForDuration:4], [SKAction removeFromParent]]]];
+    
+    return emitter;
+    
 }
 
-- (void) didBeginContact:(SKPhysicsContact *)contact
+-(void)addPlayerExplosionAtPosition:(CGPoint)position
 {
-    SKSpriteNode *firstNode, *secondNode;
+    
+    [self createParticlesWithName:@"ProjectileExplode2" atPosition:position];
+    //    [self createParticlesWithName:@"ExplosionSupplement" atPosition:position];
+    
+    playSoundFilename(AUDIO_FILENAME_BOMB, bumper);
+}
+
+
+-(void)addExplosionAtPosition:(CGPoint)position
+{
+    [self createParticlesWithName:@"ProjectileExplode3" atPosition:position];
+    [self createParticlesWithName:@"ProjectileExplode2" atPosition:position];
+    [self createParticlesWithName:@"ExplosionSupplement" atPosition:position];
+    
+    playSoundFilename(AUDIO_FILENAME_BOMB, bumper);
+}
+
+BOOL isFlagSet(uint32_t value, uint32_t bitmask)
+{
+    return (value & bitmask) == bitmask;
+}
+
+/**
+ * Returns the SKNode that contacts another.
+ *
+ * Simplifies the (contact.bodyA.categoryBitMask == categoryGameRect) && (contact.bodyB.categoryBitMask ==  categoryBumper) type stuff
+ */
+SKNode* contactBetweenNodes(SKPhysicsContact* contact, uint32_t bitmask1,uint32_t bitmask2)
+{
+    SKNode *firstNode, *secondNode;
     
     firstNode = (SKSpriteNode *)contact.bodyA.node;
     secondNode = (SKSpriteNode *) contact.bodyB.node;
+    
+    uint32_t firstCategoryBitmask = firstNode.physicsBody.categoryBitMask;
+    uint32_t secondCategoryBitmask = secondNode.physicsBody.categoryBitMask;
+    
+    BOOL firstNodeHitSecond = isFlagSet(firstNode.physicsBody.categoryBitMask, firstCategoryBitmask) && isFlagSet(secondNode.physicsBody.categoryBitMask, secondCategoryBitmask);
+    BOOL secondNodeHitFirst = isFlagSet(secondNode.physicsBody.categoryBitMask, secondCategoryBitmask) && isFlagSet(firstNode.physicsBody.categoryBitMask, firstCategoryBitmask);
+    
+    if (firstNodeHitSecond)
+    {
+        return firstNode;
+    }
+    else if (secondNodeHitFirst)
+    {
+        return secondNode;
+    }
+    
+    return nil;
+    
+}
+
+
+- (void) didBeginContact:(SKPhysicsContact *)contact
+{
+    SKNode *firstNode, *secondNode;
+    
+    firstNode = (SKSpriteNode *)contact.bodyA.node;
+    secondNode = (SKSpriteNode *) contact.bodyB.node;
+    
     
     //Collisions between the bumper and the arena frame
     if ((contact.bodyA.categoryBitMask == categoryGameRect) && (contact.bodyB.categoryBitMask ==  categoryBumper))
@@ -497,57 +713,195 @@ const static uint32_t categoryBumper = 0x1 << 4;
     {
         //Invaders have reached the player.
         //Game is over!
-        [contact.bodyB.node removeFromParent];
+        [self playerKilled];
     }
+    //Collisions between the invader and the player
+    else if ((contact.bodyA.categoryBitMask == categoryInvader ) && (contact.bodyB.categoryBitMask ==  categoryPlayer))
+    {
+
+        
+        //Invader has hit the player
+        
+        [self ribotShot:firstNode];
+        
+        //Show explosion
+        [self addExplosionAtPosition:firstNode.position];
+        
+        [self playerHit];
+    }
+
     //Collisions between the laser and invader
     else if ((contact.bodyA.categoryBitMask == categoryProjectile) && (contact.bodyB.categoryBitMask ==  categoryInvader))
     {
-        //Invaders have reached the player.
-        //Game is over!
-        [contact.bodyB.node removeFromParent];
+        //Invader has hit the player
+        
+        //remove projectile
         [contact.bodyA.node removeFromParent];
         
-        [ribots removeObject:contact.bodyB.node];
+        [self ribotShot:contact.bodyB.node];
         
-        
-        
-        NSString *burstPath = [[NSBundle mainBundle] pathForResource:@"RibotMiss" ofType:@"sks"];
-        SKEmitterNode *burstNode = [NSKeyedUnarchiver unarchiveObjectWithFile:burstPath];
-        burstNode.position =contact.contactPoint;
-        
-        
-        
-        //    [secondNode removeFromParent];
-        [self addChild:burstNode];
-        
-        
-        if (ribots.count==0)
-        {
-            //Game has been won!
-            [self gameWon];
-        }
+        //Show explosion
+        [self addExplosionAtPosition:firstNode.position];
         
     }
     
 }
+
+-(void)playerHit
+{
+    playerHealth -= INVADER_FALLING_DAMAGE;
+    
+    [self addPlayerExplosionAtPosition:player.position];
+    
+    [self updatePlayerHealth];
+
+}
+
+-(void)ribotShot:(SKNode*)ribotNode
+{
+    
+    if (ribotNode.physicsBody.affectedByGravity)
+    {
+        //This must be the second time the invader has been hit so
+        //we now can remove it
+        [ribotNode removeFromParent];
+    }
+    else
+    {
+        //the first time the invader is hit
+        [self checkIfRibotNeedsUnlocking:ribotNode];
+        
+        //Invader now drops from the sky
+        ribotNode.physicsBody.affectedByGravity = YES;
+        
+        //Add a little random rotation
+        int rotate = arc4random() % 4;
+        
+        if (rotate % 2 == 0)
+            rotate *= -1;
+        
+        SKAction* action =[SKAction rotateByAngle:rotate duration:1];
+        [ribotNode runAction:action];
+        
+        //Remove it from overall collection
+        [invaderSprites removeObject:ribotNode];
+        
+        
+        //Check to see if player has unlocked this ribot member
+
+        
+    }
+    
+
+    
+    if (invaderSprites.count==0)
+    {
+        //Game has been won!
+        [self gameWon];
+    }
+
+    
+}
+/**
+ * Displays a message to the user
+ */
+-(void)showMessage:(NSString*)message
+{
+    SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    
+    myLabel.text = message;
+    myLabel.fontSize = 10;
+    myLabel.position = MID_FRAME;
+    //        myLabel.
+    myLabel.alpha = 0.5;
+    [self addChild:myLabel];
+    
+    NSTimeInterval time = 0.5;
+    
+    SKAction* hideMe = [SKAction sequence:@[
+                                            [SKAction fadeInWithDuration:time], [SKAction removeFromParent]
+                                            ]];
+    
+    SKAction* scaleMe = [SKAction scaleTo:2 duration:time/2.0f];
+    
+    [myLabel runAction:scaleMe];
+    // self.view.paused = YES;
+    [myLabel runAction:hideMe];
+    
+}
+
+-(void)checkIfRibotNeedsUnlocking:(SKNode*)invaderNode
+{
+
+    
+    NSDictionary* dict =invaderNode.userData;
+    CBRibot* ribot =dict[DATA_RIBOT_POINTER];
+    
+    if (ribot)
+    {
+        if (!ribot.isUnlocked)
+        {
+                [DATA unlockRibot:ribot];
+
+            [self showMessage:[[NSString alloc] initWithFormat:@"Ribot unlocked:\n%@!",ribot.ribotId]];
+        }
+    }
+    else
+    {
+        NSLog(@"Warning, ribot not found in sprite user data");
+    }
+
+}
+
+-(void)playerKilled
+{
+    //[player removeFromParent];
+
+    
+    [self addExplosionAtPosition:player.position];
+
+    
+    //play on the bumper because the bumber doesnt leave the scene
+
+    [self gameOver];
+}
+
+#pragma mark -
+#pragma mark Game State
+
 
 -(void)gameWon
 {
     
-        SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
 
-        myLabel.text = @"You have won!";
-        myLabel.fontSize = 30;
-        myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
-                                       CGRectGetMidY(self.frame));
+    myLabel.text = @"You have won!";
+    myLabel.fontSize = 30;
+    myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
+                                   CGRectGetMidY(self.frame));
 
-        [self addChild:myLabel];
+    [self addChild:myLabel];
+    
+    [player removeFromParent];
+    [self createParticlesWithName:@"GameWon" atPosition:MID_FRAME];
+
     
 
 }
 
+-(void)removeInvaders
+{
+    while (invaderSprites.count)
+    {
+        [[invaderSprites lastObject] removeFromParent];
+        [invaderSprites removeLastObject];
+    }
+
+}
 -(void)gameOver
 {
+    gameOver = YES;
+    
     SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     
     myLabel.text = @"You have lost!";
@@ -556,6 +910,11 @@ const static uint32_t categoryBumper = 0x1 << 4;
                                    CGRectGetMidY(self.frame));
     
     [self addChild:myLabel];
+    
+    [self removeInvaders];
+    
+    [player removeFromParent];
+    [self createParticlesWithName:@"GameWon" atPosition:MID_FRAME];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -568,10 +927,12 @@ const static uint32_t categoryBumper = 0x1 << 4;
     CGFloat distance = fabs(player.position.x - location.x);
     
 
-    NSTimeInterval moveTime =  distance / 100;
+    NSTimeInterval moveTime =  distance / 300;
+    
     
     SKAction* actionMove = [SKAction moveTo:pos duration:moveTime];
 
+//    [player.physicsBody applyForce:CGVectorMake(40 * acceleration)]
     [player runAction:actionMove completion:^{
         if (fabs(player.position.x - pos.x) < 0.1)
         {
@@ -581,6 +942,11 @@ const static uint32_t categoryBumper = 0x1 << 4;
     
 }
 
+void playSoundFilename(NSString* filename,SKNode* node)
+{
+    SKAction* action = [SKAction playSoundFileNamed:filename waitForCompletion:YES];
+    [node runAction:action];
+}
 
 -(void)fireLaser
 {
@@ -588,10 +954,14 @@ const static uint32_t categoryBumper = 0x1 << 4;
     {
         timeSinceLastFire = 0;
         
-        SKSpriteNode* node = [self createSpriteWithImage:[UIImage imageNamed:@"Jerome.jpg"] withSize:CGSizeMake(30, 30) atPosition:player.position withCategoryBitMask:categoryProjectile andCollisionBitMask:0 andContactTestBitMask:categoryInvader];
+        SKSpriteNode* node = [self createSpriteWithImage:[UIImage imageNamed:@"jerome.jpg"] withSize:CGSizeMake(10, 10) atPosition:player.position withCategoryBitMask:categoryProjectile andCollisionBitMask:0 andContactTestBitMask:categoryInvader];
         
-        SKAction* action = [SKAction moveToY:600 duration:1];
-        [node runAction:action];
+        SKAction* action = [SKAction moveToY:1000 duration:1];
+        [node runAction:[SKAction sequence:@[action,[SKAction removeFromParent]]]];
+
+        [self createParticlesWithName:@"particle01" atPosition:CGPointMake(0, 0) toNode:node];
+        
+        playSoundFilename(@"laser.caf", node);
     }
 
 }

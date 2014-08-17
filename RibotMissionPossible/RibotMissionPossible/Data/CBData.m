@@ -109,6 +109,13 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
     return self;
 }
 
+
+-(void)unlockRibot:(CBRibot*)ribot
+{
+    ribot.isUnlocked = YES;
+    [unlockedRibots addObject:ribot];
+}
+
 -(NSArray *)teamMembers
 {
     @synchronized(_teamMembers)

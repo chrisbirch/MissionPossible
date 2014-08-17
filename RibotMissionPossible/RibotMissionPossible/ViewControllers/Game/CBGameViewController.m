@@ -25,6 +25,15 @@
     return self;
 }
 
+
+/**
+ * Sorts out the status bar issues
+ */
+- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar {
+    return UIBarPositionTopAttached;
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -42,7 +51,10 @@
     // Present the scene.
     [skView presentScene:scene];
     
-    
+
+
+        self.navigationController.navigationBarHidden =YES;
+
 //    
 //    [DATA downloadRibotTeamWithCompletionBlock:^( NSError *error) {
 //        

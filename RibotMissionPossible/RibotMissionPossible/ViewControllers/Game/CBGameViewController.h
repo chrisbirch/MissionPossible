@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CBGameViewController : UIViewController
+@interface CBGameViewController : UIViewController<UIBarPositioningDelegate>
 
 @end

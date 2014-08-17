@@ -42,6 +42,11 @@
     UIImage *image = [UIImage imageNamed:@"ribot"];
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:image];
 
+    UIImageView* imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"DefaultBackground"]];
+    
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.collectionView.backgroundView = imageView;
+//    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"DefaultBackground"]];
     
 }
 
