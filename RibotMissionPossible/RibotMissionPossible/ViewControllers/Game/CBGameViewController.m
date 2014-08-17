@@ -53,7 +53,16 @@
     
 
 
-        self.navigationController.navigationBarHidden =YES;
+    self.navigationController.navigationBarHidden =YES;
+    
+    
+    __block CBGameViewController* this= self;
+    
+    //listen to child scene wanting to exit
+    [[NSNotificationCenter defaultCenter] addObserverForName:POP_GAME_VIEW_CONTROLLER object:nil queue:nil usingBlock:^(NSNotification *note) {
+        [this.navigationController popViewControllerAnimated:YES];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:POP_GAME_VIEW_CONTROLLER object:nil];
+    }];
 
 //    
 //    [DATA downloadRibotTeamWithCompletionBlock:^( NSError *error) {

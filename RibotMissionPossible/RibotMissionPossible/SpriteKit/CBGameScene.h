@@ -8,6 +8,11 @@
 
 #import <SpriteKit/SpriteKit.h>
 
+/**
+ * Message is broadcasted when the user wishes to leave the game. The parent view controller listens for it and reponds accordingly
+ */
+#define POP_GAME_VIEW_CONTROLLER @"popGameVC"
+
 @interface CBGameScene : SKScene<SKPhysicsContactDelegate>
 
 @end

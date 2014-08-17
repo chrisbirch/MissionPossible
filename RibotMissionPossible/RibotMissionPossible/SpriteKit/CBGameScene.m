@@ -56,7 +56,7 @@ const static uint32_t categoryBumper = 0x1 << 4;
 /**
  * Time between player allowed to fire gun
  */
-#define FIRE_DELAY 0.4
+#define FIRE_DELAY 0.35
 
 /**
  * The maximum amount towards the size of the screen the invaders can move
@@ -64,8 +64,14 @@ const static uint32_t categoryBumper = 0x1 << 4;
 #define MOVE_MARGIN 20
 
 
+/**
+ * The starting speed of the invaders
+ */
 #define SPEED_START 2.5f
-#define SPEED_INCREMENT
+/**
+ * Compound speed increase each time the invaders move down
+ */
+#define SPEED_INCREMENT 0.5f
 
 
 #define MOVE_AMOUNT 20
@@ -81,6 +87,8 @@ const static uint32_t categoryBumper = 0x1 << 4;
  */
 #define INVADER_FALLING_DAMAGE 0.2
 
+#define INVADER_IN_FORMATION_SHOT_POINTS 10
+#define INVADER_FALLING_SHOT_POINTS 50
 
 //#define DEBUG_MODE
 
@@ -142,13 +150,25 @@ const static uint32_t categoryBumper = 0x1 << 4;
      * When this drops to 0 the game is over.
      */
     CGFloat playerHealth;
-    
+    /**
+     * The label used to display the players health
+     */
     SKLabelNode* lbPlayerHealth;
-    
+
+    /**
+     * The label used to display the players score
+     */
+    SKLabelNode* lbPlayerScore;
+
     /**
      * Set to YES when game is won or lost
      */
     BOOL gameOver;
+    
+    /**
+     * The players score
+     */
+    NSUInteger score;
 }
 
 
@@ -201,10 +221,11 @@ const static uint32_t categoryBumper = 0x1 << 4;
     ribotMembers = [self getRibotsToUseForInvaders];
 #endif
     
-    
     speed = SPEED_START;
     
     playerHealth = 1;
+    score=0;
+    
     
     [self createUI];
     //Create the invaders
@@ -270,7 +291,12 @@ const static uint32_t categoryBumper = 0x1 << 4;
             isMovingDown=NO;
             
             offset.y -= moveAmount;
+            
+            
+            //speed up invaders
+            speed += SPEED_INCREMENT;
         }
+     
         
         [self moveInvaderGroupByOffset:offset];
         
@@ -311,24 +337,26 @@ const static uint32_t categoryBumper = 0x1 << 4;
 
 -(void)createUI
 {
-//    SKLabelNode* label = [SKLabelNode labelNodeWithFontNamed:@"Courier"];
+    SKLabelNode* label = [SKLabelNode labelNodeWithFontNamed:@"Courier"];
+
+
+    label.fontSize = 15;
+    lbPlayerScore = label;
+    label.fontColor = [SKColor greenColor];
+
+        [self updatePlayerHealthUI];
+    
+    label.position = CGPointMake(20 + label.frame.size.width/2, self.size.height - (20 + label.frame.size.height/2));
+    [self addChild:label];
+    
+    
 //
-//    
-//    label.name = kScoreHudName;
-//    label.fontSize = 15;
-//    //2
-//    label.fontColor = [SKColor greenColor];
-//    label.text = [NSString stringWithFormat:@"Score: %04u", 0];
-//    //3
-//    label.position = CGPointMake(20 + scoreLabel.frame.size.width/2, self.size.height - (20 + scoreLabel.frame.size.height/2));
-//    [self addChild:label];
-//    
     SKLabelNode* healthLabel = [SKLabelNode labelNodeWithFontNamed:@"Courier"];
     healthLabel.fontSize = 15;
     lbPlayerHealth = healthLabel;
     
     
-    [self updatePlayerHealth];
+    [self updatePlayerHealthUI];
     
     healthLabel.fontColor = [SKColor redColor];
     //6
@@ -339,11 +367,20 @@ const static uint32_t categoryBumper = 0x1 << 4;
     
 }
 
--(void)updatePlayerHealth
+-(void)updatePlayerHealthUI
 {
     lbPlayerHealth.text = [NSString stringWithFormat:@"Health: %.1f", playerHealth * 100.0f];
     
 }
+
+
+-(void)updatePlayerScoreUI
+{
+    lbPlayerScore.text = [NSString stringWithFormat:@"Score: %lul", (unsigned long)score];
+
+    
+}
+
 
 #pragma mark -
 #pragma mark Helpers
@@ -532,7 +569,7 @@ const static uint32_t categoryBumper = 0x1 << 4;
 -(SKSpriteNode*)createPlayerWithRadius:(CGFloat)radius atPosition:(CGPoint)position
 {
     //get the image for the ribot
-    UIImage* image = [UIImage imageNamed:@"jerome.jpg"];
+    UIImage* image = [UIImage imageNamed:@"Spaceship.png"];
     
     SKTexture* texture = [SKTexture textureWithImage:image];
     
@@ -753,22 +790,44 @@ SKNode* contactBetweenNodes(SKPhysicsContact* contact, uint32_t bitmask1,uint32_
     
     [self addPlayerExplosionAtPosition:player.position];
     
-    [self updatePlayerHealth];
+    [self updatePlayerHealthUI];
 
 }
 
+-(void)showPointsIndicatorAtPosition:(CGPoint)position withNumPoints:(NSUInteger)points
+{
+    
+    NSString* msg = [[NSString alloc] initWithFormat:@"%d",INVADER_FALLING_SHOT_POINTS];
+    
+  //  NSUInteger random = 180 - (arc4random() % 20);
+    SKLabelNode* node = [self showMessage:msg atPosition:position withColour:[UIColor greenColor] andEndScale:4 withDuration:0.2 removeAfterDuration:0.4];
+//    [node runAction:[SKAction rotateToAngle:random duration:0.2]];
+}
+
+/**
+ * Occurs when a ribot invader is shot. First time ribot member falls from the sky to try and hit the player, second time ribot is removed
+ */
 -(void)ribotShot:(SKNode*)ribotNode
 {
+    
+
     
     if (ribotNode.physicsBody.affectedByGravity)
     {
         //This must be the second time the invader has been hit so
         //we now can remove it
         [ribotNode removeFromParent];
+        
+        score += INVADER_FALLING_SHOT_POINTS;
+      
+        //Show the user how many points they just won
+        [self showPointsIndicatorAtPosition:ribotNode.position withNumPoints:INVADER_FALLING_SHOT_POINTS];
     }
     else
     {
         //the first time the invader is hit
+        
+        
         [self checkIfRibotNeedsUnlocking:ribotNode];
         
         //Invader now drops from the sky
@@ -786,11 +845,16 @@ SKNode* contactBetweenNodes(SKPhysicsContact* contact, uint32_t bitmask1,uint32_
         //Remove it from overall collection
         [invaderSprites removeObject:ribotNode];
         
+        score += INVADER_IN_FORMATION_SHOT_POINTS;
         
-        //Check to see if player has unlocked this ribot member
+        //Show the user how many points they just won
+        [self showPointsIndicatorAtPosition:ribotNode.position withNumPoints:INVADER_IN_FORMATION_SHOT_POINTS];
 
         
+        
     }
+    
+    [self updatePlayerScoreUI];
     
 
     
@@ -802,32 +866,55 @@ SKNode* contactBetweenNodes(SKPhysicsContact* contact, uint32_t bitmask1,uint32_
 
     
 }
+
+
 /**
  * Displays a message to the user
  */
--(void)showMessage:(NSString*)message
+-(SKLabelNode*)showMessage:(NSString*)message atPosition:(CGPoint)position withColour:(UIColor*)colour andEndScale:(CGFloat)endZoomLevel withDuration:(NSTimeInterval)displayDuration removeAfterDuration:(NSTimeInterval)removeAfterDuration
 {
     SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     
     myLabel.text = message;
     myLabel.fontSize = 10;
-    myLabel.position = MID_FRAME;
-    //        myLabel.
+    myLabel.position = position;
     myLabel.alpha = 0.5;
+    myLabel.fontColor = colour;
+
     [self addChild:myLabel];
     
-    NSTimeInterval time = 0.5;
     
-    SKAction* hideMe = [SKAction sequence:@[
-                                            [SKAction fadeInWithDuration:time], [SKAction removeFromParent]
-                                            ]];
+    NSMutableArray* actions = [@[
+                                [SKAction fadeInWithDuration:displayDuration]
+                                ]mutableCopy];
     
-    SKAction* scaleMe = [SKAction scaleTo:2 duration:time/2.0f];
+    //if we need to remove, then add the duration and remove actions to the array
+    if (removeAfterDuration > 0)
+    {
+        [actions addObject: [SKAction fadeOutWithDuration:removeAfterDuration]];
+        [actions addObject:[SKAction removeFromParent]];
+    }
     
-    [myLabel runAction:scaleMe];
+    //the action to display the text
+    SKAction* displayAndHide = [SKAction sequence:actions];
+    
+    SKAction* scale = [SKAction scaleTo:endZoomLevel duration:displayDuration/2.0f];
+    
+    [myLabel runAction:scale];
     // self.view.paused = YES;
-    [myLabel runAction:hideMe];
+    [myLabel runAction:displayAndHide];
     
+    return myLabel;
+    
+}
+
+
+/**
+ * Displays a message to the user
+ */
+-(SKLabelNode*)showMessage:(NSString*)message
+{
+    return [self showMessage:message atPosition:MID_FRAME withColour:[UIColor whiteColor] andEndScale:2 withDuration:1 removeAfterDuration:1];
 }
 
 -(void)checkIfRibotNeedsUnlocking:(SKNode*)invaderNode
@@ -855,9 +942,6 @@ SKNode* contactBetweenNodes(SKPhysicsContact* contact, uint32_t bitmask1,uint32_
 
 -(void)playerKilled
 {
-    //[player removeFromParent];
-
-    
     [self addExplosionAtPosition:player.position];
 
     
@@ -872,15 +956,7 @@ SKNode* contactBetweenNodes(SKPhysicsContact* contact, uint32_t bitmask1,uint32_
 
 -(void)gameWon
 {
-    
-    SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-
-    myLabel.text = @"You have won!";
-    myLabel.fontSize = 30;
-    myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
-                                   CGRectGetMidY(self.frame));
-
-    [self addChild:myLabel];
+    [self showMessage:@"You have won!" atPosition:MID_FRAME withColour:[UIColor whiteColor] andEndScale:2 withDuration:1 removeAfterDuration:0];
     
     [player removeFromParent];
     [self createParticlesWithName:@"GameWon" atPosition:MID_FRAME];
@@ -901,20 +977,28 @@ SKNode* contactBetweenNodes(SKPhysicsContact* contact, uint32_t bitmask1,uint32_
 -(void)gameOver
 {
     gameOver = YES;
+ 
     
-    SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-    
-    myLabel.text = @"You have lost!";
-    myLabel.fontSize = 30;
-    myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
-                                   CGRectGetMidY(self.frame));
-    
-    [self addChild:myLabel];
+    [self showMessage:@"You have lost!" atPosition:MID_FRAME withColour:[UIColor whiteColor] andEndScale:2 withDuration:1 removeAfterDuration:4];
+
     
     [self removeInvaders];
     
     [player removeFromParent];
     [self createParticlesWithName:@"GameWon" atPosition:MID_FRAME];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+
+    });
+}
+
+/**
+ * Alert parent view controller we want to exit
+ */
+-(void)exitGame
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:POP_GAME_VIEW_CONTROLLER object:self];
+
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -924,22 +1008,27 @@ SKNode* contactBetweenNodes(SKPhysicsContact* contact, uint32_t bitmask1,uint32_
     CGPoint pos = location;
     pos.y = player.position.y;
     
-    CGFloat distance = fabs(player.position.x - location.x);
-    
+    if (gameOver)
+    {
+        [self exitGame];
+    }
+    else
+    {
+        //Handle taps on scren by moving the player to that position then firing
+        CGFloat distance = fabs(player.position.x - location.x);
+        
 
-    NSTimeInterval moveTime =  distance / 300;
-    
-    
-    SKAction* actionMove = [SKAction moveTo:pos duration:moveTime];
+        NSTimeInterval moveTime =  distance / 300;
+        SKAction* actionMove = [SKAction moveTo:pos duration:moveTime];
 
-//    [player.physicsBody applyForce:CGVectorMake(40 * acceleration)]
-    [player runAction:actionMove completion:^{
-        if (fabs(player.position.x - pos.x) < 0.1)
-        {
-            [self fireLaser];
-        }
-    }];
-    
+    //    [player.physicsBody applyForce:CGVectorMake(40 * acceleration)]
+        [player runAction:actionMove completion:^{
+            if (fabs(player.position.x - pos.x) < 0.1)
+            {
+                [self fireLaser];
+            }
+        }];
+    }
 }
 
 void playSoundFilename(NSString* filename,SKNode* node)
@@ -954,12 +1043,12 @@ void playSoundFilename(NSString* filename,SKNode* node)
     {
         timeSinceLastFire = 0;
         
-        SKSpriteNode* node = [self createSpriteWithImage:[UIImage imageNamed:@"jerome.jpg"] withSize:CGSizeMake(10, 10) atPosition:player.position withCategoryBitMask:categoryProjectile andCollisionBitMask:0 andContactTestBitMask:categoryInvader];
+        SKSpriteNode* node = [self createSpriteWithImage:[UIImage imageNamed:@"Flare2.png"] withSize:CGSizeMake(30, 30) atPosition:player.position withCategoryBitMask:categoryProjectile andCollisionBitMask:0 andContactTestBitMask:categoryInvader];
         
         SKAction* action = [SKAction moveToY:1000 duration:1];
         [node runAction:[SKAction sequence:@[action,[SKAction removeFromParent]]]];
 
-        [self createParticlesWithName:@"particle01" atPosition:CGPointMake(0, 0) toNode:node];
+//        [self createParticlesWithName:@"particle01" atPosition:CGPointMake(0, 0) toNode:node];
         
         playSoundFilename(@"laser.caf", node);
     }
