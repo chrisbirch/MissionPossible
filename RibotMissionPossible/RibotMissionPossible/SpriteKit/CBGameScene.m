@@ -250,7 +250,7 @@ const static uint32_t categoryBumper = 0x1 << 4;
     
     
     //Create player
-    player = [self createPlayerWithRadius:30 atPosition:CGPointMake(self.view.bounds.size.width / 2.0f, 20)];
+    player = [self createPlayerWithRadius:20 atPosition:CGPointMake(self.view.bounds.size.width / 2.0f, 45)];
     
 }
 
@@ -325,7 +325,7 @@ const static uint32_t categoryBumper = 0x1 << 4;
         //check players health is ok
         if (playerHealth < 0 || fequal(playerHealth, 0))
         {
-            [self gameOver];
+            [self gameLost];
         }
     }
     
@@ -947,7 +947,7 @@ SKNode* contactBetweenNodes(SKPhysicsContact* contact, uint32_t bitmask1,uint32_
     
     //play on the bumper because the bumber doesnt leave the scene
 
-    [self gameOver];
+    [self gameLost];
 }
 
 #pragma mark -
@@ -956,14 +956,20 @@ SKNode* contactBetweenNodes(SKPhysicsContact* contact, uint32_t bitmask1,uint32_
 
 -(void)gameWon
 {
-    [self showMessage:@"You have won!" atPosition:MID_FRAME withColour:[UIColor whiteColor] andEndScale:2 withDuration:1 removeAfterDuration:0];
-    
-    [player removeFromParent];
-    [self createParticlesWithName:@"GameWon" atPosition:MID_FRAME];
+    gameOver =YES;
 
-    
-
+    [self showFinalMessage:@"You have won!"];
 }
+
+-(void)gameLost
+{
+    gameOver = YES;
+    
+    [self showFinalMessage:@"You have lost!"];
+    
+    
+}
+
 
 -(void)removeInvaders
 {
@@ -972,25 +978,25 @@ SKNode* contactBetweenNodes(SKPhysicsContact* contact, uint32_t bitmask1,uint32_
         [[invaderSprites lastObject] removeFromParent];
         [invaderSprites removeLastObject];
     }
-
 }
--(void)gameOver
-{
-    gameOver = YES;
- 
-    
-    [self showMessage:@"You have lost!" atPosition:MID_FRAME withColour:[UIColor whiteColor] andEndScale:2 withDuration:1 removeAfterDuration:4];
 
+-(void)showFinalMessage:(NSString*)msg
+{
+    [self showMessage:msg atPosition:MID_FRAME withColour:[UIColor whiteColor] andEndScale:2 withDuration:1 removeAfterDuration:4];
+    
     
     [self removeInvaders];
     
     [player removeFromParent];
+    
     [self createParticlesWithName:@"GameWon" atPosition:MID_FRAME];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-
+    __block CBGameScene* this= self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [this exitGame];
     });
 }
+
 
 /**
  * Alert parent view controller we want to exit
@@ -1010,7 +1016,8 @@ SKNode* contactBetweenNodes(SKPhysicsContact* contact, uint32_t bitmask1,uint32_
     
     if (gameOver)
     {
-        [self exitGame];
+        //Do nothing
+      //  [self exitGame];
     }
     else
     {
@@ -1048,31 +1055,9 @@ void playSoundFilename(NSString* filename,SKNode* node)
         SKAction* action = [SKAction moveToY:1000 duration:1];
         [node runAction:[SKAction sequence:@[action,[SKAction removeFromParent]]]];
 
-//        [self createParticlesWithName:@"particle01" atPosition:CGPointMake(0, 0) toNode:node];
-        
         playSoundFilename(@"laser.caf", node);
     }
 
 }
-
-//
-//-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-//    /* Called when a touch begins */
-//
-//    for (UITouch *touch in touches) {
-//        CGPoint location = [touch locationInNode:self];
-//
-//        SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
-//
-//        sprite.position = location;
-//
-//        SKAction *action = [SKAction rotateByAngle:M_PI duration:1];
-//        
-//        [sprite runAction:[SKAction repeatActionForever:action]];
-//        
-//        [self addChild:sprite];
-//    }
-//}
-
 
 @end
