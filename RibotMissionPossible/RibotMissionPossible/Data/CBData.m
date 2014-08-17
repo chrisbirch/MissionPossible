@@ -113,7 +113,14 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
 -(void)unlockRibot:(CBRibot*)ribot
 {
     ribot.isUnlocked = YES;
-    [unlockedRibots addObject:ribot];
+    [unlockedRibots addObject:ribot.ribotId];
+    
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    
+    //save in defaults so we know that this isn't the first run
+    [defaults setObject:unlockedRibots forKey:USER_DEFAULTS_UNLOCKED_RIBOTS];
+    
+    [defaults synchronize];
 }
 
 -(NSArray *)teamMembers
@@ -300,6 +307,14 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
     NSMutableString* apiImageUrl = [[NSMutableString alloc] initWithFormat:@"%@/team/%@/ribotar", BASE_URL,ribot.ribotId];
     NSString* websiteImageUrl = [[NSString alloc] initWithFormat:@"http://ribot.co.uk/ieias/wp-content/uploads/2014/02/%@@2x.jpg",ribot.ribotId];
     
+    
+    //Nasty quick and dirty hack to make sure we have everyones image.
+    //obvisouly this would never do in a real world application but seems a shame to have one missing image
+    if ([ribot.ribotId isEqualToString:@"stefan"])
+    {
+        websiteImageUrl = @"http://ribot.co.uk/ieias/wp-content/uploads/2014/03/stefan@2x1.jpg";
+        
+    }
     
     //Attempt to download ribotar for this member from API
     [self downloadFileFromUrl:apiImageUrl toDestLocalUrl:ribotarLocalUrl withCompletionBlock:^(NSString *localFilename, NSError *error) {
