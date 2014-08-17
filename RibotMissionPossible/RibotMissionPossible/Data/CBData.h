@@ -94,10 +94,6 @@ typedef void (^RibotDataDownloaded)(id result,NSError* error);
 
 
 
-/**
- * Once downloaded contains the team member colours of ribot. Every member has one even if they dont have one in the API. Non existing hex codes will be automatically assigned a colour
- */
-@property (nonatomic,readonly) NSArray* teamMemberColours;
 
 /**
  * Once downloaded contains the team member images

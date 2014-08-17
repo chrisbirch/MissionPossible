@@ -40,7 +40,7 @@
     
 }
 
-+(void)roundedImagesOnDiskWithPaths:(NSDictionary *)images withOutputSize:(CGSize)size andStrokeColours:(NSArray *)colours andStrokeWidth:(CGFloat)strokeWidth andCompletionBlock:(RoundedImageBatchDone)completionBlock
++(void)roundedImagesOnDiskWithPaths:(NSDictionary *)images withOutputSize:(CGSize)size andStrokeColours:(NSDictionary *)colours andStrokeWidth:(CGFloat)strokeWidth andCompletionBlock:(RoundedImageBatchDone)completionBlock
 {
     
     //Start an activity indicator here
@@ -50,15 +50,14 @@
         //Round the images on the background thread
         
         NSMutableDictionary* roundedImages = [NSMutableDictionary new];
-        NSUInteger indexOfImage=0;
-        
+
         
         for (NSString*key in images.allKeys)
         {
             NSString* imagePath = images[key];
             
             UIImage* image = [UIImage imageWithContentsOfFile:imagePath];
-            UIColor* thisColour = colours[indexOfImage++];
+            UIColor* thisColour = colours[key];
             UIImage* rounded = [CBRoundedImageHelper roundedImageFromImage:image withOutputSize:size andStrokeColour:thisColour andStrokeWidth:strokeWidth];
             
             if (rounded)

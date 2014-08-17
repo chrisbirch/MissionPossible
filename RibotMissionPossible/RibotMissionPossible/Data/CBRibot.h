@@ -112,6 +112,10 @@
  */
 @property (nonatomic,assign) BOOL isUnlocked;
 
+/**
+ * A UIColor represeneting the ribot members hex colour
+ */
+@property (nonatomic,readonly) UIColor* colour;
 
 
 @end

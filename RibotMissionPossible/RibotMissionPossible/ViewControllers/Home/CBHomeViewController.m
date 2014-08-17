@@ -107,15 +107,23 @@
            //Round the images
         
            NSMutableDictionary* paths = [NSMutableDictionary new];
+           NSMutableDictionary* colours = [NSMutableDictionary new];
+           
+           static int count=0;
+           
            
            for (CBRibot* ribot in DATA.teamMembers)
            {
                NSString* urlString =[DATA localUrlForRibotarForRibot:ribot].path;
                //
                [paths setValue:urlString forKey:ribot.ribotId];
+               [colours setValue:ribot.colour forKey:ribot.ribotId];
+               
            }
            
-           NSArray* colours = DATA.teamMemberColours;
+
+           
+           NSLog(@"%@",colours);
            
            [CBRoundedImageHelper roundedImagesOnDiskWithPaths:paths withOutputSize:RIBOT_IMAGE_CIRCLE_SIZE andStrokeColours:colours andStrokeWidth:RIBOT_IMAGE_CIRCLE_STOKE_WIDTH andCompletionBlock:^(NSDictionary *roundedImages) {
             
