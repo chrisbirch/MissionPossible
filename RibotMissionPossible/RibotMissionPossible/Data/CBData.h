@@ -38,7 +38,7 @@
 /**
  * The width of the hex colour border around the circle
  */
-#define RIBOT_IMAGE_CIRCLE_STOKE_WIDTH 10
+#define RIBOT_IMAGE_CIRCLE_STOKE_WIDTH 20
 
 @class CBData;
 
