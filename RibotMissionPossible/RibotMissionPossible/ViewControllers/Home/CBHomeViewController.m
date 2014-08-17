@@ -123,6 +123,7 @@
                
                dispatch_async(dispatch_get_main_queue(), ^{
                    
+                   _buttonGetMore.enabled = YES;
                    
                    _buttonMyRibots.enabled = YES;
                    
