@@ -35,6 +35,8 @@
 		83D8997819A13E1100A612EF /* Star.png in Resources */ = {isa = PBXBuildFile; fileRef = 83D8997619A13E1100A612EF /* Star.png */; };
 		83D8997A19A13E9100A612EF /* ProjectileExplode3.sks in Resources */ = {isa = PBXBuildFile; fileRef = 83D8997919A13E9100A612EF /* ProjectileExplode3.sks */; };
 		83D8997C19A140A900A612EF /* Flare2.png in Resources */ = {isa = PBXBuildFile; fileRef = 83D8997B19A140A900A612EF /* Flare2.png */; };
+		83D8997E19A1788700A612EF /* tick.caf in Resources */ = {isa = PBXBuildFile; fileRef = 83D8997D19A1788700A612EF /* tick.caf */; };
+		83D8998219A17B3400A612EF /* Winning.caf in Resources */ = {isa = PBXBuildFile; fileRef = 83D8998119A17B3400A612EF /* Winning.caf */; };
 		83E005C819A0C6A300622E4C /* particle02.sks in Resources */ = {isa = PBXBuildFile; fileRef = 83E005C719A0C6A300622E4C /* particle02.sks */; };
 		83E005CA19A0C83400622E4C /* particle01.sks in Resources */ = {isa = PBXBuildFile; fileRef = 83E005C919A0C83400622E4C /* particle01.sks */; };
 		83E005CC19A0C90400622E4C /* ExplosionSupplement.sks in Resources */ = {isa = PBXBuildFile; fileRef = 83E005CB19A0C90400622E4C /* ExplosionSupplement.sks */; };
@@ -48,7 +50,6 @@
 		83E2EEAE199D831000DA3F01 /* CBRibotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E2EEAD199D831000DA3F01 /* CBRibotCell.m */; };
 		83E2EEB1199D90D500DA3F01 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83E2EEAF199D90D500DA3F01 /* Localizable.strings */; };
 		83E2EEB4199E671B00DA3F01 /* laser.caf in Resources */ = {isa = PBXBuildFile; fileRef = 83E2EEB3199E11E200DA3F01 /* laser.caf */; };
-		83E2EEB7199E82C900DA3F01 /* tick.caf in Resources */ = {isa = PBXBuildFile; fileRef = 83E2EEB6199E82C900DA3F01 /* tick.caf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +99,8 @@
 		83D8997619A13E1100A612EF /* Star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Star.png; sourceTree = "<group>"; };
 		83D8997919A13E9100A612EF /* ProjectileExplode3.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ProjectileExplode3.sks; sourceTree = "<group>"; };
 		83D8997B19A140A900A612EF /* Flare2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Flare2.png; sourceTree = "<group>"; };
+		83D8997D19A1788700A612EF /* tick.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = tick.caf; sourceTree = "<group>"; };
+		83D8998119A17B3400A612EF /* Winning.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Winning.caf; sourceTree = "<group>"; };
 		83E005C719A0C6A300622E4C /* particle02.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = particle02.sks; sourceTree = "<group>"; };
 		83E005C919A0C83400622E4C /* particle01.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = particle01.sks; sourceTree = "<group>"; };
 		83E005CB19A0C90400622E4C /* ExplosionSupplement.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ExplosionSupplement.sks; sourceTree = "<group>"; };
@@ -117,7 +120,6 @@
 		83E2EEAD199D831000DA3F01 /* CBRibotCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBRibotCell.m; path = ViewControllers/TeamMembers/CBRibotCell.m; sourceTree = "<group>"; };
 		83E2EEB0199D90D500DA3F01 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		83E2EEB3199E11E200DA3F01 /* laser.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = laser.caf; sourceTree = "<group>"; };
-		83E2EEB6199E82C900DA3F01 /* tick.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = tick.caf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -343,10 +345,11 @@
 		83E2EEB2199E11DB00DA3F01 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				83D8998119A17B3400A612EF /* Winning.caf */,
 				833F696A19A113F400AC3F9B /* InvaderHit.wav */,
 				833F696C19A115FE00AC3F9B /* blast.caf */,
+				83D8997D19A1788700A612EF /* tick.caf */,
 				832AA282199E859B00BE96AF /* pop.caf */,
-				83E2EEB6199E82C900DA3F01 /* tick.caf */,
 				83E2EEB3199E11E200DA3F01 /* laser.caf */,
 			);
 			name = Sounds;
@@ -432,7 +435,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				83E2EEB7199E82C900DA3F01 /* tick.caf in Resources */,
 				833F696B19A113F400AC3F9B /* InvaderHit.wav in Resources */,
 				83D8997C19A140A900A612EF /* Flare2.png in Resources */,
 				83E2EEB4199E671B00DA3F01 /* laser.caf in Resources */,
@@ -442,7 +444,9 @@
 				83D8997719A13E1100A612EF /* Flare.png in Resources */,
 				83D3C0B119A12AAC00C5A46C /* GameWon.sks in Resources */,
 				83E2EE84199D67A900DA3F01 /* ProjectileExplode.sks in Resources */,
+				83D8997E19A1788700A612EF /* tick.caf in Resources */,
 				83E2EE85199D67A900DA3F01 /* spark.png in Resources */,
+				83D8998219A17B3400A612EF /* Winning.caf in Resources */,
 				83D8997A19A13E9100A612EF /* ProjectileExplode3.sks in Resources */,
 				835C2F1B199A9B950012D2A7 /* Images.xcassets in Resources */,
 				833F696D19A115FE00AC3F9B /* blast.caf in Resources */,

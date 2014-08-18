@@ -17,8 +17,11 @@
 #define fequal(a,b) (fabs((a) - (b)) < FLT_EPSILON)
 
 #define AUDIO_FILENAME_BOMB @"InvaderHit.wav"
-#define AUDIO_FILENAME_TICK @"laser.caf"
+#define AUDIO_FILENAME_TICK @"tick.caf"
 #define AUDIO_FILENAME_LASER @"laser.caf"
+#define AUDIO_FILENAME_BLAST @"blast.caf"
+#define AUDIO_FILENAME_WIN @"Winning.caf"
+
 
 const static uint32_t categoryProjectile = 0x1 << 0;
 const static uint32_t categoryInvader = 0x1 << 1;
@@ -269,7 +272,7 @@ const static uint32_t categoryBumper = 0x1 << 4;
     
     if (timeSinceLastMove > delay)
     {
-      //  playSoundFilename(AUDIO_FILENAME_BOMB, player);
+        playSoundFilename(AUDIO_FILENAME_TICK, player);
         
     
         timeSinceLastMove = 0;
@@ -800,7 +803,7 @@ SKNode* contactBetweenNodes(SKPhysicsContact* contact, uint32_t bitmask1,uint32_
     NSString* msg = [[NSString alloc] initWithFormat:@"%d",INVADER_FALLING_SHOT_POINTS];
     
   //  NSUInteger random = 180 - (arc4random() % 20);
-    SKLabelNode* node = [self showMessage:msg atPosition:position withColour:[UIColor greenColor] andEndScale:4 withDuration:0.2 removeAfterDuration:0.4];
+    [self showMessage:msg atPosition:position withColour:[UIColor greenColor] andEndScale:4 withDuration:0.2 removeAfterDuration:0.4];
 //    [node runAction:[SKAction rotateToAngle:random duration:0.2]];
 }
 
@@ -959,6 +962,9 @@ SKNode* contactBetweenNodes(SKPhysicsContact* contact, uint32_t bitmask1,uint32_
     gameOver =YES;
 
     [self showFinalMessage:@"You have won!"];
+
+    playSoundFilename(AUDIO_FILENAME_WIN, bumper);
+
 }
 
 -(void)gameLost
@@ -966,6 +972,10 @@ SKNode* contactBetweenNodes(SKPhysicsContact* contact, uint32_t bitmask1,uint32_
     gameOver = YES;
     
     [self showFinalMessage:@"You have lost!"];
+    
+    
+    playSoundFilename(AUDIO_FILENAME_BLAST, bumper);
+
     
     
 }
