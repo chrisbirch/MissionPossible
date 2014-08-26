@@ -112,6 +112,16 @@ country: "UK",</string>
                                     <constraint firstItem="70M-Gp-Kn8" firstAttribute="top" secondItem="Kcr-7z-gRp" secondAttribute="bottom" constant="8" id="odY-Nd-7WQ"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nGN-pO-M8F">
+                                <rect key="frame" x="260" y="6" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Reset">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="cmReset:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="B90-Ol-Uj9"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>

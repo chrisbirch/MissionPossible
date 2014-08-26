@@ -8,7 +8,7 @@
 
 //Alert telling the user on first run that they need to play the game to unlock ribots 'cos ribots ain't cheap.
 "ALERT_FIRST_RUN_VIEW_RIBOTS_TITLE"="Wait!";
-"ALERT_FIRST_RUN_VIEW_RIBOTS_MSG"="You need to do a discover them";
+"ALERT_FIRST_RUN_VIEW_RIBOTS_MSG"="You need to discover them";
 "ALERT_FIRST_RUN_VIEW_RIBOTS_YES"="Discover!";
 "ALERT_FIRST_RUN_VIEW_RIBOTS_NO"="Show Me My Ribots!";
 
