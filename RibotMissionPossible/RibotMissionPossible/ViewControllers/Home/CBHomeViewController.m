@@ -30,6 +30,15 @@
 
 @implementation CBHomeViewController
 
+
+/**
+ * Resets the unlocked ribots
+ */
+- (IBAction)cmReset:(id)sender
+{
+    [[CBData sharedInstance] resetUnlockedRibots];
+}
+
 -(NSString*)textFromStudioDictionary:(NSDictionary*)studioDict
 {
     NSString* text = [[NSString alloc] initWithFormat:@"%@ %@\n%@\n%@\n",studioDict[KEY_STUDIO_NUMBER],studioDict[KEY_STUDIO_STREET],studioDict[KEY_STUDIO_CITY] ,studioDict[KEY_STUDIO_POSTCODE]];

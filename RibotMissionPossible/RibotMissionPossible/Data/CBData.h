@@ -80,7 +80,7 @@ typedef void (^RibotDataDownloaded)(id result,NSError* error);
 /**
  * YES if this is the first run
  */
-@property (nonatomic,readonly) BOOL isFirstRun;
+@property (nonatomic,assign) BOOL isFirstRun;
 
 /**
  * Once downloaded contains the team members of ribot
@@ -133,4 +133,9 @@ typedef void (^RibotDataDownloaded)(id result,NSError* error);
  */
 -(void)unlockRibot:(CBRibot*)ribot;
 
+/**
+ * Allows us to hard reset the app. 
+ * Deletes NSUSerdefaults and then exit(0). Naughty but only for debug.
+ */
+-(void)resetUnlockedRibots;
 @end

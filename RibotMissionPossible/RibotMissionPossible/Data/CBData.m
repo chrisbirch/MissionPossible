@@ -109,6 +109,17 @@ typedef void (^RibotImageDownloaded)(CBRibot* ribot, NSString* localFilename,NSE
     return self;
 }
 
+-(void)resetUnlockedRibots
+{
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    
+    [defaults removeObjectForKey:USER_DEFAULTS_UNLOCKED_RIBOTS];
+    
+    [defaults synchronize];
+    
+    //naughty but only a debug feature anyway
+    exit(0);
+}
 
 -(void)unlockRibot:(CBRibot*)ribot
 {
