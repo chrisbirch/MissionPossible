@@ -65,6 +65,8 @@
         
         //Show this now, we've alerted the user to whats required
         [self showGetMoreButtonIfHidden];
+        
+        DATA.isFirstRun = NO;
     }
     else
     {
